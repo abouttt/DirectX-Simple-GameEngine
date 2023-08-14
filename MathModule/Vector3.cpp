@@ -2,6 +2,7 @@
 #include "MathUtil.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "Quaternion.h"
 
 const Vector3 Vector3::Left(-1.f, 0.f, 0.f);
 const Vector3 Vector3::Right(1.f, 0.f, 0.f);
@@ -30,11 +31,6 @@ Vector3::Vector3(const Vector3& other)
 Vector3::Vector3(const Vector2& other)
 	: NativeVector3(other.X, other.Y, 0.f)
 {
-}
-
-Vector2 Vector3::ToVector2() const
-{
-	return Vector2(X, Y);
 }
 
 float Vector3::Angle(const Vector3& other) const
@@ -100,6 +96,28 @@ Vector3 Vector3::Cross(const Vector3& other) const
 float Vector3::Dot(const Vector3& other) const
 {
 	return X * other.X + Y * other.Y + Z * other.Z;
+}
+
+Vector2 Vector3::ToVector2() const
+{
+	return Vector2(X, Y);
+}
+
+Quaternion Vector3::ToQuaternion() const
+{
+	float sp = 0.f, sy = 0.f, sr = 0.f;
+	float cp = 0.f, cy = 0.f, cr = 0.f;
+
+	Math::GetSinCos(&sp, &cp, X * 0.5f);
+	Math::GetSinCos(&sy, &cy, Y * 0.5f);
+	Math::GetSinCos(&sr, &cr, Z * 0.5f);
+
+	Quaternion q;
+	q.W = sy * sp * sr + cy * cp * cr;
+	q.X = sy * sr * cp + sp * cy * cr;
+	q.Y = sy * cp * cr - sp * sr * cy;
+	q.Z = -sy * sp * cr + sr * cy * cp;
+	return q;
 }
 
 Vector3 Vector3::operator-()

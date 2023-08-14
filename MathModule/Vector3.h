@@ -1,6 +1,7 @@
 #pragma once
 
 struct Vector2;
+struct Quaternion;
 
 struct Vector3
 {
@@ -11,7 +12,6 @@ struct Vector3
 	Vector3(const Vector2& other);
 
 	// 멤버함수
-	Vector2 ToVector2() const;
 	float Angle(const Vector3& other) const;
 	float Size() const;
 	float SizeSq() const;
@@ -22,6 +22,8 @@ struct Vector3
 	Vector3 Max(const Vector3& other) const;
 	Vector3 Cross(const Vector3& other) const;
 	float Dot(const Vector3& other) const;
+	Vector2 ToVector2() const;
+	Quaternion ToQuaternion() const;
 
 	// 연산자
 	Vector3 operator-();
