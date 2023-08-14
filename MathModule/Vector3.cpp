@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "MathUtil.h"
+#include "Vector2.h"
 #include "Vector3.h"
 
 const Vector3 Vector3::Left(-1, 0, 0);
@@ -24,6 +25,16 @@ Vector3::Vector3(float x, float y, float z)
 Vector3::Vector3(const Vector3& other)
 	: NativeVector3(other.NativeVector3)
 {
+}
+
+Vector3::Vector3(const Vector2& other)
+	: NativeVector3(other.X, other.Y, 0)
+{
+}
+
+Vector2 Vector3::ToVector2() const
+{
+	return Vector2(X, Y);
 }
 
 float Vector3::Angle(const Vector3& other) const
@@ -164,4 +175,11 @@ bool Vector3::operator==(const Vector3& other) const
 bool Vector3::operator!=(const Vector3& other) const
 {
 	return !(*this == other);
+}
+
+Vector3 Vector3::operator=(const Vector2& other)
+{
+	X = other.X;
+	Y = other.Y;
+	return *this;
 }

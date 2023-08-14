@@ -1,13 +1,17 @@
 #pragma once
 
-class Vector3
+struct Vector2;
+
+struct Vector3
 {
-public:
+	// 생성자
 	Vector3();
 	Vector3(float x, float y, float z);
 	Vector3(const Vector3& other);
+	Vector3(const Vector2& other);
 
-public:
+	// 멤버함수
+	Vector2 ToVector2() const;
 	float Angle(const Vector3& other) const;
 	float Size() const;
 	float SizeSq() const;
@@ -19,7 +23,7 @@ public:
 	Vector3 Cross(const Vector3& other) const;
 	float Dot(const Vector3& other) const;
 
-public:
+	// 연산자
 	Vector3 operator-();
 
 	Vector3 operator*(const float d) const;
@@ -36,7 +40,9 @@ public:
 	bool operator==(const Vector3& other) const;
 	bool operator!=(const Vector3& other) const;
 
-public:
+	Vector3 operator=(const Vector2& other);
+
+	// 정적멤버변수
 	static const Vector3 Left;
 	static const Vector3 Right;
 	static const Vector3 Forward;
@@ -46,7 +52,7 @@ public:
 	static const Vector3 One;
 	static const Vector3 Zero;
 
-public:
+	// 멤버변수
 	union
 	{
 		struct
