@@ -3,17 +3,17 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
-const Vector3 Vector3::Left(-1, 0, 0);
-const Vector3 Vector3::Right(1, 0, 0);
-const Vector3 Vector3::Forward(0, 0, 1);
-const Vector3 Vector3::Back(0, 0, -1);
-const Vector3 Vector3::Up(0, 1, 0);
-const Vector3 Vector3::Down(0, -1, 0);
-const Vector3 Vector3::One(1, 1, 1);
-const Vector3 Vector3::Zero(0, 0, 0);
+const Vector3 Vector3::Left(-1.f, 0.f, 0.f);
+const Vector3 Vector3::Right(1.f, 0.f, 0.f);
+const Vector3 Vector3::Forward(0.f, 0.f, 1.f);
+const Vector3 Vector3::Back(0.f, 0.f, -1.f);
+const Vector3 Vector3::Up(0.f, 1.f, 0.f);
+const Vector3 Vector3::Down(0.f, -1.f, 0.f);
+const Vector3 Vector3::One(1.f, 1.f, 1.f);
+const Vector3 Vector3::Zero(0.f, 0.f, 0.f);
 
 Vector3::Vector3()
-	: NativeVector3(0, 0, 0)
+	: NativeVector3(0.f, 0.f, 0.f)
 {
 }
 
@@ -28,7 +28,7 @@ Vector3::Vector3(const Vector3& other)
 }
 
 Vector3::Vector3(const Vector2& other)
-	: NativeVector3(other.X, other.Y, 0)
+	: NativeVector3(other.X, other.Y, 0.f)
 {
 }
 
@@ -43,7 +43,7 @@ float Vector3::Angle(const Vector3& other) const
 	float dot = Dot(other);
 	float cosAngle = std::acosf(dot / size);
 	cosAngle = Math::Rad2Deg(cosAngle);
-	return (X * other.Y - Y * other.X > 0.0f) ? cosAngle : -cosAngle;
+	return (X * other.Y - Y * other.X > 0.f) ? cosAngle : -cosAngle;
 }
 
 float Vector3::Size() const

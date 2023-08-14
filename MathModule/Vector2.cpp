@@ -3,15 +3,15 @@
 #include "Vector2.h"
 #include "Vector3.h"
 
-const Vector2 Vector2::Left(-1, 0);
-const Vector2 Vector2::Right(1, 0);
-const Vector2 Vector2::Up(0, 1);
-const Vector2 Vector2::Down(0, -1);
-const Vector2 Vector2::One(1, 1);
-const Vector2 Vector2::Zero(0, 0);
+const Vector2 Vector2::Left(-1.f, 0.f);
+const Vector2 Vector2::Right(1.f, 0.f);
+const Vector2 Vector2::Up(0.f, 1.f);
+const Vector2 Vector2::Down(0.f, -1.f);
+const Vector2 Vector2::One(1.f, 1.f);
+const Vector2 Vector2::Zero(0.f, 0.f);
 
 Vector2::Vector2()
-	: NativeVector2(0, 0)
+	: NativeVector2(0.f, 0.f)
 {
 }
 
@@ -32,7 +32,7 @@ Vector2::Vector2(const Vector3& other)
 
 Vector3 Vector2::ToVector3() const
 {
-	return Vector3(X, Y, 0);
+	return Vector3(X, Y, 0.f);
 }
 
 float Vector2::Angle(const Vector2& other) const
@@ -41,7 +41,7 @@ float Vector2::Angle(const Vector2& other) const
 	float dot = Dot(other);
 	float cosAngle = std::acosf(dot / size);
 	cosAngle = Math::Rad2Deg(cosAngle);
-	return (X * other.Y - Y * other.X > 0.0f) ? cosAngle : -cosAngle;
+	return (X * other.Y - Y * other.X > 0.f) ? cosAngle : -cosAngle;
 }
 
 float Vector2::Size() const
