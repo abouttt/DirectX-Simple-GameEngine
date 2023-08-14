@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EnginePlayer", "EnginePlaye
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EngineModule", "EngineModule\EngineModule.vcxproj", "{C4234C4C-4177-4C74-8748-83D7B8BEE028}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MathModule", "MathModule\MathModule.vcxproj", "{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{C4234C4C-4177-4C74-8748-83D7B8BEE028}.Release|x64.Build.0 = Release|x64
 		{C4234C4C-4177-4C74-8748-83D7B8BEE028}.Release|x86.ActiveCfg = Release|Win32
 		{C4234C4C-4177-4C74-8748-83D7B8BEE028}.Release|x86.Build.0 = Release|Win32
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Debug|x64.ActiveCfg = Debug|x64
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Debug|x64.Build.0 = Debug|x64
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Debug|x86.ActiveCfg = Debug|Win32
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Debug|x86.Build.0 = Debug|Win32
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Release|x64.ActiveCfg = Release|x64
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Release|x64.Build.0 = Release|x64
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Release|x86.ActiveCfg = Release|Win32
+		{CE905F70-23D6-4A8F-8D35-8ABC8DAB4471}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

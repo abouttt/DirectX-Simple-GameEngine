@@ -13,36 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Private">
-      <UniqueIdentifier>{4f652477-47ac-46c2-9f91-34ecfaa3c52e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Private\Windows">
-      <UniqueIdentifier>{a13eb1d1-11af-4530-8d23-fb7167d369e5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="PCH">
-      <UniqueIdentifier>{f8eddc8c-9cc7-46b7-a144-ebd97ae27d9c}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <Filter>PCH</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\WindowsApp.cpp">
-      <Filter>Private\Windows</Filter>
-    </ClCompile>
-    <ClCompile Include="Windows\WindowsPlayer.cpp">
-      <Filter>Private\Windows</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
-      <Filter>PCH</Filter>
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\WindowsPlayer.h">
-      <Filter>Private\Windows</Filter>
+    <ClInclude Include="Vector3.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
-    <ClInclude Include="Windows\WindowsUtil.h">
-      <Filter>Private\Windows</Filter>
+    <ClInclude Include="MathUtil.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,7 +1,9 @@
 #include "pch.h"
+
+#include <GameEngine.h>
+
 #include "WindowsPlayer.h"
 #include "WindowsUtil.h"
-#include "GameEngine.h"
 
 int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PSTR lpCmdLine, _In_ int nCmdShow)
 {
