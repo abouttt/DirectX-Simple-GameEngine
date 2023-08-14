@@ -7,21 +7,25 @@ struct Vector3
 {
 	// 생성자
 	Vector3();
-	Vector3(float x, float y, float z);
+	Vector3(const float x, const float y, const float z);
 	Vector3(const Vector3& other);
 	Vector3(const Vector2& other);
 
+	// 정적멤버함수
+	static float Angle(const Vector3& from, const Vector3& to);
+	static Vector3 Cross(const Vector3& v1, const Vector3& v2);
+	static float Dot(const Vector3& v1, const Vector3& v2);
+	static float Distance(const Vector3& v1, const Vector3& v2);
+	static Vector3 Min(const Vector3& v1, const Vector3& v2);
+	static Vector3 Max(const Vector3& v1, const Vector3& v2);
+
 	// 멤버함수
-	float Angle(const Vector3& other) const;
-	float Size() const;
-	float SizeSq() const;
-	float Distance(const Vector3& other) const;
+	float GetSize() const;
+	float GetSizeSq() const;
 	void Normalize();
 	Vector3 GetNormalize() const;
-	Vector3 Min(const Vector3& other) const;
-	Vector3 Max(const Vector3& other) const;
-	Vector3 Cross(const Vector3& other) const;
-	float Dot(const Vector3& other) const;
+	float GetMin() const;
+	float GetMax() const;
 	Vector2 ToVector2() const;
 	Quaternion ToQuaternion() const;
 

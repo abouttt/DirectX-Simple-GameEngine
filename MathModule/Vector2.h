@@ -6,21 +6,25 @@ struct Vector2
 {
 	// 생성자
 	Vector2();
-	Vector2(float x, float y);
+	Vector2(const float x, const float y);
 	Vector2(const Vector2& other);
 	Vector2(const Vector3& other);
 
+	// 정적멤버함수
+	static float Angle(const Vector2& from, const Vector2& to);
+	static float Dot(const Vector2& v1, const Vector2& v2);
+	static float Distance(const Vector2& v1, const Vector2& v2);
+	static Vector2 Min(const Vector2& v1, const Vector2& v2);
+	static Vector2 Max(const Vector2& v1, const Vector2& v2);
+
 	// 멤버함수
-	Vector3 ToVector3() const;
-	float Angle(const Vector2& other) const;
-	float Size() const;
-	float SizeSq() const;
-	float Distance(const Vector2& other) const;
+	float GetSize() const;
+	float GetSizeSq() const;
 	void Normalize();
 	Vector2 GetNormalize() const;
-	Vector2 Min(const Vector2& other) const;
-	Vector2 Max(const Vector2& other) const;
-	float Dot(const Vector2& other) const;
+	float GetMin() const;
+	float GetMax() const;
+	Vector3 ToVector3() const;
 
 	// 연산자
 	Vector2 operator-();
@@ -60,4 +64,3 @@ struct Vector2
 		D3DXVECTOR2 NativeVector2;
 	};
 };
-

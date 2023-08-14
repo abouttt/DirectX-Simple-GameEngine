@@ -2,6 +2,7 @@
 #include "MathUtil.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "Quaternion.h"
 
 const Vector2 Vector2::Left(-1.f, 0.f);
 const Vector2 Vector2::Right(1.f, 0.f);
@@ -15,7 +16,7 @@ Vector2::Vector2()
 {
 }
 
-Vector2::Vector2(float x, float y)
+Vector2::Vector2(const float x, const float y)
 	: NativeVector2(x, y)
 {
 }
@@ -30,40 +31,50 @@ Vector2::Vector2(const Vector3& other)
 {
 }
 
-Vector3 Vector2::ToVector3() const
+float Vector2::Angle(const Vector2& from, const Vector2& to)
 {
-	return Vector3(X, Y, 0.f);
-}
-
-float Vector2::Angle(const Vector2& other) const
-{
-	float size = std::sqrtf(SizeSq() * other.SizeSq());
-	float dot = Dot(other);
+	float size = std::sqrtf(from.GetSizeSq() * to.GetSizeSq());
+	float dot = Dot(from, to);
 	float cosAngle = std::acosf(dot / size);
 	cosAngle = Math::Rad2Deg(cosAngle);
-	return (X * other.Y - Y * other.X > 0.f) ? cosAngle : -cosAngle;
+	return (from.X * to.Y - from.Y * to.X > 0.f) ? cosAngle : -cosAngle;
 }
 
-float Vector2::Size() const
+float Vector2::Dot(const Vector2& v1, const Vector2& v2)
+{
+	return v1.X * v2.X + v1.Y * v2.Y;
+}
+
+float Vector2::Distance(const Vector2& v1, const Vector2& v2)
+{
+	float xDist = v1.X - v2.X;
+	float yDist = v1.Y - v2.Y;
+	return std::sqrtf((xDist * xDist) + (yDist * yDist));
+}
+
+Vector2 Vector2::Min(const Vector2& v1, const Vector2& v2)
+{
+	return Vector2(std::fminf(v1.X, v2.X), std::fminf(v1.Y, v2.Y));
+}
+
+Vector2 Vector2::Max(const Vector2& v1, const Vector2& v2)
+{
+	return Vector2(std::fmaxf(v1.X, v2.X), std::fmaxf(v1.Y, v2.Y));
+}
+
+float Vector2::GetSize() const
+{
+	return std::sqrtf(X * X + Y * Y);
+}
+
+float Vector2::GetSizeSq() const
 {
 	return X * X + Y * Y;
 }
 
-float Vector2::SizeSq() const
-{
-	return sqrtf(Size());
-}
-
-float Vector2::Distance(const Vector2& other) const
-{
-	float xDist = X - X;
-	float yDist = Y - Y;
-	return std::sqrtf((xDist * xDist) + (yDist * yDist));
-}
-
 void Vector2::Normalize()
 {
-	float size = Size();
+	float size = GetSize();
 	X /= size;
 	Y /= size;
 }
@@ -75,19 +86,19 @@ Vector2 Vector2::GetNormalize() const
 	return result;
 }
 
-Vector2 Vector2::Min(const Vector2& other) const
+float Vector2::GetMin() const
 {
-	return Vector2(std::fminf(X, other.X), std::fminf(Y, other.Y));
+	return std::fminf(X, Y);
 }
 
-Vector2 Vector2::Max(const Vector2& other) const
+float Vector2::GetMax() const
 {
-	return Vector2(std::fmaxf(X, other.X), std::fmaxf(Y, other.Y));
+	return std::fmaxf(X, Y);
 }
 
-float Vector2::Dot(const Vector2& other) const
+Vector3 Vector2::ToVector3() const
 {
-	return X * other.X + Y * other.Y;
+	return Vector3(X, Y, 0.f);
 }
 
 Vector2 Vector2::operator-()

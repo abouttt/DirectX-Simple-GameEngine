@@ -18,7 +18,7 @@ Vector3::Vector3()
 {
 }
 
-Vector3::Vector3(float x, float y, float z)
+Vector3::Vector3(const float x, const float y, const float z)
 	: NativeVector3(x, y, z)
 {
 }
@@ -33,36 +33,59 @@ Vector3::Vector3(const Vector2& other)
 {
 }
 
-float Vector3::Angle(const Vector3& other) const
+float Vector3::Angle(const Vector3& from, const Vector3& to)
 {
-	float size = std::sqrtf(SizeSq() * other.SizeSq());
-	float dot = Dot(other);
+	float size = std::sqrtf(from.GetSizeSq() * to.GetSizeSq());
+	float dot = Dot(from, to);
 	float cosAngle = std::acosf(dot / size);
 	cosAngle = Math::Rad2Deg(cosAngle);
-	return (X * other.Y - Y * other.X > 0.f) ? cosAngle : -cosAngle;
+	return (from.X * to.Y - from.Y * to.X > 0.f) ? cosAngle : -cosAngle;
 }
 
-float Vector3::Size() const
+Vector3 Vector3::Cross(const Vector3& v1, const Vector3& v2)
+{
+	return Vector3(
+		v1.Y * v2.Z - v1.Z * v2.Y,
+		v1.Z * v2.X - v1.X * v2.Z,
+		v1.X * v2.Y - v1.Y * v2.X);
+}
+
+float Vector3::Dot(const Vector3& v1, const Vector3& v2)
+{
+	return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
+}
+
+float Vector3::Distance(const Vector3& v1, const Vector3& v2)
+{
+	float xDist = v1.X - v2.X;
+	float yDist = v1.Y - v2.Y;
+	float zDist = v1.Z - v2.Z;
+	return std::sqrtf((xDist * xDist) + (yDist * yDist) + (zDist * zDist));
+}
+
+Vector3 Vector3::Min(const Vector3& v1, const Vector3& v2)
+{
+	return Vector3(std::fminf(v1.X, v2.X), std::fminf(v1.Y, v2.Y), std::fminf(v1.Z, v2.Z));
+}
+
+Vector3 Vector3::Max(const Vector3& v1, const Vector3& v2)
+{
+	return Vector3(std::fmaxf(v1.X, v2.X), std::fmaxf(v1.Y, v2.Y), std::fmaxf(v1.Z, v2.Z));
+}
+
+float Vector3::GetSize() const
+{
+	return sqrtf(X * X + Y * Y + Z * Z);
+}
+
+float Vector3::GetSizeSq() const
 {
 	return X * X + Y * Y + Z * Z;
 }
 
-float Vector3::SizeSq() const
-{
-	return sqrtf(Size());
-}
-
-float Vector3::Distance(const Vector3& other) const
-{
-	float xDist = X - X;
-	float yDist = Y - Y;
-	float zDist = Z - Z;
-	return std::sqrtf((xDist * xDist) + (yDist * yDist) + (zDist * zDist));
-}
-
 void Vector3::Normalize()
 {
-	float size = Size();
+	float size = GetSize();
 	X /= size;
 	Y /= size;
 	Z /= size;
@@ -75,27 +98,14 @@ Vector3 Vector3::GetNormalize() const
 	return result;
 }
 
-Vector3 Vector3::Min(const Vector3& other) const
+float Vector3::GetMin() const
 {
-	return Vector3(std::fminf(X, other.X), std::fminf(Y, other.Y), std::fminf(Z, other.Z));
+	return std::fminf(std::fminf(X, Y), Z);
 }
 
-Vector3 Vector3::Max(const Vector3& other) const
+float Vector3::GetMax() const
 {
-	return Vector3(std::fmaxf(X, other.X), std::fmaxf(Y, other.Y), std::fmaxf(Z, other.Z));
-}
-
-Vector3 Vector3::Cross(const Vector3& other) const
-{
-	return Vector3(
-		Y * other.Z - Z * other.Y,
-		Z * other.X - X * other.Z,
-		X * other.Y - Y * other.X);
-}
-
-float Vector3::Dot(const Vector3& other) const
-{
-	return X * other.X + Y * other.Y + Z * other.Z;
+	return std::fmaxf(std::fmaxf(X, Y), Z);
 }
 
 Vector2 Vector3::ToVector2() const
