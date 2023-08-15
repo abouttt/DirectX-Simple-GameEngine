@@ -9,17 +9,17 @@ public:
 	TimeManager();
 
 public:
-	float GetElapsedTime();
-	float GetDeltaTime();
-	float GetFPS();
+	float GetElapsedTime() const;
+	float GetDeltaTime() const;
+	float GetFPS() const;
 
 private:
 	void init();
 	void clear();
 	void beginTick();
 	void endTick();
-	float getCyclesPerMilliSeconds();
-	long long getCurrentTimeStamp();
+	float getCyclesPerMilliSeconds() const;
+	long long getCurrentTimeStamp() const;
 
 private:
 	bool mbInit;

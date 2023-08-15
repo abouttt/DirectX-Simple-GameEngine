@@ -14,17 +14,17 @@ TimeManager::TimeManager()
 {
 }
 
-float TimeManager::GetElapsedTime()
+float TimeManager::GetElapsedTime() const
 {
 	return mElapsedTime;
 }
 
-float TimeManager::GetDeltaTime()
+float TimeManager::GetDeltaTime() const
 {
 	return mFrameTime / 1000.f;
 }
 
-float TimeManager::GetFPS()
+float TimeManager::GetFPS() const
 {
 	return mFPS;
 }
@@ -73,7 +73,7 @@ void TimeManager::endTick()
 	mAverageFPS = mElapsedTime == 0.f ? 0.f : 1000.f / mElapsedTime * mFrameCount;
 }
 
-float TimeManager::getCyclesPerMilliSeconds()
+float TimeManager::getCyclesPerMilliSeconds() const
 {
 	LARGE_INTEGER frequency;
 	if (!QueryPerformanceFrequency(&frequency))
@@ -84,7 +84,7 @@ float TimeManager::getCyclesPerMilliSeconds()
 	return static_cast<float>(frequency.QuadPart / 1000.f);
 }
 
-long long TimeManager::getCurrentTimeStamp()
+long long TimeManager::getCurrentTimeStamp() const
 {
 	LARGE_INTEGER currentTime;
 	QueryPerformanceCounter(&currentTime);
