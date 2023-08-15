@@ -19,7 +19,7 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 	wndutil::SetCenterWindow(wndplayer::gWndHandler);
 
 	static float previousTimer = 0.f;
-	static float updatePeriod = 500.f;
+	static float updatePeriod = 1000.f;
 	while (wndplayer::Tick())
 	{
 		gameEngine.OnTick();

@@ -9,6 +9,8 @@
 #include <d3dx9.h>
 #include <d3dx9math.h>
 #include <dinput.h>
+#include <memory>
 #include <string>
 #include <tchar.h>
+#include <vector>
 #include <windows.h>
