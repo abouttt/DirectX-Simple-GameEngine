@@ -157,6 +157,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Component.cpp" />
@@ -172,6 +173,7 @@
     </ClCompile>
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MathModule\MathModule.vcxproj">

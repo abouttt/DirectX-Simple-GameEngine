@@ -7,6 +7,7 @@ GameObject::GameObject()
 	, mTag(_T("UnTagged"))
 	, mComponents()
 {
+	AddComponent<TransformComponent>();
 }
 
 GameObject::GameObject(const std::wstring& name)
@@ -15,6 +16,7 @@ GameObject::GameObject(const std::wstring& name)
 	, mTag(_T("UnTagged"))
 	, mComponents()
 {
+	AddComponent<TransformComponent>();
 }
 
 GameObject::GameObject(const std::wstring& name, const std::wstring& tag)
@@ -23,6 +25,7 @@ GameObject::GameObject(const std::wstring& name, const std::wstring& tag)
 	, mTag(tag)
 	, mComponents()
 {
+	AddComponent<TransformComponent>();
 }
 
 GameObject::~GameObject()
@@ -31,7 +34,7 @@ GameObject::~GameObject()
 
 bool GameObject::IsActive() const
 {
-	return false;
+	return mbActive;
 }
 
 const std::wstring& GameObject::GetName() const
@@ -44,9 +47,28 @@ const std::wstring& GameObject::GetTag() const
 	return mTag;
 }
 
+TransformComponent* GameObject::GetTransform()
+{
+	auto transformComponent = static_cast<TransformComponent*>(mComponents[0].get());
+	assert(transformComponent);
+	return transformComponent;
+}
+
 void GameObject::SetActive(const bool bActive)
 {
+	// 현재 상태와 매개변수 상태가 같다면 진행하지 않는다.
+	if (mbActive == bActive)
+	{
+		return;
+	}
+
 	mbActive = bActive;
+
+	auto transform = GetTransform();
+	for (std::size_t i = 0; i < transform->GetChildCount(); i++)
+	{
+		transform->GetChild(i)->GetGameObject()->SetActive(bActive);
+	}
 }
 
 void GameObject::SetName(const std::wstring& name)

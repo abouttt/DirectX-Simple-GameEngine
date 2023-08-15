@@ -4,31 +4,41 @@
 
 Component::Component()
 	: mbDestroyed(false)
-	, mOwner(nullptr)
+	, mOwnerPtr(nullptr)
 {
 }
 
-GameObject* Component::GetGameObject()
+bool Component::IsActive() const
 {
-	return mOwner;
+	return mOwnerPtr->IsActive();
 }
 
 const std::wstring& Component::GetName() const
 {
-	return mOwner->GetName();
+	return mOwnerPtr->GetName();
 }
 
 const std::wstring& Component::GetTag() const
 {
-	return mOwner->GetTag();
+	return mOwnerPtr->GetTag();
+}
+
+GameObject* Component::GetGameObject()
+{
+	return mOwnerPtr;
+}
+
+TransformComponent* Component::GetTransform()
+{
+	return mOwnerPtr->GetTransform();
 }
 
 void Component::SetName(const std::wstring& name)
 {
-	mOwner->SetName(name);
+	mOwnerPtr->SetName(name);
 }
 
 void Component::SetTag(const std::wstring& tag)
 {
-	mOwner->SetTag(tag);
+	mOwnerPtr->SetTag(tag);
 }

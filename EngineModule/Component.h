@@ -1,6 +1,7 @@
 #pragma once
 
 class GameObject;
+class TransformComponent;
 
 class Component
 {
@@ -12,14 +13,17 @@ public:
 	virtual ~Component() = default;
 
 public:
-	GameObject* GetGameObject();
+	bool IsActive() const;
 	const std::wstring& GetName() const;
 	const std::wstring& GetTag() const;
+	GameObject* GetGameObject();
+	TransformComponent* GetTransform();
+
 	void SetName(const std::wstring& name);
 	void SetTag(const std::wstring& tag);
 
 private:
 	bool mbDestroyed;
-	GameObject* mOwner;
+	GameObject* mOwnerPtr;
 };
 

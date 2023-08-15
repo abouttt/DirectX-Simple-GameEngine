@@ -69,6 +69,9 @@
     <ClInclude Include="GameObject.h">
       <Filter>Objects\Public</Filter>
     </ClInclude>
+    <ClInclude Include="TransformComponent.h">
+      <Filter>Components\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -94,6 +97,9 @@
     </ClCompile>
     <ClCompile Include="GameObject.cpp">
       <Filter>Objects\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="TransformComponent.cpp">
+      <Filter>Components\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
