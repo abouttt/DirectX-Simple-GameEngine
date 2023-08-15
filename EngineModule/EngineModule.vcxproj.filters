@@ -16,16 +16,28 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{88cdfe54-ea2a-4074-b4d8-f3f249ecc7e8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Managers">
+      <UniqueIdentifier>{3cd09c20-8498-48c9-8bf6-1cb81d47b0bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Public">
+      <UniqueIdentifier>{2283c1c1-fdf7-46db-b171-98eaffbdbd40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Managers\Private">
+      <UniqueIdentifier>{2f5adbff-81ce-4095-ba77-9907cf5f3f09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>PCH</Filter>
     </ClInclude>
     <ClInclude Include="DXContext.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Managers\Public</Filter>
     </ClInclude>
     <ClInclude Include="GameEngine.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Managers\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>Managers\Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -33,10 +45,13 @@
       <Filter>PCH</Filter>
     </ClCompile>
     <ClCompile Include="DXContext.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Managers\Private</Filter>
     </ClCompile>
     <ClCompile Include="GameEngine.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Managers\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>Managers\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

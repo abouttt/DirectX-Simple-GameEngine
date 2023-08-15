@@ -14,7 +14,12 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 		return false;
 	}
 
-	DXContext::init(hWnd, width, height, bWindowed, D3DDEVTYPE_HAL);
+	if (!DXContext::init(hWnd, width, height, bWindowed, D3DDEVTYPE_HAL))
+	{
+		return false;
+	}
+
+	mTime.init();
 
 	return true;
 }
@@ -26,4 +31,14 @@ void GameEngine::Release()
 
 void GameEngine::OnTick()
 {
+	// 성능 측정 시작
+	mTime.beginTick();
+
+	// 성능 측정 종료
+	mTime.endTick();
+}
+
+TimeManager& GameEngine::GetTime()
+{
+	return mTime;
 }

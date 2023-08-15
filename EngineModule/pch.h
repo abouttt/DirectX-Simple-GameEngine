@@ -8,3 +8,4 @@
 #include <d3dx9math.h>
 #include <string>
 #include <tchar.h>
+#include <windows.h>

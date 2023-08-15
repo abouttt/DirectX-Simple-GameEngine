@@ -1,5 +1,7 @@
 #pragma once
 
+#include "TimeManager.h"
+
 class GameEngine
 {
 public:
@@ -10,7 +12,10 @@ public:
 	void Release();
 	void OnTick();
 
+	TimeManager& GetTime();
+
 private:
 	bool mbInit;
+	TimeManager mTime;
 };
 
