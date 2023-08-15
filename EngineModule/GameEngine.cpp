@@ -4,6 +4,8 @@
 
 GameEngine::GameEngine()
 	: mbInit(false)
+	, mInput()
+	, mTime()
 {
 }
 
@@ -14,7 +16,8 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 		return false;
 	}
 
-	if (!DXContext::init(hWnd, width, height, bWindowed, D3DDEVTYPE_HAL))
+	if (!DXContext::init(hWnd, width, height, bWindowed, D3DDEVTYPE_HAL) ||
+		!mInput.init(hInstance, hWnd))
 	{
 		return false;
 	}
@@ -26,6 +29,7 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 
 void GameEngine::Release()
 {
+	mInput.release();
 	DXContext::release();
 }
 
@@ -34,8 +38,16 @@ void GameEngine::OnTick()
 	// 성능 측정 시작
 	mTime.beginTick();
 
+	// Input Event
+	mInput.update();
+
 	// 성능 측정 종료
 	mTime.endTick();
+}
+
+InputManager& GameEngine::GetInput()
+{
+	return mInput;
 }
 
 TimeManager& GameEngine::GetTime()
