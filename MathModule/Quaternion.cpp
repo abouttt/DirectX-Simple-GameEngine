@@ -20,6 +20,11 @@ Quaternion::Quaternion(float x, float y, float z, float w)
 {
 }
 
+float Quaternion::Dot(const Quaternion& q1, const Quaternion& q2)
+{
+	return D3DXQuaternionDot(&q1.NativeQuaternion, &q2.NativeQuaternion);
+}
+
 Quaternion Quaternion::Slerp(const Quaternion& q1, const Quaternion& q2, const float t)
 {
 	Quaternion result;
@@ -40,11 +45,6 @@ void Quaternion::ToAngleAxis(float* const angle, Vector3* const axis) const
 	D3DXQuaternionToAxisAngle(&NativeQuaternion, &axis->NativeVector3, angle);
 }
 
-float Quaternion::Dot(const Quaternion& other) const
-{
-	return D3DXQuaternionDot(&NativeQuaternion, &other.NativeQuaternion);
-}
-
 void Quaternion::Inverse()
 {
 	X = -X;
@@ -61,7 +61,7 @@ void Quaternion::Normalize()
 {
 	const float squareSum = X * X + Y * Y + Z * Z + W * W;
 
-	if (squareSum >= FLT_EPSILON)
+	if (squareSum >= Math::SMALL_NUMBER)
 	{
 		const float scale = 1.f / sqrtf(squareSum);
 
@@ -117,7 +117,7 @@ Vector3 Quaternion::ToEuler() const
 Vector3 Quaternion::operator*(const Vector3& v) const
 {
 	Quaternion q1 = GetInverse();
-	Quaternion q2 = q1 * Quaternion(v.X, v.Y, v.Z, 1.f) * (*this);
+	Quaternion q2 = q1 * Quaternion(v.X, v.Y, v.Z, 1.f) * *this;
 	return Vector3(q2.X, q2.Y, q2.Z);
 }
 

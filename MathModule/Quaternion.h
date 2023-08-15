@@ -10,12 +10,12 @@ struct Quaternion
 	Quaternion(float x, float y, float z, float w);
 
 	// 정적멤버함수
+	static float Dot(const Quaternion& q1, const Quaternion& q2);
 	static Quaternion Slerp(const Quaternion& q1, const Quaternion& q2, const float t);
 
 	// 멤버함수
 	void AngleAxis(const float angle, const Vector3& axis);
 	void ToAngleAxis(float* const angle, Vector3* const axis) const;
-	float Dot(const Quaternion& other) const;
 	void Inverse();
 	Quaternion GetInverse() const;
 	void Normalize();

@@ -10,6 +10,44 @@ struct Math
 	static constexpr float TwoPI = { 2.f * PI };
 	static constexpr float HalfPI = { 1.57079632679f };
 	static constexpr float InvPI = { 0.31830988618f };
+	static constexpr float SMALL_NUMBER = (1.e-8f);
+
+	inline static constexpr int TruncToInt(float value)
+	{
+		return (int)value;
+	}
+
+	inline static constexpr int RountToInt(float value)
+	{
+		return TruncToInt(roundf(value));
+	}
+
+	inline static constexpr int FloorToInt(float value)
+	{
+		return TruncToInt(floorf(value));
+	}
+
+	inline static int CeilToInt(float value)
+	{
+		return TruncToInt(ceilf(value));
+	}
+
+	inline static constexpr bool EqualsInTolerance(float value1, float value2, float tolerance = SMALL_NUMBER)
+	{
+		return Math::Abs(value1 - value2) <= tolerance;
+	}
+
+	template< class T>
+	inline static constexpr T Lerp(const T& src, const T& dest, float alpha)
+	{
+		return (T)(src + alpha * (dest - src));
+	}
+
+	template<class T>
+	inline static constexpr T Square(const T num)
+	{
+		return num * num;
+	}
 
 	static inline float Rad2Deg(float radian)
 	{
@@ -19,6 +57,42 @@ struct Math
 	static inline float Deg2Rad(float degree)
 	{
 		return degree * PI / 180;
+	}
+
+	template<class T>
+	inline static constexpr T Max(const T a, const T b)
+	{
+		return (a >= b) ? a : b;
+	}
+
+	template<class T>
+	inline static constexpr T Min(const T a, const T b)
+	{
+		return (a <= b) ? a : b;
+	}
+
+	template< class T >
+	inline static T constexpr Max3(const T a, const T b, const T c)
+	{
+		return Max(Max(a, b), c);
+	}
+
+	template< class T >
+	inline static T constexpr Min3(const T a, const T b, const T c)
+	{
+		return Min(Min(a, b), c);
+	}
+
+	template<class T>
+	inline static constexpr T Abs(const T a)
+	{
+		return (a >= (T)0) ? a : -a;
+	}
+
+	template<class T>
+	inline static constexpr T Clamp(const T x, const T min, const T max)
+	{
+		return x < min ? min : x < max ? x : max;
 	}
 
 	// 언리얼 엔진 코드에서 가져옴. 지정된 각도에 대한 두 삼각함수를 함께 가져오는 함수. 
@@ -90,6 +164,23 @@ struct Math
 		{
 			GetSinCosRad(outSin, outCos, Math::Deg2Rad(degree));
 		}
+	}
+
+	inline static float FMod(float x, float y)
+	{
+		if (fabsf(y) <= SMALL_NUMBER)
+		{
+			return 0.f;
+		}
+
+		const float quotient = (float)TruncToInt(x / y);
+		float intPortion = y * quotient;
+		if (fabsf(intPortion) > fabsf(x))
+		{
+			intPortion = x;
+		}
+
+		return (x - intPortion);
 	}
 
 	// 언리얼 엔진 코드에서 가져옴. 고속 역제곱근 공식

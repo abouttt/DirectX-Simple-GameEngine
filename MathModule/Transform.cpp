@@ -1,0 +1,228 @@
+#include "pch.h"
+#include "MathUtil.h"
+#include "Transform.h"
+
+Transform::Transform()
+	: mPosition(Vector3::Zero)
+	, mEulerAngles(Vector3::Zero)
+	, mScale(Vector3::One)
+{
+}
+
+Transform::Transform(const Vector3& position)
+	: mPosition(position)
+	, mEulerAngles(Vector3::Zero)
+	, mScale(Vector3::One)
+{
+}
+
+Transform::Transform(const Vector3& position, const Quaternion& rotation)
+	: mPosition(position)
+	, mEulerAngles(rotation.ToEuler())
+	, mScale(Vector3::One)
+{
+}
+
+Transform::Transform(const Vector3& position, const Vector3& euler)
+	: mPosition(position)
+	, mEulerAngles(euler)
+	, mScale(Vector3::One)
+{
+}
+
+Transform::Transform(const Vector3& position, const Quaternion& rotation, const Vector3& scale)
+	: mPosition(position)
+	, mEulerAngles(rotation.ToEuler())
+	, mScale(scale)
+{
+}
+
+Transform::Transform(const Vector3& position, const Vector3& euler, const Vector3& scale)
+	: mPosition(position)
+	, mEulerAngles(euler)
+	, mScale(scale)
+{
+}
+
+Vector3 Transform::GetPosition() const
+{
+	return mPosition;
+}
+
+Quaternion Transform::GetRotation() const
+{
+	return mEulerAngles.ToQuaternion();
+}
+
+Vector3 Transform::GetEulerAngles() const
+{
+	return mEulerAngles;
+}
+
+Vector3 Transform::GetScale() const
+{
+	return mScale;
+}
+
+Vector3 Transform::GetAxisX() const
+{
+	Quaternion rotation = mEulerAngles.ToQuaternion();
+	rotation.Normalize();
+	return rotation * Vector3::Right;
+}
+
+Vector3 Transform::GetAxisY() const
+{
+	Quaternion rotation = mEulerAngles.ToQuaternion();
+	rotation.Normalize();
+	return rotation * Vector3::Up;
+}
+
+Vector3 Transform::GetAxisZ() const
+{
+	Quaternion rotation = mEulerAngles.ToQuaternion();
+	rotation.Normalize();
+	return rotation * Vector3::Forward;
+}
+
+D3DXMATRIX Transform::GetMatrix() const
+{
+	D3DXMATRIX matPos;
+	D3DXMATRIX matRot;
+	D3DXMATRIX matScale;
+	Quaternion rotation;
+	Vector3 euler = D3DXToRadian(mEulerAngles);
+
+	D3DXMatrixTranslation(&matPos, mPosition.X, mPosition.Y, mPosition.Z);
+	D3DXQuaternionRotationYawPitchRoll(&rotation.NativeQuaternion, euler.Y, euler.X, euler.Z);
+	D3DXMatrixRotationQuaternion(&matRot, &rotation.NativeQuaternion);
+	D3DXMatrixScaling(&matScale, mScale.X, mScale.Y, mScale.Z);
+
+	return matScale * matRot * matPos;
+}
+
+void Transform::SetPosition(const Vector3& position)
+{
+	mPosition = position;
+}
+
+void Transform::SetRotation(const Quaternion& rotation)
+{
+	mEulerAngles = rotation.ToEuler();
+}
+
+void Transform::SetRotation(const Vector3& euler)
+{
+	mEulerAngles = euler;
+}
+
+void Transform::SetScale(const Vector3& scale)
+{
+	mScale = scale;
+}
+
+void Transform::AddPosition(const Vector3& position)
+{
+	mPosition += position;
+}
+
+void Transform::AddRotation(const Quaternion& rotation)
+{
+	mEulerAngles += rotation.ToEuler();
+}
+
+void Transform::AddRotation(const Vector3& euler)
+{
+	mEulerAngles += euler;
+}
+
+void Transform::AddScale(const Vector3& scale)
+{
+	mScale += scale;
+}
+
+void Transform::AddRotationX(const float degree)
+{
+	mEulerAngles.X += degree;
+}
+
+void Transform::AddRotationY(const float degree)
+{
+	mEulerAngles.Y += degree;
+}
+
+void Transform::AddRotationZ(const float degree)
+{
+	mEulerAngles.Z += degree;
+}
+
+void Transform::Translate(const Vector3& translation)
+{
+	Vector3 posX = GetAxisX() * translation.X;
+	Vector3 posY = GetAxisY() * translation.Y;
+	Vector3 posZ = GetAxisZ() * translation.Z;
+
+	mPosition += posX + posY + posZ;
+}
+
+Transform Transform::GetInverse() const
+{
+	// 로컬 정보만 남기기 위한 트랜스폼 ( 역행렬 )
+	Vector3 reciprocalScale = Vector3::Zero;
+	if (!Math::EqualsInTolerance(mScale.X, 0.f))
+	{
+		reciprocalScale.X = 1.f / mScale.X;
+	}
+	if (!Math::EqualsInTolerance(mScale.Y, 0.f))
+	{
+		reciprocalScale.Y = 1.f / mScale.Y;
+	}
+	if (!Math::EqualsInTolerance(mScale.Z, 0.f))
+	{
+		reciprocalScale.Z = 1.f / mScale.Z;
+	}
+
+	Transform result;
+	result.SetScale(reciprocalScale);
+	result.SetRotation(GetRotation().GetInverse());
+	result.SetPosition(result.GetScale() * (result.GetRotation() * -mPosition));
+	return result;
+}
+
+Transform Transform::GetLocalToWorld(const Transform& parentWorldTransform) const
+{
+	Transform result;
+	result.SetScale(parentWorldTransform.GetScale() * GetScale());
+	result.SetRotation(parentWorldTransform.GetRotation() * GetRotation());
+	result.SetPosition(parentWorldTransform.GetPosition() + parentWorldTransform.GetRotation() * (parentWorldTransform.GetScale() * GetPosition()));
+	return result;
+}
+
+Transform Transform::GetWorldToLocal(const Transform& parentWorldTransform) const
+{
+	Transform invParent = parentWorldTransform.GetInverse();
+	Transform result;
+	result.SetScale(invParent.GetScale() * GetScale());
+	result.SetRotation(invParent.GetRotation() * GetRotation());
+	result.SetPosition(invParent.GetPosition() + (invParent.GetScale() * (invParent.GetRotation() * GetPosition())));
+	return result;
+}
+
+void Transform::clampEuler(Vector3& euler)
+{
+	euler.X = getAxisClampedValue(euler.X);
+	euler.Y = getAxisClampedValue(euler.Y);
+	euler.Z = getAxisClampedValue(euler.Z);
+}
+
+float Transform::getAxisClampedValue(float rotationValue)
+{
+	float angle = Math::FMod(rotationValue, 360.f);
+	if (angle < 0.f)
+	{
+		angle += 360.f;
+	}
+
+	return angle;
+}
+

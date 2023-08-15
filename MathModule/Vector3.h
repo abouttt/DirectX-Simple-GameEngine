@@ -30,7 +30,7 @@ struct Vector3
 	Quaternion ToQuaternion() const;
 
 	// ¿¬»êÀÚ
-	Vector3 operator-();
+	Vector3 operator-() const;
 
 	Vector3 operator*(const float d) const;
 	Vector3 operator/(const float d) const;

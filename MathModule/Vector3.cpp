@@ -130,7 +130,7 @@ Quaternion Vector3::ToQuaternion() const
 	return q;
 }
 
-Vector3 Vector3::operator-()
+Vector3 Vector3::operator-() const
 {
 	return Vector3(-X, -Y, -Z);
 }
@@ -197,7 +197,7 @@ bool Vector3::operator==(const Vector3& other) const
 	float xAbs = std::fabsf(X - other.X);
 	float yAbs = std::fabsf(Y - other.Y);
 	float zAbs = std::fabsf(Z - other.Z);
-	return (xAbs <= FLT_EPSILON && yAbs <= FLT_EPSILON && zAbs <= FLT_EPSILON);
+	return (xAbs <= Math::SMALL_NUMBER && yAbs <= Math::SMALL_NUMBER && zAbs <= Math::SMALL_NUMBER);
 }
 
 bool Vector3::operator!=(const Vector3& other) const

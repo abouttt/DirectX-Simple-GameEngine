@@ -163,7 +163,7 @@ bool Vector2::operator==(const Vector2& other) const
 {
 	float xAbs = std::fabsf(X - other.X);
 	float yAbs = std::fabsf(Y - other.Y);
-	return (xAbs <= FLT_EPSILON && yAbs <= FLT_EPSILON);
+	return (xAbs <= Math::SMALL_NUMBER && yAbs <= Math::SMALL_NUMBER);
 }
 
 bool Vector2::operator!=(const Vector2& other) const
