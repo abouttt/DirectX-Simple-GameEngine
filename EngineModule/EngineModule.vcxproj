@@ -149,6 +149,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CameraComponent.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="DXContext.h" />
     <ClInclude Include="GameEngine.h" />
@@ -157,9 +158,11 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="TimeManager.h" />
+    <ClInclude Include="BehaviorComponent.h" />
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="DXContext.cpp" />
     <ClCompile Include="GameEngine.cpp" />
@@ -173,6 +176,7 @@
     </ClCompile>
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
+    <ClCompile Include="BehaviorComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
