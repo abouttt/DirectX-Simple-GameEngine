@@ -237,19 +237,14 @@ TransformComponent* TransformComponent::FindChild(const std::wstring& name)
 	return nullptr;
 }
 
-TransformComponent* TransformComponent::GetChild(std::size_t index)
+TransformComponent* TransformComponent::GetChild(const std::size_t index)
 {
-	if (mChildrenPtr.empty())
+	if (index >= 0 && index < mChildrenPtr.size())
 	{
-		return nullptr;
+		return mChildrenPtr[index];
 	}
 
-	if (index < 0 || index >= mChildrenPtr.size())
-	{
-		return nullptr;
-	}
-
-	return mChildrenPtr[index];
+	return nullptr;
 }
 
 bool TransformComponent::IsChildOf(const TransformComponent* const child)
@@ -260,6 +255,14 @@ bool TransformComponent::IsChildOf(const TransformComponent* const child)
 std::size_t TransformComponent::GetChildCount()
 {
 	return mChildrenPtr.size();
+}
+
+void TransformComponent::DetachChildren()
+{
+	for (auto child : mChildrenPtr)
+	{
+		child->SetParent(nullptr);
+	}
 }
 
 TransformComponent* TransformComponent::GetRoot()
@@ -288,14 +291,12 @@ void TransformComponent::SetParent(TransformComponent* const parent)
 {
 	if (parent)
 	{
-		// 이미 있는 경우에는 넘어간다.
-		auto it = std::find(parent->mChildrenPtr.begin(), parent->mChildrenPtr.end(), this);
-		if (it != parent->mChildrenPtr.end())
+		if (mParentPtr == parent)
 		{
 			return;
 		}
 
-		// 새로운 트랜스폼 노드로 부모 재설정
+		// 새로운 트랜스폼 노드로 부모 재설정.
 		removeFromParent();
 		parent->mChildrenPtr.emplace_back(this);
 		mParentPtr = parent;
@@ -316,13 +317,10 @@ void TransformComponent::removeFromParent()
 		return;
 	}
 
-	auto it = std::find(mParentPtr->mChildrenPtr.begin(), mParentPtr->mChildrenPtr.end(), this);
-	if (it != mParentPtr->mChildrenPtr.end())
-	{
-		mParentPtr->mChildrenPtr.erase(it);
-		mParentPtr = nullptr;
-		updateLocal();
-	}
+	auto& parentChildren = mParentPtr->mChildrenPtr;
+	mParentPtr->mChildrenPtr.erase(std::find(parentChildren.begin(), parentChildren.end(), this));
+	mParentPtr = nullptr;
+	updateLocal();
 }
 
 void TransformComponent::updateLocal()

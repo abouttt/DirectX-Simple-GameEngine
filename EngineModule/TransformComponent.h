@@ -10,7 +10,7 @@ public:
 	TransformComponent();
 	TransformComponent(const Transform& localTransform);
 
-public: // 로컬 트랜스폼.
+public: // 로컬 트랜스폼
 	Vector3 GetLocalPosition() const;
 	Quaternion GetLocalRotation() const;
 	Vector3 GetLocalEulerAngles() const;
@@ -34,7 +34,7 @@ public: // 로컬 트랜스폼.
 
 	void Translate(const Vector3& translation);
 
-public: // 월드 트랜스폼.
+public: // 월드 트랜스폼
 	Vector3 GetPosition() const;
 	Quaternion GetRotation() const;
 	Vector3 GetEulerAngles() const;
@@ -58,9 +58,10 @@ public: // 월드 트랜스폼.
 
 public: // 계층관련
 	TransformComponent* FindChild(const std::wstring& name);
-	TransformComponent* GetChild(std::size_t index);
+	TransformComponent* GetChild(const std::size_t index);
 	bool IsChildOf(const TransformComponent* const child);
 	std::size_t GetChildCount();
+	void DetachChildren();
 
 	TransformComponent* GetRoot();
 
