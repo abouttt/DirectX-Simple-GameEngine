@@ -72,6 +72,99 @@ void InputManager::GetMousePosition(int* const outMouseX, int* const outMouseY) 
 	*outMouseY = mMouseButtons.lY;
 }
 
+void InputManager::update()
+{
+	keyboardUpdate();
+	mouseUpdate();
+}
+
+void InputManager::keyboardUpdate()
+{
+	if (!readKeyboard())
+	{
+		return;
+	}
+
+	for (int i = 0; i < 256; i++)
+	{
+		if (mKeyboardKeys[i] & 0x80)
+		{
+			mKeyboardState[i].bPressed = !mKeyboardState[i].bPressing ? true : false;
+			mKeyboardState[i].bPressing = true;
+			mKeyboardState[i].bUp = false;
+		}
+		else
+		{
+			mKeyboardState[i].bUp = mKeyboardState[i].bPressing ? true : false;
+			mKeyboardState[i].bPressed = false;
+			mKeyboardState[i].bPressing = false;
+		}
+	}
+}
+
+void InputManager::mouseUpdate()
+{
+	if (!readMouse())
+	{
+		return;
+	}
+
+	for (int i = 0; i < 4; i++)
+	{
+		if (mMouseButtons.rgbButtons[i] & 0x80)
+		{
+			mMouseState[i].bPressed = !mMouseState[i].bPressing ? true : false;
+			mMouseState[i].bPressing = true;
+			mMouseState[i].bUp = false;
+		}
+		else
+		{
+			mMouseState[i].bUp = mMouseState[i].bPressing ? true : false;
+			mMouseState[i].bPressed = false;
+			mMouseState[i].bPressing = false;
+		}
+	}
+}
+
+bool InputManager::readKeyboard()
+{
+	// 키보드 디바이스를 얻는다.
+	HRESULT result = mKeyboard->GetDeviceState(sizeof(mKeyboardKeys), (LPVOID)&mKeyboardKeys);
+	if (FAILED(result))
+	{
+		// 키보드가 포커스를 잃었거나 흭득되지 않은 경우 컨트롤을 다시 가져온다.
+		if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+		{
+			mKeyboard->Acquire();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool InputManager::readMouse()
+{
+	// 마우스 디바이스를 얻는다.
+	HRESULT result = mMouse->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mMouseButtons);
+	if (FAILED(result))
+	{
+		// 마우스가 포커스를 잃었거나 흭득되지 않은 경우 컨트롤을 다시 가져온다.
+		if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
+		{
+			mMouse->Acquire();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
 bool InputManager::init(const HINSTANCE hInstance, const HWND hWnd)
 {
 	if (mbInit)
@@ -175,98 +268,4 @@ void InputManager::release()
 	}
 
 	mbInit = false;
-}
-
-void InputManager::update()
-{
-	keyboardUpdate();
-	mouseUpdate();
-}
-
-void InputManager::keyboardUpdate()
-{
-	if (!readKeyboard())
-	{
-		return;
-	}
-
-	for (int i = 0; i < 256; i++)
-	{
-		if (mKeyboardKeys[i] & 0x80)
-		{
-			mKeyboardState[i].bPressed = !mKeyboardState[i].bPressing ? true : false;
-			mKeyboardState[i].bPressing = true;
-			mKeyboardState[i].bUp = false;
-		}
-		else
-		{
-			mKeyboardState[i].bUp = mKeyboardState[i].bPressing ? true : false;
-			mKeyboardState[i].bPressed = false;
-			mKeyboardState[i].bPressing = false;
-		}
-	}
-}
-
-void InputManager::mouseUpdate()
-{
-	if (!readMouse())
-	{
-		return;
-	}
-
-	for (int i = 0; i < 4; i++)
-	{
-		if (mMouseButtons.rgbButtons[i] & 0x80)
-		{
-			mMouseState[i].bPressed = !mMouseState[i].bPressing ? true : false;
-			mMouseState[i].bPressing = true;
-			mMouseState[i].bUp = false;
-		}
-		else
-		{
-			mMouseState[i].bUp = mMouseState[i].bPressing ? true : false;
-			mMouseState[i].bPressed = false;
-			mMouseState[i].bPressing = false;
-		}
-	}
-}
-
-bool InputManager::readKeyboard()
-{
-	// 키보드 디바이스를 얻는다.
-	HRESULT result = mKeyboard->GetDeviceState(sizeof(mKeyboardKeys), (LPVOID)&mKeyboardKeys);
-	if (FAILED(result))
-	{
-		// 키보드가 포커스를 잃었거나 흭득되지 않은 경우 컨트롤을 다시 가져온다.
-		if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
-		{
-			mKeyboard->Acquire();
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	return true;
-}
-
-bool InputManager::readMouse()
-{
-	// 마우스 디바이스를 얻는다.
-	HRESULT result = mMouse->GetDeviceState(sizeof(DIMOUSESTATE), (LPVOID)&mMouseButtons);
-	if (FAILED(result))
-	{
-		// 마우스가 포커스를 잃었거나 흭득되지 않은 경우 컨트롤을 다시 가져온다.
-		if ((result == DIERR_INPUTLOST) || (result == DIERR_NOTACQUIRED))
-		{
-			mMouse->Acquire();
-		}
-		else
-		{
-			return false;
-		}
-	}
-
-	return true;
 }

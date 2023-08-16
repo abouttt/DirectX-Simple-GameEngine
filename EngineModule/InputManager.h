@@ -181,14 +181,15 @@ public:
 	void GetMousePosition(int* const outMouseX, int* const outMouseY) const;
 
 private:
-	bool init(const HINSTANCE hInstance, const HWND hWnd);
-	void clear();
-	void release();
 	void update();
 	void keyboardUpdate();
 	void mouseUpdate();
 	bool readKeyboard();
 	bool readMouse();
+
+	bool init(const HINSTANCE hInstance, const HWND hWnd);
+	void clear();
+	void release();
 
 private:
 	bool mbInit;

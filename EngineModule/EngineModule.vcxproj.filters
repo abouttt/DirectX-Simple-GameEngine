@@ -48,9 +48,6 @@
     <ClInclude Include="pch.h">
       <Filter>PCH</Filter>
     </ClInclude>
-    <ClInclude Include="DXContext.h">
-      <Filter>Managers\Public</Filter>
-    </ClInclude>
     <ClInclude Include="GameEngine.h">
       <Filter>Managers\Public</Filter>
     </ClInclude>
@@ -82,9 +79,6 @@
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>PCH</Filter>
-    </ClCompile>
-    <ClCompile Include="DXContext.cpp">
-      <Filter>Managers\Private</Filter>
     </ClCompile>
     <ClCompile Include="GameEngine.cpp">
       <Filter>Managers\Private</Filter>

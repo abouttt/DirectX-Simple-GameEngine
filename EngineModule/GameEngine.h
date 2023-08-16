@@ -2,6 +2,7 @@
 
 #include "InputManager.h"
 #include "TimeManager.h"
+#include "RenderManager.h"
 
 class GameEngine
 {
@@ -20,5 +21,6 @@ private:
 	bool mbInit;
 	InputManager mInput;
 	TimeManager mTime;
+	RenderManager mRenderer;
 };
 

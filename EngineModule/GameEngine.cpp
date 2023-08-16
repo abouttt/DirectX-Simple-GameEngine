@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "GameEngine.h"
-#include "DXContext.h"
 
 GameEngine::GameEngine()
 	: mbInit(false)
@@ -16,7 +15,7 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 		return false;
 	}
 
-	if (!DXContext::init(hWnd, width, height, bWindowed, D3DDEVTYPE_HAL) ||
+	if (!mRenderer.init(hWnd, width, height, bWindowed) ||
 		!mInput.init(hInstance, hWnd))
 	{
 		return false;
@@ -30,7 +29,7 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 void GameEngine::Release()
 {
 	mInput.release();
-	DXContext::release();
+	mRenderer.release();
 }
 
 void GameEngine::OnTick()
@@ -41,6 +40,16 @@ void GameEngine::OnTick()
 	// Input Event
 	mInput.update();
 
+	// Game Logic
+	
+	// Scene Rendering
+	mRenderer.preRender();
+	mRenderer.render();
+	mRenderer.drawUI();
+	mRenderer.postRender();
+
+	// Decommissioning
+	
 	// 성능 측정 종료
 	mTime.endTick();
 }
