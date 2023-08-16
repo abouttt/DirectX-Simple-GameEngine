@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Component.h"
+#include "GameEngine.h"
 #include "GameObject.h"
+
+GameEngine* Component::mGameEnginePtr = nullptr;
 
 Component::Component()
 	: mbDestroyed(false)
@@ -41,4 +44,9 @@ void Component::SetName(const std::wstring& name)
 void Component::SetTag(const std::wstring& tag)
 {
 	mOwnerPtr->SetTag(tag);
+}
+
+GameEngine& Component::GetEngine()
+{
+	return *mGameEnginePtr;
 }

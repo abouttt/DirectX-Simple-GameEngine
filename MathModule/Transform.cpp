@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "MathUtil.h"
+#include "Matrix4x4.h"
 #include "Transform.h"
+#include "Quaternion.h"
 
 Transform::Transform()
 	: mPosition(Vector3::Zero)
@@ -85,18 +87,11 @@ Vector3 Transform::GetAxisZ() const
 	return rotation * Vector3::Forward;
 }
 
-D3DXMATRIX Transform::GetMatrix() const
+Matrix4x4 Transform::GetMatrix() const
 {
-	D3DXMATRIX matPos;
-	D3DXMATRIX matRot;
-	D3DXMATRIX matScale;
-	Quaternion rotation;
-	Vector3 euler = D3DXToRadian(mEulerAngles);
-
-	D3DXMatrixTranslation(&matPos, mPosition.X, mPosition.Y, mPosition.Z);
-	D3DXQuaternionRotationYawPitchRoll(&rotation.NativeQuaternion, euler.Y, euler.X, euler.Z);
-	D3DXMatrixRotationQuaternion(&matRot, &rotation.NativeQuaternion);
-	D3DXMatrixScaling(&matScale, mScale.X, mScale.Y, mScale.Z);
+	Matrix4x4 matPos = Matrix4x4::Translate(mPosition);
+	Matrix4x4 matRot = Matrix4x4::Rotate(D3DXToRadian(mEulerAngles));
+	Matrix4x4 matScale = Matrix4x4::Scale(mScale);
 
 	return matScale * matRot * matPos;
 }

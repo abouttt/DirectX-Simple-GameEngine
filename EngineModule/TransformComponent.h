@@ -18,7 +18,7 @@ public: // 로컬 트랜스폼
 	Vector3 GetLocalAxisX() const;
 	Vector3 GetLocalAxisY() const;
 	Vector3 GetLocalAxisZ() const;
-	D3DXMATRIX GetLocalMatrix() const;
+	Matrix4x4 GetLocalMatrix() const;
 
 	void SetLocalPosition(const Vector3& position);
 	void SetLocalRotation(const Quaternion& rotation);
@@ -42,7 +42,7 @@ public: // 월드 트랜스폼
 	Vector3 GetAxisX() const;
 	Vector3 GetAxisY() const;
 	Vector3 GetAxisZ() const;
-	D3DXMATRIX GetMatrix() const;
+	Matrix4x4 GetMatrix() const;
 
 	void SetPosition(const Vector3& position);
 	void SetRotation(const Quaternion& rotation);

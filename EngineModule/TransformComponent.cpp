@@ -1,4 +1,8 @@
 #include "pch.h"
+
+#include <Matrix4x4.h>
+#include <Quaternion.h>
+
 #include "TransformComponent.h"
 
 TransformComponent::TransformComponent()
@@ -53,7 +57,7 @@ Vector3 TransformComponent::GetLocalAxisZ() const
 	return mLocalTransform.GetAxisZ();
 }
 
-D3DXMATRIX TransformComponent::GetLocalMatrix() const
+Matrix4x4 TransformComponent::GetLocalMatrix() const
 {
 	return mLocalTransform.GetMatrix();
 }
@@ -159,7 +163,7 @@ Vector3 TransformComponent::GetAxisZ() const
 	return mWorldTransform.GetAxisZ();
 }
 
-D3DXMATRIX TransformComponent::GetMatrix() const
+Matrix4x4 TransformComponent::GetMatrix() const
 {
 	return mWorldTransform.GetMatrix();
 }

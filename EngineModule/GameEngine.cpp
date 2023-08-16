@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "Component.h"
 #include "GameEngine.h"
 
 GameEngine::GameEngine()
@@ -22,6 +23,8 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 	}
 
 	mTime.init();
+
+	Component::mGameEnginePtr = this;
 
 	return true;
 }
@@ -62,4 +65,9 @@ InputManager& GameEngine::GetInput()
 TimeManager& GameEngine::GetTime()
 {
 	return mTime;
+}
+
+RenderManager& GameEngine::GetRenderer()
+{
+	return mRenderer;
 }

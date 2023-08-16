@@ -1,4 +1,7 @@
 #include "pch.h"
+
+#include <Matrix4x4.h>
+
 #include "CameraComponent.h"
 #include "RenderManager.h"
 
@@ -106,8 +109,10 @@ void RenderManager::postRender()
 void RenderManager::updateCamera()
 {
 	auto currentCamera = CameraComponent::GetCurrentCamera();
-	mD3DDevice->SetTransform(D3DTS_VIEW, &currentCamera->GetViewMatrix());
-	mD3DDevice->SetTransform(D3DTS_PROJECTION, &currentCamera->GetProjectionMatrix(mWidth, mHeight));
+	auto viewMat = currentCamera->GetViewMatrix().NativeMatrix;
+	auto projMat = currentCamera->GetProjectionMatrix(mWidth, mHeight).NativeMatrix;
+	mD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
+	mD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
 }
 
 bool RenderManager::initDevice(const HWND hWnd, const bool bWindowed)

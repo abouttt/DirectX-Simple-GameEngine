@@ -16,6 +16,7 @@ public:
 
 	InputManager& GetInput();
 	TimeManager& GetTime();
+	RenderManager& GetRenderer();
 
 private:
 	bool mbInit;

@@ -23,8 +23,8 @@ public:
 	void SetNear(const float value);
 	void SetFar(const float value);
 
-	const D3DXMATRIX& GetViewMatrix();
-	const D3DXMATRIX& GetProjectionMatrix(const int width, const int height);
+	const Matrix4x4 GetViewMatrix();
+	const Matrix4x4 GetProjectionMatrix(const int width, const int height);
 
 protected:
 	void OnEnable() override;
@@ -37,7 +37,5 @@ private:
 	int mFov;
 	float mNear;
 	float mFar;
-	D3DXMATRIX mViewMat;
-	D3DXMATRIX mProjMat;
 };
 

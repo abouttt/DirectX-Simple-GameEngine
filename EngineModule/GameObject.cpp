@@ -8,6 +8,7 @@ GameObject::GameObject()
 	, mComponents()
 {
 	AddComponent<TransformComponent>();
+	SetName(_T("GameObject"));
 }
 
 GameObject::GameObject(const std::wstring& name)

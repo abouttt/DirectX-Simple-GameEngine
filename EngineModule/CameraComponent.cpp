@@ -1,6 +1,7 @@
 #include "pch.h"
 
 #include <MathUtil.h>
+#include <Matrix4x4.h>
 #include <Vector3.h>
 
 #include "CameraComponent.h"
@@ -13,8 +14,6 @@ CameraComponent::CameraComponent()
 	: mFov(60)
 	, mNear(0.3f)
 	, mFar(1000.f)
-	, mViewMat()
-	, mProjMat()
 {
 	mAllCamerasPtr.emplace_back(this);
 }
@@ -85,8 +84,9 @@ void CameraComponent::SetFar(const float value)
 	mFar = value;
 }
 
-const D3DXMATRIX& CameraComponent::GetViewMatrix()
+const Matrix4x4 CameraComponent::GetViewMatrix()
 {
+	Matrix4x4 viewMat;
 	Vector3 right = GetTransform()->GetLocalAxisX();
 	Vector3 up = GetTransform()->GetLocalAxisY();
 	Vector3 look = GetTransform()->GetLocalAxisZ();
@@ -96,24 +96,20 @@ const D3DXMATRIX& CameraComponent::GetViewMatrix()
 	float y = -Vector3::Dot(up, pos);
 	float z = -Vector3::Dot(look, pos);
 
-	mViewMat(0, 0) = right.X; mViewMat(0, 1) = up.X; mViewMat(0, 2) = look.X; mViewMat(0, 3) = 0.f;
-	mViewMat(1, 0) = right.Y; mViewMat(1, 1) = up.Y; mViewMat(1, 2) = look.Y; mViewMat(1, 3) = 0.f;
-	mViewMat(2, 0) = right.Z; mViewMat(2, 1) = up.Z; mViewMat(2, 2) = look.Z; mViewMat(2, 3) = 0.f;
-	mViewMat(3, 0) = x;       mViewMat(3, 1) = y;    mViewMat(3, 2) = z;      mViewMat(3, 3) = 1.f;
+	viewMat(0, 0) = right.X; viewMat(0, 1) = up.X; viewMat(0, 2) = look.X; viewMat(0, 3) = 0.f;
+	viewMat(1, 0) = right.Y; viewMat(1, 1) = up.Y; viewMat(1, 2) = look.Y; viewMat(1, 3) = 0.f;
+	viewMat(2, 0) = right.Z; viewMat(2, 1) = up.Z; viewMat(2, 2) = look.Z; viewMat(2, 3) = 0.f;
+	viewMat(3, 0) = x;       viewMat(3, 1) = y;    viewMat(3, 2) = z;      viewMat(3, 3) = 1.f;
 
-	return mViewMat;
+	return viewMat;
 }
 
-const D3DXMATRIX& CameraComponent::GetProjectionMatrix(const int width, const int height)
+const Matrix4x4 CameraComponent::GetProjectionMatrix(const int width, const int height)
 {
-	D3DXMatrixPerspectiveFovLH(
-		&mProjMat,
+	return Matrix4x4::Perspective(
 		Math::Deg2Rad(static_cast<float>(mFov)),
 		static_cast<float>(width) / static_cast<float>(height),
-		mNear,
-		mFar);
-
-	return mProjMat;
+		mNear, mFar);
 }
 
 void CameraComponent::OnEnable()

@@ -1,11 +1,13 @@
 #pragma once
 
+class GameEngine;
 class GameObject;
 class TransformComponent;
 
 class Component
 {
 public:
+	friend class GameEngine;
 	friend class GameObject;
 
 public:
@@ -22,7 +24,11 @@ public:
 	void SetName(const std::wstring& name);
 	void SetTag(const std::wstring& tag);
 
+protected:
+	GameEngine& GetEngine();
+
 private:
+	static GameEngine* mGameEnginePtr;
 	bool mbDestroyed;
 	GameObject* mOwnerPtr;
 };

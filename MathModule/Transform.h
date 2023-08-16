@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Vector3.h"
-#include "Quaternion.h"
+
+struct Matrix4x4;
 
 struct Transform
 {
@@ -21,7 +22,7 @@ public:
 	Vector3 GetAxisX() const;
 	Vector3 GetAxisY() const;
 	Vector3 GetAxisZ() const;
-	D3DXMATRIX GetMatrix() const;
+	Matrix4x4 GetMatrix() const;
 
 	void SetPosition(const Vector3& position);
 	void SetRotation(const Quaternion& rotation);
