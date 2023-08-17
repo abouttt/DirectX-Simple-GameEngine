@@ -101,19 +101,35 @@ Vector3 Vector2::ToVector3() const
 	return Vector3(X, Y, 0.f);
 }
 
-Vector2 Vector2::operator-()
+Vector2::operator float* ()
+{
+	return (float*)&X;
+}
+
+Vector2::operator const float* () const
+{
+	return (const float*)&X;
+}
+
+Vector2 Vector2::operator+() const
+{
+	return Vector2(+X, +Y);
+}
+
+Vector2 Vector2::operator-() const
 {
 	return Vector2(-X, -Y);
 }
 
-Vector2 Vector2::operator*(const float d) const
+Vector2 Vector2::operator*(const float f) const
 {
-	return Vector2(X * d, Y * d);
+	return Vector2(X * f, Y * f);
 }
 
-Vector2 Vector2::operator/(const float d) const
+Vector2 Vector2::operator/(const float f) const
 {
-	return Vector2(X / d, Y / d);
+	float fInv = 1.f / f;
+	return Vector2(X / fInv, Y / fInv);
 }
 
 Vector2 Vector2::operator+(const Vector2& other) const
@@ -131,31 +147,32 @@ Vector2 Vector2::operator*(const Vector2& other) const
 	return Vector2(X * other.X, Y * other.Y);
 }
 
-Vector2 Vector2::operator+=(const Vector2& other)
+Vector2& Vector2::operator+=(const Vector2& other)
 {
 	X += other.X;
 	Y += other.Y;
 	return *this;
 }
 
-Vector2 Vector2::operator-=(const Vector2& other)
+Vector2& Vector2::operator-=(const Vector2& other)
 {
 	X -= other.X;
 	Y -= other.Y;
 	return *this;
 }
 
-Vector2 Vector2::operator*=(const float d)
+Vector2& Vector2::operator*=(const float f)
 {
-	X *= d;
-	Y *= d;
+	X *= f;
+	Y *= f;
 	return *this;
 }
 
-Vector2 Vector2::operator/=(const float d)
+Vector2& Vector2::operator/=(const float f)
 {
-	X /= d;
-	Y /= d;
+	float fInv = 1.f / f;
+	X /= fInv;
+	Y /= fInv;
 	return *this;
 }
 

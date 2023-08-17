@@ -130,19 +130,35 @@ Quaternion Vector3::ToQuaternion() const
 	return q;
 }
 
+Vector3::operator float* ()
+{
+	return (float*)&X;
+}
+
+Vector3::operator const float* () const
+{
+	return (const float*)&X;
+}
+
+Vector3 Vector3::operator+() const
+{
+	return Vector3(+X, +Y, +Z);
+}
+
 Vector3 Vector3::operator-() const
 {
 	return Vector3(-X, -Y, -Z);
 }
 
-Vector3 Vector3::operator*(const float d) const
+Vector3 Vector3::operator*(const float f) const
 {
-	return Vector3(X * d, Y * d, Z * d);
+	return Vector3(X * f, Y * f, Z * f);
 }
 
-Vector3 Vector3::operator/(const float d) const
+Vector3 Vector3::operator/(const float f) const
 {
-	return Vector3(X / d, Y / d, Z / d);
+	float fInv = 1.f / f;
+	return Vector3(X / fInv, Y / fInv, Z / fInv);
 }
 
 Vector3 Vector3::operator+(const Vector3& other) const
@@ -160,7 +176,7 @@ Vector3 Vector3::operator*(const Vector3& other) const
 	return Vector3(X * other.X, Y * other.Y, Z * other.Z);
 }
 
-Vector3 Vector3::operator+=(const Vector3& other)
+Vector3& Vector3::operator+=(const Vector3& other)
 {
 	X += other.X;
 	Y += other.Y;
@@ -168,7 +184,7 @@ Vector3 Vector3::operator+=(const Vector3& other)
 	return *this;
 }
 
-Vector3 Vector3::operator-=(const Vector3& other)
+Vector3& Vector3::operator-=(const Vector3& other)
 {
 	X -= other.X;
 	Y -= other.Y;
@@ -176,19 +192,20 @@ Vector3 Vector3::operator-=(const Vector3& other)
 	return *this;
 }
 
-Vector3 Vector3::operator*=(const float d)
+Vector3& Vector3::operator*=(const float f)
 {
-	X *= d;
-	Y *= d;
-	Z *= d;
+	X *= f;
+	Y *= f;
+	Z *= f;
 	return *this;
 }
 
-Vector3 Vector3::operator/=(const float d)
+Vector3& Vector3::operator/=(const float f)
 {
-	X /= d;
-	Y /= d;
-	Z /= d;
+	float fInv = 1.f / f;
+	X /= fInv;
+	Y /= fInv;
+	Z /= fInv;
 	return *this;
 }
 

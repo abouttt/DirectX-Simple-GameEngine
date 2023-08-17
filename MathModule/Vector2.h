@@ -27,18 +27,22 @@ struct Vector2
 	Vector3 ToVector3() const;
 
 	// ¿¬»êÀÚ
-	Vector2 operator-();
+	operator float* ();
+	operator const float* () const;
 
-	Vector2 operator*(const float d) const;
-	Vector2 operator/(const float d) const;
+	Vector2 operator+() const;
+	Vector2 operator-() const;
+
+	Vector2 operator*(const float f) const;
+	Vector2 operator/(const float f) const;
 	Vector2 operator-(const Vector2& other) const;
 	Vector2 operator+(const Vector2& other) const;
 	Vector2 operator*(const Vector2& other) const;
 
-	Vector2 operator*=(const float d);
-	Vector2 operator/=(const float d);
-	Vector2 operator+=(const Vector2& other);
-	Vector2 operator-=(const Vector2& other);
+	Vector2& operator*=(const float f);
+	Vector2& operator/=(const float f);
+	Vector2& operator+=(const Vector2& other);
+	Vector2& operator-=(const Vector2& other);
 
 	bool operator==(const Vector2& other) const;
 	bool operator!=(const Vector2& other) const;
