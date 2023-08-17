@@ -90,8 +90,8 @@ const Matrix4x4 CameraComponent::GetViewMatrix()
 	Vector3 right = GetTransform()->GetLocalAxisX();
 	Vector3 up = GetTransform()->GetLocalAxisY();
 	Vector3 look = GetTransform()->GetLocalAxisZ();
-
 	Vector3 pos = GetTransform()->GetPosition();
+
 	float x = -Vector3::Dot(right, pos);
 	float y = -Vector3::Dot(up, pos);
 	float z = -Vector3::Dot(look, pos);

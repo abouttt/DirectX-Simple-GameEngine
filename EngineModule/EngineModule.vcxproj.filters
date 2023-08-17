@@ -75,6 +75,12 @@
     <ClInclude Include="BehaviorComponent.h">
       <Filter>Components\Public</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Managers\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Objects\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -106,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="BehaviorComponent.cpp">
       <Filter>Components\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Managers\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Objects\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

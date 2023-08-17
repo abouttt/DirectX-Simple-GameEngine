@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Color.h"
+
 class RenderManager
 {
 public:
@@ -12,8 +14,8 @@ public:
 public:
 	int GetWidth();
 	int GetHeight();
-	D3DCOLOR GetBackgroundColor();
-	void SetBackgroundColor(const D3DCOLOR color);
+	Color GetBackgroundColor();
+	void SetBackgroundColor(const Color& color);
 
 private:
 	void preRender();
@@ -33,6 +35,6 @@ private:
 	int mWidth;
 	int mHeight;
 	IDirect3DDevice9* mD3DDevice;
-	D3DCOLOR mBackgroundColor;
+	Color mBackgroundColor;
 };
 

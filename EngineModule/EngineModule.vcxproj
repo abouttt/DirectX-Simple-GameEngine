@@ -150,18 +150,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CameraComponent.h" />
+    <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="RenderManager.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="BehaviorComponent.h" />
     <ClInclude Include="TransformComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CameraComponent.cpp" />
+    <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -173,6 +176,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="RenderManager.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
     <ClCompile Include="BehaviorComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />

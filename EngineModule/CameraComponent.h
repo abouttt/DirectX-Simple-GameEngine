@@ -2,6 +2,8 @@
 
 #include "BehaviorComponent.h"
 
+struct Matrix4x4;
+
 class CameraComponent : public BehaviorComponent
 {
 public:

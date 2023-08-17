@@ -10,7 +10,7 @@ RenderManager::RenderManager()
 	, mWidth(0)
 	, mHeight(0)
 	, mD3DDevice(nullptr)
-	, mBackgroundColor(D3DCOLOR_XRGB(128, 128, 128))
+	, mBackgroundColor(Color::Grey)
 {
 }
 
@@ -29,12 +29,12 @@ int RenderManager::GetHeight()
 	return mHeight;
 }
 
-D3DCOLOR RenderManager::GetBackgroundColor()
+Color RenderManager::GetBackgroundColor()
 {
 	return mBackgroundColor;
 }
 
-void RenderManager::SetBackgroundColor(const D3DCOLOR color)
+void RenderManager::SetBackgroundColor(const Color& color)
 {
 	mBackgroundColor = color;
 }
