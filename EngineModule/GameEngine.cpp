@@ -6,6 +6,7 @@ GameEngine::GameEngine()
 	: mbInit(false)
 	, mInput()
 	, mTime()
+	, mResources()
 {
 }
 
@@ -16,8 +17,9 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 		return false;
 	}
 
-	if (!mRenderer.init(hWnd, width, height, bWindowed) ||
-		!mInput.init(hInstance, hWnd))
+	if (!mInput.init(hInstance, hWnd) ||
+		!mRenderer.init(hWnd, width, height, bWindowed) ||
+		!mResources.init(mRenderer.mD3DDevice))
 	{
 		return false;
 	}
@@ -70,4 +72,9 @@ TimeManager& GameEngine::GetTime()
 RenderManager& GameEngine::GetRenderer()
 {
 	return mRenderer;
+}
+
+ResourceManager& GameEngine::GetResources()
+{
+	return mResources;
 }

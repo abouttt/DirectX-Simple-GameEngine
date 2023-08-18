@@ -3,6 +3,7 @@
 #include "InputManager.h"
 #include "TimeManager.h"
 #include "RenderManager.h"
+#include "ResourceManager.h"
 
 class GameEngine
 {
@@ -17,11 +18,13 @@ public:
 	InputManager& GetInput();
 	TimeManager& GetTime();
 	RenderManager& GetRenderer();
+	ResourceManager& GetResources();
 
 private:
 	bool mbInit;
 	InputManager mInput;
 	TimeManager mTime;
 	RenderManager mRenderer;
+	ResourceManager mResources;
 };
 

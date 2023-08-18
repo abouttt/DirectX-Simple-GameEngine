@@ -121,7 +121,7 @@ bool RenderManager::initDevice(const HWND hWnd, const bool bWindowed)
 	d3d9 = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d9)
 	{
-		::MessageBox(nullptr, _T("RenderEngine/initDevice/Direct3DCreate9 : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
+		::MessageBox(nullptr, _T("RenderEngine - initDevice()/Direct3DCreate9() : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
 		return false;
 	}
 
@@ -155,7 +155,7 @@ bool RenderManager::initDevice(const HWND hWnd, const bool bWindowed)
 		hr = d3d9->CreateDevice(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd, vp, &d3dpp, &mD3DDevice);
 		if (FAILED(hr))
 		{
-			::MessageBox(nullptr, _T("RenderEngine/initDevice/CreateDevice : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
+			::MessageBox(nullptr, _T("RenderEngine - initDevice()/CreateDevice() : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
 			return false;
 		}
 	}

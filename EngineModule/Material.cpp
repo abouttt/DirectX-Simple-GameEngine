@@ -5,9 +5,17 @@
 
 Material::Material(const std::wstring& name)
 	: mName(name)
-	, mNativeMaterial(engineutil::WHITE_MTRL)
-	, mTexturePtr(nullptr)
 	, mRenderingMode(eRenderingMode::Opaque)
+	, mTexturePtr(nullptr)
+	, mNativeMaterial(engineutil::WHITE_MTRL)
+{
+}
+
+Material::Material(const std::wstring& name, const eRenderingMode mode, const D3DMATERIAL9& nativeMaterial, Texture* const texture)
+	: mName(name)
+	, mRenderingMode(mode)
+	, mTexturePtr(texture)
+	, mNativeMaterial(nativeMaterial)
 {
 }
 

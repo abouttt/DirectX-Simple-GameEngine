@@ -13,5 +13,6 @@
 #include <memory>
 #include <string>
 #include <tchar.h>
+#include <unordered_map>
 #include <vector>
 #include <windows.h>

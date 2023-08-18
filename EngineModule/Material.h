@@ -1,14 +1,15 @@
 #pragma once
 
+#include "Color.h"
 #include "Types.h"
 
-struct Color;
 class Texture;
 
 class Material
 {
 public:
 	Material(const std::wstring& name);
+	Material(const std::wstring& name, const eRenderingMode mode, const D3DMATERIAL9& nativeMaterial, Texture* const texture);
 	~Material();
 
 public:
@@ -25,7 +26,8 @@ public:
 
 private:
 	std::wstring mName;
-
+	eRenderingMode mRenderingMode;
+	Texture* mTexturePtr;
 	union
 	{
 		struct
@@ -39,8 +41,5 @@ private:
 
 		D3DMATERIAL9 mNativeMaterial;
 	};
-
-	Texture* mTexturePtr;
-	eRenderingMode mRenderingMode;
 };
 
