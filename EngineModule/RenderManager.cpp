@@ -16,7 +16,7 @@ RenderManager::RenderManager()
 	, mHeight(0)
 	, mD3DDevice(nullptr)
 	, mBackgroundColor(Color::Grey)
-	, mAlphaRenderBegin()
+	, mAlphaRenderBegin(MeshComponent::mTrueContainerPtr.end())
 {
 }
 
@@ -127,18 +127,16 @@ void RenderManager::updateCamera()
 void RenderManager::updateLights()
 {
 	// 활성화
-	for (auto it = LightComponent::mTrueContainerPtr.begin(); it != LightComponent::mTrueContainerPtr.end(); ++it)
+	for (auto light : LightComponent::mTrueContainerPtr)
 	{
-		auto light = *it;
 		light->updatePositionAndDirection();
 		mD3DDevice->SetLight(light->mIndex, &light->mNativeLight);
 		mD3DDevice->LightEnable(light->mIndex, true);
 	}
 
-	// 비활성화
-	for (auto it = LightComponent::mFalseContainerPtr.begin(); it != LightComponent::mFalseContainerPtr.end(); ++it)
+	for (auto light : LightComponent::mFalseContainerPtr)
 	{
-		mD3DDevice->LightEnable((*it)->mIndex, false);
+		mD3DDevice->LightEnable(light->mIndex, false);
 	}
 }
 
@@ -146,7 +144,7 @@ void RenderManager::partitionMeshes()
 {
 	// 투명, 불투명 나누기.
 	mAlphaRenderBegin = std::partition(MeshComponent::mTrueContainerPtr.begin(), MeshComponent::mTrueContainerPtr.end(),
-		[&](MeshComponent* meshComponent)
+		[](MeshComponent* meshComponent)
 		{
 			return meshComponent->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque;
 		});
@@ -158,21 +156,16 @@ void RenderManager::sortTransparencyMeshes()
 	auto camPos = CameraComponent::GetCurrentCamera()->GetTransform()->GetPosition();
 	Vector3 gapA{};
 	Vector3 gapB{};
-	MeshComponent::mTrueContainerPtr.sort(
+	std::sort(mAlphaRenderBegin, MeshComponent::mTrueContainerPtr.end(),
 		[&camPos, &gapA, &gapB](MeshComponent* a, MeshComponent* b)
 		{
-			if (a->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque)
-			{
-				return false;
-			}
-
-			gapA = camPos - a->GetTransform()->GetPosition();
-			gapB = camPos - b->GetTransform()->GetPosition();
+			auto gapA = camPos - a->GetTransform()->GetPosition();
+			auto gapB = camPos - b->GetTransform()->GetPosition();
 			return gapA.GetSizeSq() > gapB.GetSizeSq();
 		});
 }
 
-void RenderManager::renderMeshes(std::list<MeshComponent*>::iterator begin, std::list<MeshComponent*>::iterator end)
+void RenderManager::renderMeshes(std::vector<MeshComponent*>::iterator begin, std::vector<MeshComponent*>::iterator end)
 {
 	for (auto& it = begin; it != end; ++it)
 	{

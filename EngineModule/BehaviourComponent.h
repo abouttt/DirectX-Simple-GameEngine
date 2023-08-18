@@ -5,11 +5,11 @@
 class BehaviourComponent : public Component
 {
 public:
-	BehaviourComponent(
-		std::list<BehaviourComponent*>& allContainerPtrRef,
-		std::list<BehaviourComponent*>& trueContainerPtrRef,
-		std::list<BehaviourComponent*>& falseContainerPtrRef);
-	virtual ~BehaviourComponent();
+	friend class GameObject;
+
+public:
+	BehaviourComponent();
+	virtual ~BehaviourComponent() = default;
 
 public:
 	bool IsActiveAndEnabled() const;
@@ -17,14 +17,11 @@ public:
 	virtual void SetEnabled(const bool bEnabled);
 
 protected:
-	void inAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer);
+	void InAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer);
 	virtual void OnEnable() abstract;
 	virtual void OnDisable() abstract;
 
 protected:
 	bool mbEnabled;
-	std::list<BehaviourComponent*>& mAllContainerPtrRef;
-	std::list<BehaviourComponent*>& mTrueContainerPtrRef;
-	std::list<BehaviourComponent*>& mFalseContainerPtrRef;
 };
 

@@ -4,6 +4,10 @@
 
 class DevScene : public Scene
 {
+public:
+	DevScene(const std::wstring& name);
+	~DevScene();
+
 protected:
 	void Init() override;
 };

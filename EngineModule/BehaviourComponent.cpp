@@ -1,29 +1,9 @@
 #include "pch.h"
 #include "BehaviourComponent.h"
 
-BehaviourComponent::BehaviourComponent(
-	std::list<BehaviourComponent*>& allContainerPtrRef,
-	std::list<BehaviourComponent*>& trueContainerPtrRef,
-	std::list<BehaviourComponent*>& falseContainerPtrRef)
+BehaviourComponent::BehaviourComponent()
     : mbEnabled(true)
-	, mAllContainerPtrRef(allContainerPtrRef)
-	, mTrueContainerPtrRef(trueContainerPtrRef)
-	, mFalseContainerPtrRef(falseContainerPtrRef)
 {
-	mAllContainerPtrRef.emplace_back(this);
-	inAndOutContainer(mTrueContainerPtrRef, mFalseContainerPtrRef);
-}
-
-BehaviourComponent::~BehaviourComponent()
-{
-	for (auto it = mAllContainerPtrRef.begin(); it != mAllContainerPtrRef.end();)
-	{
-		if (*it == this)
-		{
-			mAllContainerPtrRef.erase(it);
-			break;
-		}
-	}
 }
 
 bool BehaviourComponent::IsActiveAndEnabled() const
@@ -45,15 +25,6 @@ void BehaviourComponent::SetEnabled(const bool bEnabled)
 
     mbEnabled = bEnabled;
 
-	if (bEnabled)
-	{
-		inAndOutContainer(mTrueContainerPtrRef, mFalseContainerPtrRef);
-	}
-	else
-	{
-		inAndOutContainer(mFalseContainerPtrRef, mTrueContainerPtrRef);
-	}
-
     if (!IsActive())
     {
         return;
@@ -69,16 +40,13 @@ void BehaviourComponent::SetEnabled(const bool bEnabled)
     }
 }
 
-void BehaviourComponent::inAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer)
+void BehaviourComponent::InAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer)
 {
-	for (auto it = outContainer.begin(); it != outContainer.end();)
-	{
-		if (*it == this)
-		{
-			outContainer.erase(it);
-			break;
-		}
-	}
+    auto it = std::find(outContainer.begin(), outContainer.end(), this);
+    if (it != outContainer.end())
+    {
+        outContainer.erase(it);
+    }
 
-	inContaier.emplace_back(this);
+    inContaier.emplace_back(this);
 }

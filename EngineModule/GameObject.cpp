@@ -1,4 +1,5 @@
 #include "pch.h"
+#include "BehaviourComponent.h"
 #include "GameObject.h"
 
 std::list<GameObject*> GameObject::mContainerPtr;
@@ -81,6 +82,23 @@ void GameObject::SetActive(const bool bActive)
 	else
 	{
 		inAndOutContainer(mFalseContainerPtr, mTrueContainerPtr);
+	}
+
+	for (auto behaviour : GetComponents<BehaviourComponent>())
+	{
+		if (!behaviour->IsEnabled())
+		{
+			continue;
+		}
+
+		if (bActive)
+		{
+			behaviour->OnEnable();
+		}
+		else
+		{
+			behaviour->OnDisable();
+		}
 	}
 
 	auto transform = GetTransform();

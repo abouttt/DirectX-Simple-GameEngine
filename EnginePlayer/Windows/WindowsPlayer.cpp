@@ -49,7 +49,7 @@ namespace wndplayer
 
         if (!::RegisterClass(&wc))
         {
-            ::MessageBox(nullptr, _T("InitWindowsApp/RegisterClass : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
+            ::MessageBox(nullptr, _T("InitWindowsApp()/RegisterClass() : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
             return false;
         }
 
@@ -66,7 +66,7 @@ namespace wndplayer
 
         if (!gWndHandler)
         {
-            ::MessageBox(nullptr, _T("InitWindowsApp/CreateWindow : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
+            ::MessageBox(nullptr, _T("InitWindowsApp()/CreateWindow() : FAILED"), _T("Error"), MB_ICONEXCLAMATION | MB_OK);
             return false;
         }
 

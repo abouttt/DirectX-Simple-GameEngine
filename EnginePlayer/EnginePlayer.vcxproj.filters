@@ -37,7 +37,13 @@
       <Filter>Private\Windows</Filter>
     </ClCompile>
     <ClCompile Include="DevScene.cpp">
-      <Filter>소스 파일</Filter>
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraController.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Rotator.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -51,7 +57,13 @@
       <Filter>Private\Windows</Filter>
     </ClInclude>
     <ClInclude Include="DevScene.h">
-      <Filter>헤더 파일</Filter>
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraController.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Rotator.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

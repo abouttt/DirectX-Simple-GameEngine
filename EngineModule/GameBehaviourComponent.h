@@ -1,5 +1,19 @@
 #pragma once
 
+#include <MathUtil.h>
+#include <Vector3.h>
+#include <Quaternion.h>
+#include <Matrix4x4.h>
+
+#include "InputManager.h"
+#include "RenderManager.h"
+#include "ResourceManager.h"
+#include "SceneManager.h"
+#include "TimeManager.h"
+
+#include "GameObject.h"
+#include "Types.h"
+
 #include "BehaviourComponent.h"
 
 class GameBehaviourComponent : public BehaviourComponent
@@ -21,9 +35,9 @@ protected:	// Game Logic Event.
 	virtual void OnDestroy();
 
 private:
-	static std::list<GameBehaviourComponent*> mAllContainerPtr;
-	static std::list<GameBehaviourComponent*> mTrueContainerPtr;
-	static std::list<GameBehaviourComponent*> mFalseContainerPtr;
+	static std::vector<GameBehaviourComponent*> mAllContainerPtr;
+	static std::vector<GameBehaviourComponent*> mTrueContainerPtr;
+	static std::vector<GameBehaviourComponent*> mFalseContainerPtr;
 
 	bool mbStarted;
 };

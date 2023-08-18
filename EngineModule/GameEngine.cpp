@@ -2,13 +2,7 @@
 #include "EngineUtil.h"
 #include "GameEngine.h"
 #include "Types.h"
-
-#include "GameObject.h"
-
-#include "Component.h"
-#include "CameraComponent.h"
-#include "MeshComponent.h"
-#include "LightComponent.h"
+#include "Scene.h"
 
 GameEngine::GameEngine()
 	: mbInit(false)
@@ -16,7 +10,7 @@ GameEngine::GameEngine()
 	, mRenderer()
 	, mResources()
 	, mTime()
-	, mScene()
+	, mScenes()
 {
 }
 
@@ -40,27 +34,10 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 
 	mTime.init();
 
-	Component::mGameEnginePtr = this;
+	Component::mEnginePtr = this;
+	Scene::mEnginePtr = this;
 
 	loadResources();
-
-	//////////
-	auto camera = std::make_unique<GameObject>();
-	camera->GetTransform()->SetPosition(Vector3(0.f, 0.f, -10.f));
-	camera->AddComponent<CameraComponent>();
-	mScene.emplace_back(std::move(camera));
-
-	auto light = std::make_unique<GameObject>();
-	light->GetTransform()->SetRotation(Vector3(10, -10, 10));
-	light->AddComponent<LightComponent>(eLightType::Directional);
-	mScene.emplace_back(std::move(light));
-
-	auto cube = std::make_unique<GameObject>();
-	cube->GetTransform()->SetPosition(Vector3(0.f, 0.f, 0.f));
-	cube->AddComponent<MeshComponent>(mResources.GetMesh(_T("Cube")));
-	cube->GetComponent<MeshComponent>()->SetMaterial(mResources.GetMaterial(_T("Crate")));
-	mScene.emplace_back(std::move(cube));
-	//////////
 
 	return true;
 }
@@ -73,6 +50,13 @@ void GameEngine::Release()
 
 void GameEngine::OnTick()
 {
+	if (mScenes.mbReserved)
+	{
+		mInput.clear();
+		mTime.clear();
+		mScenes.loadScene();
+	}
+
 	// 성능 측정 시작
 	mTime.beginTick();
 
@@ -80,6 +64,8 @@ void GameEngine::OnTick()
 	mInput.update();
 
 	// Game Logic
+	mScenes.GetActiveScene()->update();
+	mScenes.GetActiveScene()->lateUpdate();
 	
 	// Scene Rendering
 	mRenderer.preRender();
@@ -98,11 +84,6 @@ InputManager& GameEngine::GetInput()
 	return mInput;
 }
 
-TimeManager& GameEngine::GetTime()
-{
-	return mTime;
-}
-
 RenderManager& GameEngine::GetRenderer()
 {
 	return mRenderer;
@@ -111,6 +92,16 @@ RenderManager& GameEngine::GetRenderer()
 ResourceManager& GameEngine::GetResources()
 {
 	return mResources;
+}
+
+TimeManager& GameEngine::GetTime()
+{
+	return mTime;
+}
+
+SceneManager& GameEngine::GetScenes()
+{
+	return mScenes;
 }
 
 void GameEngine::loadResources()

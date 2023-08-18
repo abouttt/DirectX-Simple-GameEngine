@@ -35,7 +35,7 @@ protected:
 	TimeManager& GetTime();
 
 private:
-	static GameEngine* mGameEnginePtr;
+	static GameEngine* mEnginePtr;
 	bool mbDestroyed;
 	GameObject* mOwnerPtr;
 };

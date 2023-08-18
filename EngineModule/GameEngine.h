@@ -3,9 +3,9 @@
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "TimeManager.h"
 
-//#include "GameObject.h"
 class GameObject;
 
 class GameEngine
@@ -20,9 +20,10 @@ public:
 	void OnTick();
 
 	InputManager& GetInput();
-	TimeManager& GetTime();
 	RenderManager& GetRenderer();
 	ResourceManager& GetResources();
+	TimeManager& GetTime();
+	SceneManager& GetScenes();
 
 private:
 	void loadResources();
@@ -33,7 +34,6 @@ private:
 	RenderManager mRenderer;
 	ResourceManager mResources;
 	TimeManager mTime;
-
-	std::vector<std::unique_ptr<GameObject>> mScene;
+	SceneManager mScenes;
 };
 

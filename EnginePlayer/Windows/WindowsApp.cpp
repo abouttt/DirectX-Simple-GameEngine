@@ -4,6 +4,7 @@
 
 #include "WindowsPlayer.h"
 #include "WindowsUtil.h"
+#include "..\DevScene.h"
 
 int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ PSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -14,6 +15,9 @@ int CALLBACK WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
 
 	GameEngine gameEngine;
 	gameEngine.Init(hInstance, wndplayer::gWndHandler, wndplayer::gWidth, wndplayer::gHeight, true);
+
+	gameEngine.GetScenes().CreateScene<DevScene>(_T("DevScene"));
+	gameEngine.GetScenes().LoadScene(_T("DevScene"));
 
 	wndutil::Show(wndplayer::gWndHandler);
 	wndutil::SetCenterWindow(wndplayer::gWndHandler);

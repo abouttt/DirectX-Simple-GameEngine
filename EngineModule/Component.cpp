@@ -9,7 +9,7 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 
-GameEngine* Component::mGameEnginePtr = nullptr;
+GameEngine* Component::mEnginePtr = nullptr;
 
 Component::Component()
 	: mbDestroyed(false)
@@ -54,20 +54,20 @@ void Component::SetTag(const std::wstring& tag)
 
 InputManager& Component::GetInput()
 {
-	return mGameEnginePtr->GetInput();
+	return mEnginePtr->GetInput();
 }
 
 RenderManager& Component::GetRenderer()
 {
-	return mGameEnginePtr->GetRenderer();
+	return mEnginePtr->GetRenderer();
 }
 
 ResourceManager& Component::GetResources()
 {
-	return mGameEnginePtr->GetResources();
+	return mEnginePtr->GetResources();
 }
 
 TimeManager& Component::GetTime()
 {
-	return mGameEnginePtr->GetTime();
+	return mEnginePtr->GetTime();
 }

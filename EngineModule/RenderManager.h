@@ -29,7 +29,7 @@ private:
 	void updateLights();
 	void partitionMeshes();
 	void sortTransparencyMeshes();
-	void renderMeshes(std::list<MeshComponent*>::iterator begin, std::list<MeshComponent*>::iterator end);
+	void renderMeshes(std::vector<MeshComponent*>::iterator begin, std::vector<MeshComponent*>::iterator end);
 
 	bool init(const HWND hWnd, const int width, const int height, const bool bWindowed);
 	bool initDevice(const HWND hWnd, const bool bWindowed);
@@ -43,6 +43,6 @@ private:
 	IDirect3DDevice9* mD3DDevice;
 	Color mBackgroundColor;
 
-	std::list<MeshComponent*>::iterator mAlphaRenderBegin;
+	std::vector<MeshComponent*>::iterator mAlphaRenderBegin;
 };
 

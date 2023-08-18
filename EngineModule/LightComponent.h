@@ -30,9 +30,9 @@ private:
 	void updatePositionAndDirection();
 
 private:
-	static std::list<LightComponent*> mAllContainerPtr;
-	static std::list<LightComponent*> mTrueContainerPtr;
-	static std::list<LightComponent*> mFalseContainerPtr;
+	static std::vector<LightComponent*> mAllContainerPtr;
+	static std::vector<LightComponent*> mTrueContainerPtr;
+	static std::vector<LightComponent*> mFalseContainerPtr;
 	static DWORD mLightCount;
 
 	D3DLIGHT9 mNativeLight;

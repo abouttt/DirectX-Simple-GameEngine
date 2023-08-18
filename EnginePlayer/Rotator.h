@@ -1,0 +1,34 @@
+#pragma once
+
+#include "GameBehaviourComponent.h"
+
+class Rotator : public GameBehaviourComponent
+{
+public:
+	void Update() override
+	{
+		float speed = 50 * GetTime().GetDeltaTime();
+		GetTransform()->AddLocalRotation(Vector3(speed, speed, speed));
+	}
+
+	void Start() override
+	{
+		//Debug::Log(_T("Start"));
+	}
+
+	void OnEnable() override
+	{
+		//Debug::Log(_T("OnEnable"));
+	}
+
+	void OnDisable() override
+	{
+		//Debug::Log(_T("OnDisable"));
+	}
+
+	void OnDestroy() override
+	{
+		//Debug::Log(_T("OnDestroy"));
+	}
+};
+

@@ -70,7 +70,9 @@ Matrix4x4 Matrix4x4::Translate(const Vector3& v)
 Matrix4x4 Matrix4x4::Rotate(const Vector3& v)
 {
 	Matrix4x4 result;
-	D3DXMatrixRotationYawPitchRoll(&result.NativeMatrix, v.X, v.Y, v.Z);
+	Quaternion rotation;
+	D3DXQuaternionRotationYawPitchRoll(&rotation.NativeQuaternion, v.Y, v.X, v.Z);
+	D3DXMatrixRotationQuaternion(&result.NativeMatrix, &rotation.NativeQuaternion);
 	return result;
 }
 
@@ -168,53 +170,25 @@ Matrix4x4::operator const float* () const
 
 Matrix4x4& Matrix4x4::operator*=(const float d)
 {
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			m[row][col] *= d;
-		}
-	}
-
+	NativeMatrix *= d;
 	return *this;
 }
 
 Matrix4x4& Matrix4x4::operator/=(const float d)
 {
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			m[row][col] /= d;
-		}
-	}
-
+	NativeMatrix /= d;
 	return *this;
 }
 
 Matrix4x4& Matrix4x4::operator+=(const Matrix4x4& other)
 {
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			m[row][col] += other.m[row][col];
-		}
-	}
-
+	NativeMatrix += other.NativeMatrix;
 	return *this;
 }
 
 Matrix4x4& Matrix4x4::operator-=(const Matrix4x4& other)
 {
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			m[row][col] -= other.m[row][col];
-		}
-	}
-
+	NativeMatrix -= other.NativeMatrix;
 	return *this;
 }
 
@@ -227,75 +201,35 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other)
 Matrix4x4 Matrix4x4::operator*(float d)
 {
 	Matrix4x4 result;
-
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			result.m[row][col] = m[row][col] * d;
-		}
-	}
-
+	result.NativeMatrix = NativeMatrix * d;
 	return result;
 }
 
 Matrix4x4 Matrix4x4::operator/(float d)
 {
 	Matrix4x4 result;
-
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			result.m[row][col] = m[row][col] / d;
-		}
-	}
-
+	result.NativeMatrix = NativeMatrix / d;
 	return result;
 }
 
 Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other)
 {
 	Matrix4x4 result;
-
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			result.m[row][col] = m[row][col] + other.m[row][col];
-		}
-	}
-
+	result.NativeMatrix = NativeMatrix + other.NativeMatrix;
 	return result;
 }
 
 Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other)
 {
 	Matrix4x4 result;
-
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			result.m[row][col] = m[row][col] - other.m[row][col];
-		}
-	}
-
+	result.NativeMatrix = NativeMatrix - other.NativeMatrix;
 	return result;
 }
 
 Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other)
 {
 	Matrix4x4 result;
-
-	for (int row = 0; row < 4; row++)
-	{
-		for (int col = 0; col < 4; col++)
-		{
-			result.m[row][col] = m[row][col] * other.m[row][col];
-		}
-	}
-
+	D3DXMatrixMultiply(&result.NativeMatrix, &NativeMatrix, &other.NativeMatrix);
 	return result;
 }
 

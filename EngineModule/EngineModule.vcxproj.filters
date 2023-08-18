@@ -111,6 +111,9 @@
     <ClInclude Include="Scene.h">
       <Filter>Objects\Public</Filter>
     </ClInclude>
+    <ClInclude Include="SceneManager.h">
+      <Filter>Managers\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Objects\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneManager.cpp">
+      <Filter>Managers\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

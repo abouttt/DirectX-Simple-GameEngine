@@ -7,25 +7,18 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 
-std::list<CameraComponent*> CameraComponent::mAllContainerPtr;
-std::list<CameraComponent*> CameraComponent::mTrueContainerPtr;
-std::list<CameraComponent*> CameraComponent::mFalseContainerPtr;
+std::vector<CameraComponent*> CameraComponent::mAllContainerPtr;
+std::vector<CameraComponent*> CameraComponent::mTrueContainerPtr;
+std::vector<CameraComponent*> CameraComponent::mFalseContainerPtr;
 CameraComponent* CameraComponent::mCurrentCameraPtr = nullptr;
 
 CameraComponent::CameraComponent()
-	: BehaviourComponent(
-		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
-		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr))
-	, mFov(60)
+	: mFov(60)
 	, mNear(0.3f)
 	, mFar(1000.f)
 {
-	// 나중에 삭제
-	if (mCurrentCameraPtr == nullptr)
-	{
-		mCurrentCameraPtr = this;
-	}
+	mAllContainerPtr.emplace_back(this);
+	OnEnable();
 }
 
 CameraComponent::~CameraComponent()
@@ -123,6 +116,9 @@ const Matrix4x4 CameraComponent::GetProjectionMatrix(const int width, const int 
 
 void CameraComponent::OnEnable()
 {
+	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
+
 	if (!mCurrentCameraPtr)
 	{
 		mCurrentCameraPtr = this;
@@ -131,6 +127,9 @@ void CameraComponent::OnEnable()
 
 void CameraComponent::OnDisable()
 {
+	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr),
+		reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr));
+
 	if (mCurrentCameraPtr == this)
 	{
 		if (!mTrueContainerPtr.empty())

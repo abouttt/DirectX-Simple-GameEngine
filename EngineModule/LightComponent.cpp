@@ -7,21 +7,19 @@
 #include "TransformComponent.h"
 #include "Types.h"
 
-std::list<LightComponent*> LightComponent::mAllContainerPtr;
-std::list<LightComponent*> LightComponent::mTrueContainerPtr;
-std::list<LightComponent*> LightComponent::mFalseContainerPtr;
+std::vector<LightComponent*> LightComponent::mAllContainerPtr;
+std::vector<LightComponent*> LightComponent::mTrueContainerPtr;
+std::vector<LightComponent*> LightComponent::mFalseContainerPtr;
 DWORD LightComponent::mLightCount = 0;
 
 LightComponent::LightComponent(const eLightType lightType)
-	: BehaviourComponent(
-		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
-		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr))
-	, mNativeLight()
+	:  mNativeLight()
 	, mIndex(mLightCount++)
 {
 	SetLightType(lightType);
 	SetColor(Color::White);
+	mAllContainerPtr.emplace_back(this);
+	OnEnable();
 }
 
 LightComponent::~LightComponent()
@@ -60,10 +58,14 @@ void LightComponent::SetRange(const float range)
 
 void LightComponent::OnEnable()
 {
+	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 void LightComponent::OnDisable()
 {
+	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr),
+		reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr));
 }
 
 void LightComponent::initDirectionLight()

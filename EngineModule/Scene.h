@@ -8,6 +8,7 @@
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "TimeManager.h"
 
 #include "GameObject.h"
@@ -19,6 +20,7 @@ class Scene
 {
 public:
 	friend class GameEngine;
+	friend class SceneManager;
 
 public:
 	Scene(const std::wstring& name);
@@ -39,8 +41,6 @@ public:
 
 	GameObject* FindGameObject(const std::wstring& name);
 	GameObject* FindGameObjectWithTag(const std::wstring& tag);
-	template<typename T>
-	T* FindComponent();
 
 protected:
 	InputManager& GetInput();
@@ -61,17 +61,3 @@ private:
 	std::wstring mName;
 	std::vector<std::unique_ptr<GameObject>> mGameObjects;
 };
-
-template<typename T>
-inline T* Scene::FindComponent()
-{
-	for (auto it = GameObject::mTrueContainerPtr.begin(); it != GameObject::mTrueContainerPtr.end(); ++it)
-	{
-		if (auto component = it->GetComponent<T>())
-		{
-			return component;
-		}
-	}
-
-	return nullptr;
-}

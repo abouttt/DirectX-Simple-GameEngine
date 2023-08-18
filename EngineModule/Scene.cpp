@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "GameEngine.h"
-#include "ResourceManager.h" 
 #include "Scene.h"
 
 #include "CameraComponent.h"
@@ -135,28 +134,28 @@ TimeManager& Scene::GetTime()
 
 void Scene::update()
 {
-	for (auto it = GameBehaviourComponent::mTrueContainerPtr.begin(); it != GameBehaviourComponent::mFalseContainerPtr.end(); ++it)
+	for (auto gb : GameBehaviourComponent::mTrueContainerPtr)
 	{
-		if ((*it)->IsActive())
+		if (gb->IsActive())
 		{
-			if (!(*it)->mbStarted)
+			if (!gb->mbStarted)
 			{
-				(*it)->Start();
-				(*it)->mbStarted = true;
+				gb->Start();
+				gb->mbStarted = true;
 			}
 
-			(*it)->Update();
+			gb->Update();
 		}
 	}
 }
 
 void Scene::lateUpdate()
 {
-	for (auto it = GameBehaviourComponent::mTrueContainerPtr.begin(); it != GameBehaviourComponent::mFalseContainerPtr.end(); ++it)
+	for (auto gb : GameBehaviourComponent::mTrueContainerPtr)
 	{
-		if ((*it)->IsActive())
+		if (gb->IsActive())
 		{
-			(*it)->LateUpdate();
+			gb->LateUpdate();
 		}
 	}
 }
