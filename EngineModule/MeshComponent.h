@@ -1,11 +1,11 @@
 #pragma once
 
-#include "BehaviorComponent.h"
+#include "BehaviourComponent.h"
 
 class Mesh;
 class Material;
 
-class MeshComponent : public BehaviorComponent
+class MeshComponent : public BehaviourComponent
 {
 public:
 	friend class RenderManager;

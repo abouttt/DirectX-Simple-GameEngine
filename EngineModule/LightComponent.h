@@ -1,11 +1,11 @@
 #pragma once
 
-#include "BehaviorComponent.h"
+#include "BehaviourComponent.h"
 
 struct Color;
 enum class eLightType;
 
-class LightComponent : public BehaviorComponent
+class LightComponent : public BehaviourComponent
 {
 public:
 	friend class RenderManager;

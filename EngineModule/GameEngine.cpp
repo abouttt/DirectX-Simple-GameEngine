@@ -58,6 +58,7 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 	auto cube = std::make_unique<GameObject>();
 	cube->GetTransform()->SetPosition(Vector3(0.f, 0.f, 0.f));
 	cube->AddComponent<MeshComponent>(mResources.GetMesh(_T("Cube")));
+	cube->GetComponent<MeshComponent>()->SetMaterial(mResources.GetMaterial(_T("Crate")));
 	mScene.emplace_back(std::move(cube));
 	//////////
 
@@ -120,7 +121,17 @@ void GameEngine::loadResources()
 	mResources.CreateAndAddNativeMesh(_T("Quad"), engineutil::GetQuadMesh(mRenderer.mD3DDevice));
 
 	// Texture
+	mResources.LoadTexture(_T("Crate"), _T("Textures/crate.jpg"));
+	mResources.LoadTexture(_T("DoomGuy"), _T("Textures/doomguy.png"));
+	mResources.LoadTexture(_T("Cacodoom"), _T("Textures/cacodoom.png"));
+	mResources.LoadTexture(_T("Fire"), _T("Textures/fire.jpg"));
+	mResources.LoadTexture(_T("Ice"), _T("Textures/ice.jpg"));
 
 	// Material
 	mResources.CreateAndAddMaterial(_T("Default-Material"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, nullptr);
+	mResources.CreateAndAddMaterial(_T("Crate"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Crate")));
+	mResources.CreateAndAddMaterial(_T("DoomGuy"), eRenderingMode::Cutout, engineutil::WHITE_MTRL, mResources.GetTexture(_T("DoomGuy")));
+	mResources.CreateAndAddMaterial(_T("Cacodoom"), eRenderingMode::Cutout, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Cacodoom")));
+	mResources.CreateAndAddMaterial(_T("Fire"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Fire")));
+	mResources.CreateAndAddMaterial(_T("Ice"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Ice")));
 }

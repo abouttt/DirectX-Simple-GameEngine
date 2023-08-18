@@ -13,20 +13,19 @@ std::list<LightComponent*> LightComponent::mEnabledFalsePtr;
 DWORD LightComponent::mLightCount = 0;
 
 LightComponent::LightComponent(const eLightType lightType)
-	: mNativeLight()
+	: BehaviourComponent(
+		reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
+		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+	, mNativeLight()
 	, mIndex(mLightCount++)
 {
 	SetLightType(lightType);
 	SetColor(Color::White);
-	mContainerPtr.emplace_back(this);
-
-	//
-	OnEnable();
 }
 
 LightComponent::~LightComponent()
 {
-	mContainerPtr.erase(std::find(mContainerPtr.begin(), mContainerPtr.end(), this));
 }
 
 void LightComponent::SetLightType(const eLightType lightType)
@@ -61,30 +60,10 @@ void LightComponent::SetRange(const float range)
 
 void LightComponent::OnEnable()
 {
-	for (auto it = mEnabledFalsePtr.begin(); it != mEnabledFalsePtr.end();)
-	{
-		if (*it == this)
-		{
-			mEnabledFalsePtr.erase(it);
-			break;
-		}
-	}
-
-	mEnabledTruePtr.emplace_back(this);
 }
 
 void LightComponent::OnDisable()
 {
-	for (auto it = mEnabledTruePtr.begin(); it != mEnabledTruePtr.end();)
-	{
-		if (*it == this)
-		{
-			mEnabledTruePtr.erase(it);
-			break;
-		}
-	}
-
-	mEnabledFalsePtr.emplace_back(this);
 }
 
 void LightComponent::initDirectionLight()

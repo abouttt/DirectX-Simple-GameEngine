@@ -1,10 +1,10 @@
 #pragma once
 
-#include "BehaviorComponent.h"
+#include "BehaviourComponent.h"
 
 struct Matrix4x4;
 
-class CameraComponent : public BehaviorComponent
+class CameraComponent : public BehaviourComponent
 {
 public:
 	CameraComponent();

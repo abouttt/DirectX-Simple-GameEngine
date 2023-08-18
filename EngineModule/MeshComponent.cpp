@@ -15,38 +15,46 @@ std::list<MeshComponent*> MeshComponent::mEnabledTruePtr;
 std::list<MeshComponent*> MeshComponent::mEnabledFalsePtr;
 
 MeshComponent::MeshComponent()
-    : mMeshPtr(nullptr)
+    : BehaviourComponent(
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+    , mMeshPtr(nullptr)
     , mMaterialPtr(GetResources().GetMaterial(_T("Default-Material")))
 {
-    mContainerPtr.emplace_back(this);
-
-    //
-    OnEnable();
 }
 
 MeshComponent::MeshComponent(Mesh* const mesh)
-    : mMeshPtr(mesh)
+    : BehaviourComponent(
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+    , mMeshPtr(mesh)
     , mMaterialPtr(GetResources().GetMaterial(_T("Default-Material")))
 {
-    mContainerPtr.emplace_back(this);
-
-    //
-    OnEnable();
 }
 
 MeshComponent::MeshComponent(Mesh* const mesh, Material* const material)
-    : mMeshPtr(mesh)
+    : BehaviourComponent(
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
+        reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+    , mMeshPtr(mesh)
     , mMaterialPtr(material)
 {
-    mContainerPtr.emplace_back(this);
-
-    //
-    OnEnable();
 }
 
 MeshComponent::~MeshComponent()
 {
-    mContainerPtr.erase(std::find(mContainerPtr.begin(), mContainerPtr.end(), this));
+    for (auto it = mContainerPtr.begin(); it != mContainerPtr.end();)
+    {
+        if (*it == this)
+        {
+            mContainerPtr.erase(it);
+            break;
+        }
+    }
+
     mMeshPtr = nullptr;
     mMaterialPtr = nullptr;
 }
@@ -73,30 +81,10 @@ void MeshComponent::SetMaterial(Material* const material)
 
 void MeshComponent::OnEnable()
 {
-    for (auto it = mEnabledFalsePtr.begin(); it != mEnabledFalsePtr.end();)
-    {
-        if (*it == this)
-        {
-            mEnabledFalsePtr.erase(it);
-            break;
-        }
-    }
-
-    mEnabledTruePtr.emplace_back(this);
 }
 
 void MeshComponent::OnDisable()
 {
-    for (auto it = mEnabledTruePtr.begin(); it != mEnabledTruePtr.end();)
-    {
-        if (*it == this)
-        {
-            mEnabledTruePtr.erase(it);
-            break;
-        }
-    }
-
-    mEnabledFalsePtr.emplace_back(this);
 }
 
 void MeshComponent::render(IDirect3DDevice9* const device)

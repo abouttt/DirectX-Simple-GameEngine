@@ -13,12 +13,14 @@ std::list<CameraComponent*> CameraComponent::mEnabledFalsePtr;
 CameraComponent* CameraComponent::mCurrentCameraPtr = nullptr;
 
 CameraComponent::CameraComponent()
-	: mFov(60)
+	: BehaviourComponent(
+		reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
+		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+	, mFov(60)
 	, mNear(0.3f)
 	, mFar(1000.f)
 {
-	mContainerPtr.emplace_back(this);
-
 	// 나중에 삭제
 	if (mCurrentCameraPtr == nullptr)
 	{
@@ -28,7 +30,6 @@ CameraComponent::CameraComponent()
 
 CameraComponent::~CameraComponent()
 {
-	mContainerPtr.erase(std::find(mContainerPtr.begin(), mContainerPtr.end(), this));
 }
 
 std::vector<CameraComponent*> CameraComponent::GetAllCameras()
@@ -122,17 +123,6 @@ const Matrix4x4 CameraComponent::GetProjectionMatrix(const int width, const int 
 
 void CameraComponent::OnEnable()
 {
-	for (auto it = mEnabledFalsePtr.begin(); it != mEnabledFalsePtr.end();)
-	{
-		if (*it == this)
-		{
-			mEnabledFalsePtr.erase(it);
-			break;
-		}
-	}
-
-	mEnabledTruePtr.emplace_back(this);
-
 	if (!mCurrentCameraPtr)
 	{
 		mCurrentCameraPtr = this;
@@ -141,17 +131,6 @@ void CameraComponent::OnEnable()
 
 void CameraComponent::OnDisable()
 {
-	for (auto it = mEnabledTruePtr.begin(); it != mEnabledTruePtr.end();)
-	{
-		if (*it == this)
-		{
-			mEnabledTruePtr.erase(it);
-			break;
-		}
-	}
-
-	mEnabledFalsePtr.emplace_back(this);
-
 	if (mCurrentCameraPtr == this)
 	{
 		if (!mEnabledTruePtr.empty())
