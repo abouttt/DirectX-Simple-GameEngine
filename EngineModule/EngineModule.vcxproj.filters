@@ -43,6 +43,9 @@
     <Filter Include="Objects\Private">
       <UniqueIdentifier>{6df81fa6-25c9-4b2e-b6c7-9fadc763455e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineUtil">
+      <UniqueIdentifier>{e1be4b13-b90d-4b07-86bf-e8e366fe373b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -90,6 +93,12 @@
     <ClInclude Include="Texture.h">
       <Filter>Objects\Public</Filter>
     </ClInclude>
+    <ClInclude Include="EngineUtil.h">
+      <Filter>EngineUtil</Filter>
+    </ClInclude>
+    <ClInclude Include="Types.h">
+      <Filter>EngineUtil</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -136,6 +145,9 @@
     </ClCompile>
     <ClCompile Include="Texture.cpp">
       <Filter>Objects\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineUtil.cpp">
+      <Filter>EngineUtil</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

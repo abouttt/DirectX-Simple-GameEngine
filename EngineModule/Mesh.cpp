@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Mesh.h"
 
-Mesh::Mesh(const std::wstring* name, ID3DXMesh* const nativeMesh)
+Mesh::Mesh(const std::wstring& name, ID3DXMesh* const nativeMesh)
 	: mName(name)
 	, mNativeMesh(nativeMesh)
 {
@@ -18,7 +18,7 @@ Mesh::~Mesh()
 
 const std::wstring& Mesh::GetName() const
 {
-	return *mName;
+	return mName;
 }
 
 ID3DXMesh* Mesh::GetNativeMesh()

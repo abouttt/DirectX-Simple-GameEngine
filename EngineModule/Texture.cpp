@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Texture.h"
 
-Texture::Texture(const std::wstring* name, IDirect3DTexture9* const nativeTexture)
+Texture::Texture(const std::wstring& name, IDirect3DTexture9* const nativeTexture)
 	: mName(name)
 	, mNativeTexture(nativeTexture)
 	, mDesc()
@@ -21,7 +21,7 @@ Texture::~Texture()
 
 const std::wstring& Texture::GetName() const
 {
-	return *mName;
+	return mName;
 }
 
 unsigned int Texture::GetWidth() const

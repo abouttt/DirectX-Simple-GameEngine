@@ -3,7 +3,7 @@
 class Mesh
 {
 public:
-	Mesh(const std::wstring* name, ID3DXMesh* const nativeMesh);
+	Mesh(const std::wstring& name, ID3DXMesh* const nativeMesh);
 	~Mesh();
 
 public:
@@ -11,7 +11,7 @@ public:
 	ID3DXMesh* GetNativeMesh();
 
 private:
-	const std::wstring* mName;
+	std::wstring mName;
 	ID3DXMesh* mNativeMesh;
 };
 

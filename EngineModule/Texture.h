@@ -3,7 +3,7 @@
 class Texture
 {
 public:
-	Texture(const std::wstring* name, IDirect3DTexture9* const nativeTexture);
+	Texture(const std::wstring& name, IDirect3DTexture9* const nativeTexture);
 	~Texture();
 
 public:
@@ -13,7 +13,7 @@ public:
 	IDirect3DTexture9* GetNativeTexture();
 
 private:
-	const std::wstring* mName;
+	std::wstring mName;
 	IDirect3DTexture9* mNativeTexture;
 	D3DSURFACE_DESC mDesc;
 };
