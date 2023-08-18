@@ -18,11 +18,13 @@ public:
 
 	void OnEnable() override
 	{
+		GameBehaviourComponent::OnEnable();
 		//Debug::Log(_T("OnEnable"));
 	}
 
 	void OnDisable() override
 	{
+		GameBehaviourComponent::OnDisable();
 		//Debug::Log(_T("OnDisable"));
 	}
 

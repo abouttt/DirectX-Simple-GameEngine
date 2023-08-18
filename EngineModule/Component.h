@@ -6,7 +6,9 @@ class TransformComponent;
 class InputManager;
 class RenderManager;
 class ResourceManager;
+class SceneManager;
 class TimeManager;
+class Scene;
 
 class Component
 {
@@ -29,8 +31,10 @@ public:
 	void SetTag(const std::wstring& tag);
 
 protected:
+	Scene& GetScene();
 	InputManager& GetInput();
 	RenderManager& GetRenderer();
+	SceneManager& GetScenes();
 	ResourceManager& GetResources();
 	TimeManager& GetTime();
 

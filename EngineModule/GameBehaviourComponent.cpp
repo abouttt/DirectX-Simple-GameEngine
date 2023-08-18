@@ -14,6 +14,14 @@ GameBehaviourComponent::GameBehaviourComponent()
 
 GameBehaviourComponent::~GameBehaviourComponent()
 {
+	RemoveThisInAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
+
+	auto it = std::find(mAllContainerPtr.begin(), mAllContainerPtr.end(), this);
+	if (it != mAllContainerPtr.end())
+	{
+		mAllContainerPtr.erase(it);
+	}
 }
 
 void GameBehaviourComponent::OnEnable()

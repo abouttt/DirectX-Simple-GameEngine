@@ -3,10 +3,12 @@
 #include "Component.h"
 #include "GameEngine.h"
 #include "GameObject.h"
+#include "Scene.h"
 
 #include "InputManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "SceneManager.h"
 #include "TimeManager.h"
 
 GameEngine* Component::mEnginePtr = nullptr;
@@ -52,6 +54,11 @@ void Component::SetTag(const std::wstring& tag)
 	mOwnerPtr->SetTag(tag);
 }
 
+Scene& Component::GetScene()
+{
+	return *mEnginePtr->GetScenes().GetActiveScene();
+}
+
 InputManager& Component::GetInput()
 {
 	return mEnginePtr->GetInput();
@@ -60,6 +67,11 @@ InputManager& Component::GetInput()
 RenderManager& Component::GetRenderer()
 {
 	return mEnginePtr->GetRenderer();
+}
+
+SceneManager& Component::GetScenes()
+{
+	return mEnginePtr->GetScenes();
 }
 
 ResourceManager& Component::GetResources()

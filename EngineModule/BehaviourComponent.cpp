@@ -50,3 +50,23 @@ void BehaviourComponent::InAndOutContainer(std::vector<BehaviourComponent*>& inC
 
     inContaier.emplace_back(this);
 }
+
+void BehaviourComponent::RemoveThisInAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer)
+{
+    if (IsEnabled())
+    {
+        auto it = std::find(inContaier.begin(), inContaier.end(), this);
+        if (it != inContaier.end())
+        {
+            inContaier.erase(it);
+        }
+    }
+    else
+    {
+        auto it = std::find(outContainer.begin(), outContainer.end(), this);
+        if (it != outContainer.end())
+        {
+            outContainer.erase(it);
+        }
+    }
+}

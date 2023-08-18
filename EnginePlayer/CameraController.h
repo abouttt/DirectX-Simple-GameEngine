@@ -2,12 +2,14 @@
 
 #include "CameraComponent.h"
 #include "GameBehaviourComponent.h"
+#include "Rotator.h"
 
 class CameraController : public GameBehaviourComponent
 {
 	void Start() override
 	{
 		mCameraPtr = CameraComponent::GetCurrentCamera();
+		cube = GetScene().FindGameObject(_T("Cube"))->GetComponent<Rotator>();
 	}
 
 	void Update() override
@@ -16,7 +18,8 @@ class CameraController : public GameBehaviourComponent
 		{
 			//cube->SetEnabled(!cube->IsEnabled());
 			//GetScene()->RemoveGameObject(cube->GetGameObject());
-			//cube->GetGameObject()->RemoveComponent(cube);
+			cube->GetGameObject()->RemoveComponent(cube);
+			//GetScene().RemoveGameObject(cube->GetGameObject());
 		}
 		
 		if (GetInput().GetKey(KeyCode::W))
@@ -58,6 +61,6 @@ class CameraController : public GameBehaviourComponent
 private:
 	CameraComponent* mCameraPtr = nullptr;
 	float mSpeed = 50;
-
+	Rotator* cube;
 };
 

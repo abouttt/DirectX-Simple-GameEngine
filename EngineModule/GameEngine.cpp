@@ -64,8 +64,9 @@ void GameEngine::OnTick()
 	mInput.update();
 
 	// Game Logic
-	mScenes.GetActiveScene()->update();
-	mScenes.GetActiveScene()->lateUpdate();
+	auto scene = mScenes.GetActiveScene();
+	scene->update();
+	scene->lateUpdate();
 	
 	// Scene Rendering
 	mRenderer.preRender();
@@ -74,7 +75,8 @@ void GameEngine::OnTick()
 	mRenderer.postRender();
 
 	// Decommissioning
-	
+	scene->cleanupGameObjects();
+
 	// 성능 측정 종료
 	mTime.endTick();
 }

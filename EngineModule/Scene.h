@@ -42,6 +42,8 @@ public:
 	GameObject* FindGameObject(const std::wstring& name);
 	GameObject* FindGameObjectWithTag(const std::wstring& tag);
 
+	void RemoveGameObject(GameObject* const gameObject);
+
 protected:
 	InputManager& GetInput();
 	RenderManager& GetRenderer();
@@ -53,6 +55,7 @@ protected:
 private:
 	void update();
 	void lateUpdate();
+	void cleanupGameObjects();
 	GameObject* createGameObjectWithMesh(const std::wstring& name, const std::wstring& meshName);
 
 private:

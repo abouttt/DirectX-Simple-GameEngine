@@ -1,5 +1,6 @@
 #pragma once
 
+#include "BehaviourComponent.h"
 #include "TransformComponent.h"
 
 class GameObject
@@ -39,20 +40,25 @@ public: // ÄÄÆ÷³ÍÆ®
 	
 	template<typename T, typename ...Args>
 	T* AddComponent(Args&& ...args);
-	bool RemoveComponent(Component* const component);
+	void RemoveComponent(Component* const component);
 	template<typename T>
-	bool RemoveComponent();
+	void RemoveComponent();
 
 private:
 	void init();
+	void destroy();
+	void release();
 	void inAndOutContainer(std::list<GameObject*>& inContaier, std::list<GameObject*>& outContainer);
+	void removeThisInAndOutContainer();
+	void cleanupComponents();
 
 private:
-	static std::list<GameObject*> mContainerPtr;
+	static std::list<GameObject*> mAllContainerPtr;
 	static std::list<GameObject*> mTrueContainerPtr;
 	static std::list<GameObject*> mFalseContainerPtr;
 
 	bool mbActive;
+	bool mbDestroyed;
 	std::wstring mName;
 	std::wstring mTag;
 	std::vector<std::unique_ptr<Component>> mComponents;
@@ -191,7 +197,7 @@ inline T* GameObject::AddComponent(Args && ...args)
 }
 
 template<typename T>
-inline bool GameObject::RemoveComponent()
+inline void GameObject::RemoveComponent()
 {
 	static_assert(std::is_base_of<Component, T>::value);
 
@@ -199,10 +205,13 @@ inline bool GameObject::RemoveComponent()
 	{
 		if (dynamic_cast<T*>(it->get()))
 		{
-			mComponents.erase(it);
-			return true;
+			if (auto behaviour = dynamic_cast<BehaviourComponent*>(*it))
+			{
+				behaviour->SetEnabled(false);
+			}
+
+			(*it)->mbDestroyed = true;
+			break;
 		}
 	}
-
-	return false;
 }

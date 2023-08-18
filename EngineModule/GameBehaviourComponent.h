@@ -12,6 +12,7 @@
 #include "TimeManager.h"
 
 #include "GameObject.h"
+#include "Scene.h"
 #include "Types.h"
 
 #include "BehaviourComponent.h"
@@ -27,13 +28,13 @@ public:
 	virtual ~GameBehaviourComponent();
 
 protected:	// Game Logic Event.
-	virtual void OnEnable() override;
+	virtual void OnEnable() override; // 오버라이딩시 GameBehaviourComponent::OnEnable() 필요.
 	virtual void Start();
 	virtual void Update();
 	virtual void LateUpdate();
-	virtual void OnDisable() override;
+	virtual void OnDisable() override; // 오버라이딩시 GameBehaviourComponent::OnDisable() 필요.
 	virtual void OnDestroy();
-
+	
 private:
 	static std::vector<GameBehaviourComponent*> mAllContainerPtr;
 	static std::vector<GameBehaviourComponent*> mTrueContainerPtr;

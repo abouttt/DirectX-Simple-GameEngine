@@ -88,7 +88,7 @@ GameObject* Scene::CreateLight(const std::wstring& name, const eLightType lightT
 
 GameObject* Scene::FindGameObject(const std::wstring& name)
 {
-	for (auto it = GameObject::mTrueContainerPtr.begin(); it != GameObject::mFalseContainerPtr.end(); ++it)
+	for (auto it = GameObject::mTrueContainerPtr.begin(); it != GameObject::mTrueContainerPtr.end(); ++it)
 	{
 		if ((*it)->GetName() == name)
 		{
@@ -101,7 +101,7 @@ GameObject* Scene::FindGameObject(const std::wstring& name)
 
 GameObject* Scene::FindGameObjectWithTag(const std::wstring& tag)
 {
-	for (auto it = GameObject::mTrueContainerPtr.begin(); it != GameObject::mFalseContainerPtr.end(); ++it)
+	for (auto it = GameObject::mTrueContainerPtr.begin(); it != GameObject::mTrueContainerPtr.end(); ++it)
 	{
 		if ((*it)->GetTag() == tag)
 		{
@@ -110,6 +110,23 @@ GameObject* Scene::FindGameObjectWithTag(const std::wstring& tag)
 	}
 
 	return nullptr;
+}
+
+void Scene::RemoveGameObject(GameObject* const gameObject)
+{
+	if (gameObject->mbDestroyed)
+	{
+		return;
+	}
+
+	for (auto& go : mGameObjects)
+	{
+		if (go.get() == gameObject)
+		{
+			go->destroy();
+			break;
+		}
+	}
 }
 
 InputManager& Scene::GetInput()
@@ -156,6 +173,21 @@ void Scene::lateUpdate()
 		if (gb->IsActive())
 		{
 			gb->LateUpdate();
+		}
+	}
+}
+
+void Scene::cleanupGameObjects()
+ {
+	for (auto it = mGameObjects.begin(); it != mGameObjects.end(); ++it)
+	{
+		if ((*it)->mbDestroyed)
+		{
+			mGameObjects.erase(it--);
+		}
+		else
+		{
+			(*it)->cleanupComponents();
 		}
 	}
 }
