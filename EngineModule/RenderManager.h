@@ -26,6 +26,7 @@ private:
 	void postRender();
 
 	void updateCamera();
+	void updateLights();
 	void partitionMeshes();
 	void sortTransparencyMeshes();
 	void renderMeshes(std::list<MeshComponent*>::iterator begin, std::list<MeshComponent*>::iterator end);

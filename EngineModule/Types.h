@@ -7,6 +7,13 @@ enum class eRenderingMode
 	Cutout,
 };
 
+enum class eLightType
+{
+	Point = 1,
+	Spot = 2,
+	Directional = 3,
+};
+
 enum class KeyCode
 {
 	Esc = 0x01,

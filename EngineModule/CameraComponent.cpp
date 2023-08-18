@@ -7,7 +7,9 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 
-std::vector<CameraComponent*> CameraComponent::mContainerPtr;
+std::list<CameraComponent*> CameraComponent::mContainerPtr;
+std::list<CameraComponent*> CameraComponent::mEnabledTruePtr;
+std::list<CameraComponent*> CameraComponent::mEnabledFalsePtr;
 CameraComponent* CameraComponent::mCurrentCameraPtr = nullptr;
 
 CameraComponent::CameraComponent()
@@ -31,7 +33,7 @@ CameraComponent::~CameraComponent()
 
 std::vector<CameraComponent*> CameraComponent::GetAllCameras()
 {
-	return mContainerPtr;
+	return std::vector<CameraComponent*>(mContainerPtr.begin(), mContainerPtr.end());
 }
 
 std::size_t CameraComponent::GetAllCamerasCount()
@@ -120,6 +122,17 @@ const Matrix4x4 CameraComponent::GetProjectionMatrix(const int width, const int 
 
 void CameraComponent::OnEnable()
 {
+	for (auto it = mEnabledFalsePtr.begin(); it != mEnabledFalsePtr.end();)
+	{
+		if (*it == this)
+		{
+			mEnabledFalsePtr.erase(it);
+			break;
+		}
+	}
+
+	mEnabledTruePtr.emplace_back(this);
+
 	if (!mCurrentCameraPtr)
 	{
 		mCurrentCameraPtr = this;
@@ -128,15 +141,22 @@ void CameraComponent::OnEnable()
 
 void CameraComponent::OnDisable()
 {
-	if (this == mCurrentCameraPtr)
+	for (auto it = mEnabledTruePtr.begin(); it != mEnabledTruePtr.end();)
 	{
-		for (auto camera : mContainerPtr)
+		if (*it == this)
 		{
-			if (camera->IsActiveAndEnabled())
-			{
-				mCurrentCameraPtr = camera;
-				break;
-			}
+			mEnabledTruePtr.erase(it);
+			break;
+		}
+	}
+
+	mEnabledFalsePtr.emplace_back(this);
+
+	if (mCurrentCameraPtr == this)
+	{
+		if (!mEnabledTruePtr.empty())
+		{
+			mCurrentCameraPtr = mEnabledTruePtr.front();
 		}
 	}
 }

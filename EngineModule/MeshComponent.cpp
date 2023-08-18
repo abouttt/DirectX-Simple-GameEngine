@@ -73,13 +73,29 @@ void MeshComponent::SetMaterial(Material* const material)
 
 void MeshComponent::OnEnable()
 {
-    mEnabledFalsePtr.erase(std::find(mEnabledFalsePtr.begin(), mEnabledFalsePtr.end(), this));
+    for (auto it = mEnabledFalsePtr.begin(); it != mEnabledFalsePtr.end();)
+    {
+        if (*it == this)
+        {
+            mEnabledFalsePtr.erase(it);
+            break;
+        }
+    }
+
     mEnabledTruePtr.emplace_back(this);
 }
 
 void MeshComponent::OnDisable()
 {
-    mEnabledTruePtr.erase(std::find(mEnabledTruePtr.begin(), mEnabledTruePtr.end(), this));
+    for (auto it = mEnabledTruePtr.begin(); it != mEnabledTruePtr.end();)
+    {
+        if (*it == this)
+        {
+            mEnabledTruePtr.erase(it);
+            break;
+        }
+    }
+
     mEnabledFalsePtr.emplace_back(this);
 }
 

@@ -33,7 +33,9 @@ protected:
 	void OnDisable() override;
 
 private:
-	static std::vector<CameraComponent*> mContainerPtr;
+	static std::list<CameraComponent*> mContainerPtr;
+	static std::list<CameraComponent*> mEnabledTruePtr;
+	static std::list<CameraComponent*> mEnabledFalsePtr;
 	static CameraComponent* mCurrentCameraPtr;
 
 	int mFov;

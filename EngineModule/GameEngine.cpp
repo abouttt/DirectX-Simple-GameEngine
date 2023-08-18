@@ -8,6 +8,7 @@
 #include "Component.h"
 #include "CameraComponent.h"
 #include "MeshComponent.h"
+#include "LightComponent.h"
 
 GameEngine::GameEngine()
 	: mbInit(false)
@@ -48,6 +49,11 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 	camera->GetTransform()->SetPosition(Vector3(0.f, 0.f, -10.f));
 	camera->AddComponent<CameraComponent>();
 	mScene.emplace_back(std::move(camera));
+
+	auto light = std::make_unique<GameObject>();
+	light->GetTransform()->SetRotation(Vector3(10, -10, 10));
+	light->AddComponent<LightComponent>(eLightType::Directional);
+	mScene.emplace_back(std::move(light));
 
 	auto cube = std::make_unique<GameObject>();
 	cube->GetTransform()->SetPosition(Vector3(0.f, 0.f, 0.f));

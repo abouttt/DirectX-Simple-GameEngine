@@ -7,6 +7,7 @@
 
 #include "CameraComponent.h"
 #include "MeshComponent.h"
+#include "LightComponent.h"
 #include "TransformComponent.h"
 
 RenderManager::RenderManager()
@@ -72,6 +73,7 @@ void RenderManager::preRender()
 	if (CameraComponent::GetCurrentCamera())
 	{
 		updateCamera();
+		updateLights();
 		partitionMeshes();
 		sortTransparencyMeshes();
 	}
@@ -120,6 +122,24 @@ void RenderManager::updateCamera()
 	auto projMat = currentCamera->GetProjectionMatrix(mWidth, mHeight).NativeMatrix;
 	mD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
 	mD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+}
+
+void RenderManager::updateLights()
+{
+	// 활성화
+	for (auto it = LightComponent::mEnabledTruePtr.begin(); it != LightComponent::mEnabledTruePtr.end(); ++it)
+	{
+		auto light = *it;
+		light->updatePositionAndDirection();
+		mD3DDevice->SetLight(light->mIndex, &light->mNativeLight);
+		mD3DDevice->LightEnable(light->mIndex, true);
+	}
+
+	// 비활성화
+	for (auto it = LightComponent::mEnabledFalsePtr.begin(); it != LightComponent::mEnabledFalsePtr.end(); ++it)
+	{
+		mD3DDevice->LightEnable((*it)->mIndex, false);
+	}
 }
 
 void RenderManager::partitionMeshes()
