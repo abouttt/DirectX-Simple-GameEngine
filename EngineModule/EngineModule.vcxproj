@@ -153,6 +153,7 @@
     <ClInclude Include="Color.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="EngineUtil.h" />
+    <ClInclude Include="GameBehaviourComponent.h" />
     <ClInclude Include="GameEngine.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
@@ -165,7 +166,7 @@
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TimeManager.h" />
-    <ClInclude Include="BehaviorComponent.h" />
+    <ClInclude Include="BehaviourComponent.h" />
     <ClInclude Include="TransformComponent.h" />
     <ClInclude Include="Types.h" />
   </ItemGroup>
@@ -174,6 +175,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="EngineUtil.cpp" />
+    <ClCompile Include="GameBehaviourComponent.cpp" />
     <ClCompile Include="GameEngine.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
@@ -191,7 +193,7 @@
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TimeManager.cpp" />
-    <ClCompile Include="BehaviorComponent.cpp" />
+    <ClCompile Include="BehaviourComponent.cpp" />
     <ClCompile Include="TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -75,7 +75,7 @@
     <ClInclude Include="CameraComponent.h">
       <Filter>Components\Public</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviorComponent.h">
+    <ClInclude Include="BehaviourComponent.h">
       <Filter>Components\Public</Filter>
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
@@ -103,6 +103,9 @@
       <Filter>Components\Public</Filter>
     </ClInclude>
     <ClInclude Include="LightComponent.h">
+      <Filter>Components\Public</Filter>
+    </ClInclude>
+    <ClInclude Include="GameBehaviourComponent.h">
       <Filter>Components\Public</Filter>
     </ClInclude>
   </ItemGroup>
@@ -134,7 +137,7 @@
     <ClCompile Include="CameraComponent.cpp">
       <Filter>Components\Private</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviorComponent.cpp">
+    <ClCompile Include="BehaviourComponent.cpp">
       <Filter>Components\Private</Filter>
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
@@ -159,6 +162,9 @@
       <Filter>Components\Private</Filter>
     </ClCompile>
     <ClCompile Include="LightComponent.cpp">
+      <Filter>Components\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="GameBehaviourComponent.cpp">
       <Filter>Components\Private</Filter>
     </ClCompile>
   </ItemGroup>
