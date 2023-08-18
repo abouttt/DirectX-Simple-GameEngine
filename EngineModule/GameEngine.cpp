@@ -1,12 +1,25 @@
 #include "pch.h"
-#include "Component.h"
+#include "EngineUtil.h"
 #include "GameEngine.h"
+#include "Types.h"
+
+#include "GameObject.h"
+
+#include "Component.h"
+#include "CameraComponent.h"
+#include "MeshComponent.h"
 
 GameEngine::GameEngine()
 	: mbInit(false)
 	, mInput()
-	, mTime()
+	, mRenderer()
 	, mResources()
+	, mTime()
+	, mScene()
+{
+}
+
+GameEngine::~GameEngine()
 {
 }
 
@@ -27,6 +40,20 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 	mTime.init();
 
 	Component::mGameEnginePtr = this;
+
+	loadResources();
+
+	//////////
+	auto camera = std::make_unique<GameObject>();
+	camera->GetTransform()->SetPosition(Vector3(0.f, 0.f, -10.f));
+	camera->AddComponent<CameraComponent>();
+	mScene.emplace_back(std::move(camera));
+
+	auto cube = std::make_unique<GameObject>();
+	cube->GetTransform()->SetPosition(Vector3(0.f, 0.f, 0.f));
+	cube->AddComponent<MeshComponent>(mResources.GetMesh(_T("Cube")));
+	mScene.emplace_back(std::move(cube));
+	//////////
 
 	return true;
 }
@@ -77,4 +104,17 @@ RenderManager& GameEngine::GetRenderer()
 ResourceManager& GameEngine::GetResources()
 {
 	return mResources;
+}
+
+void GameEngine::loadResources()
+{
+	// Mesh
+	mResources.CreateAndAddNativeMesh(_T("Cube"), engineutil::GetCubeMesh(mRenderer.mD3DDevice));
+	mResources.CreateAndAddNativeMesh(_T("Sphere"), engineutil::GetSphereMesh(mRenderer.mD3DDevice));
+	mResources.CreateAndAddNativeMesh(_T("Quad"), engineutil::GetQuadMesh(mRenderer.mD3DDevice));
+
+	// Texture
+
+	// Material
+	mResources.CreateAndAddMaterial(_T("Default-Material"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, nullptr);
 }

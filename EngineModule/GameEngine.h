@@ -1,14 +1,18 @@
 #pragma once
 
 #include "InputManager.h"
-#include "TimeManager.h"
 #include "RenderManager.h"
 #include "ResourceManager.h"
+#include "TimeManager.h"
+
+//#include "GameObject.h"
+class GameObject;
 
 class GameEngine
 {
 public:
 	GameEngine();
+	~GameEngine();
 
 public:
 	bool Init(const HINSTANCE hInstance, const HWND hWnd, const int width, const int height, const bool bWindowed);
@@ -21,10 +25,15 @@ public:
 	ResourceManager& GetResources();
 
 private:
+	void loadResources();
+
+private:
 	bool mbInit;
 	InputManager mInput;
-	TimeManager mTime;
 	RenderManager mRenderer;
 	ResourceManager mResources;
+	TimeManager mTime;
+
+	std::vector<std::unique_ptr<GameObject>> mScene;
 };
 

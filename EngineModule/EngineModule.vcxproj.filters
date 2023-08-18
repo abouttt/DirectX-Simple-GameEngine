@@ -99,6 +99,9 @@
     <ClInclude Include="Types.h">
       <Filter>EngineUtil</Filter>
     </ClInclude>
+    <ClInclude Include="MeshComponent.h">
+      <Filter>Components\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -148,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="EngineUtil.cpp">
       <Filter>EngineUtil</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshComponent.cpp">
+      <Filter>Components\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

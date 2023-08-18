@@ -2,6 +2,8 @@
 
 #include "Color.h"
 
+class MeshComponent;
+
 class RenderManager
 {
 public:
@@ -24,6 +26,9 @@ private:
 	void postRender();
 
 	void updateCamera();
+	void partitionMeshes();
+	void sortTransparencyMeshes();
+	void renderMeshes(std::list<MeshComponent*>::iterator begin, std::list<MeshComponent*>::iterator end);
 
 	bool init(const HWND hWnd, const int width, const int height, const bool bWindowed);
 	bool initDevice(const HWND hWnd, const bool bWindowed);
@@ -36,5 +41,7 @@ private:
 	int mHeight;
 	IDirect3DDevice9* mD3DDevice;
 	Color mBackgroundColor;
+
+	std::list<MeshComponent*>::iterator mAlphaRenderBegin;
 };
 

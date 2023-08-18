@@ -1,7 +1,13 @@
 #include "pch.h"
+
 #include "Component.h"
 #include "GameEngine.h"
 #include "GameObject.h"
+
+#include "InputManager.h"
+#include "RenderManager.h"
+#include "ResourceManager.h"
+#include "TimeManager.h"
 
 GameEngine* Component::mGameEnginePtr = nullptr;
 
@@ -46,7 +52,22 @@ void Component::SetTag(const std::wstring& tag)
 	mOwnerPtr->SetTag(tag);
 }
 
-GameEngine& Component::GetEngine()
+InputManager& Component::GetInput()
 {
-	return *mGameEnginePtr;
+	return mGameEnginePtr->GetInput();
+}
+
+RenderManager& Component::GetRenderer()
+{
+	return mGameEnginePtr->GetRenderer();
+}
+
+ResourceManager& Component::GetResources()
+{
+	return mGameEnginePtr->GetResources();
+}
+
+TimeManager& Component::GetTime()
+{
+	return mGameEnginePtr->GetTime();
 }

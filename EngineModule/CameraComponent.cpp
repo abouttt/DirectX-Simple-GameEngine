@@ -7,7 +7,7 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 
-std::vector<CameraComponent*> CameraComponent::mAllCamerasPtr;
+std::vector<CameraComponent*> CameraComponent::mContainerPtr;
 CameraComponent* CameraComponent::mCurrentCameraPtr = nullptr;
 
 CameraComponent::CameraComponent()
@@ -15,27 +15,33 @@ CameraComponent::CameraComponent()
 	, mNear(0.3f)
 	, mFar(1000.f)
 {
-	mAllCamerasPtr.emplace_back(this);
+	mContainerPtr.emplace_back(this);
+
+	// 나중에 삭제
+	if (mCurrentCameraPtr == nullptr)
+	{
+		mCurrentCameraPtr = this;
+	}
 }
 
 CameraComponent::~CameraComponent()
 {
-	mAllCamerasPtr.erase(std::find(mAllCamerasPtr.begin(), mAllCamerasPtr.end(), this));
+	mContainerPtr.erase(std::find(mContainerPtr.begin(), mContainerPtr.end(), this));
 }
 
 std::vector<CameraComponent*> CameraComponent::GetAllCameras()
 {
-	return mAllCamerasPtr;
+	return mContainerPtr;
 }
 
 std::size_t CameraComponent::GetAllCamerasCount()
 {
-	return mAllCamerasPtr.size();
+	return mContainerPtr.size();
 }
 
 CameraComponent* CameraComponent::GetMainCamera()
 {
-	for (auto camera : mAllCamerasPtr)
+	for (auto camera : mContainerPtr)
 	{
 		if (camera->IsActiveAndEnabled())
 		{
@@ -124,7 +130,7 @@ void CameraComponent::OnDisable()
 {
 	if (this == mCurrentCameraPtr)
 	{
-		for (auto camera : mAllCamerasPtr)
+		for (auto camera : mContainerPtr)
 		{
 			if (camera->IsActiveAndEnabled())
 			{

@@ -3,6 +3,10 @@
 class GameEngine;
 class GameObject;
 class TransformComponent;
+class InputManager;
+class RenderManager;
+class ResourceManager;
+class TimeManager;
 
 class Component
 {
@@ -25,7 +29,10 @@ public:
 	void SetTag(const std::wstring& tag);
 
 protected:
-	GameEngine& GetEngine();
+	InputManager& GetInput();
+	RenderManager& GetRenderer();
+	ResourceManager& GetResources();
+	TimeManager& GetTime();
 
 private:
 	static GameEngine* mGameEnginePtr;

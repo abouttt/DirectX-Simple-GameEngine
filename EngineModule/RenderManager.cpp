@@ -2,8 +2,12 @@
 
 #include <Matrix4x4.h>
 
-#include "CameraComponent.h"
 #include "RenderManager.h"
+#include "Material.h"
+
+#include "CameraComponent.h"
+#include "MeshComponent.h"
+#include "TransformComponent.h"
 
 RenderManager::RenderManager()
 	: mbInit(false)
@@ -11,6 +15,7 @@ RenderManager::RenderManager()
 	, mHeight(0)
 	, mD3DDevice(nullptr)
 	, mBackgroundColor(Color::Grey)
+	, mAlphaRenderBegin()
 {
 }
 
@@ -67,6 +72,8 @@ void RenderManager::preRender()
 	if (CameraComponent::GetCurrentCamera())
 	{
 		updateCamera();
+		partitionMeshes();
+		sortTransparencyMeshes();
 	}
 
 	// 배경 지우기 / 렌더 시작.
@@ -83,11 +90,11 @@ void RenderManager::render()
 	{
 		// 불투명 렌더링.
 		mD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-		// TODO
+		renderMeshes(MeshComponent::mEnabledTruePtr.begin(), mAlphaRenderBegin);
 
 		// 투명 렌더링.
 		mD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-		// TODO
+		renderMeshes(mAlphaRenderBegin, MeshComponent::mEnabledTruePtr.end());
 	}
 }
 
@@ -113,6 +120,44 @@ void RenderManager::updateCamera()
 	auto projMat = currentCamera->GetProjectionMatrix(mWidth, mHeight).NativeMatrix;
 	mD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
 	mD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+}
+
+void RenderManager::partitionMeshes()
+{
+	// 투명, 불투명 나누기.
+	mAlphaRenderBegin = std::partition(MeshComponent::mEnabledTruePtr.begin(), MeshComponent::mEnabledTruePtr.end(),
+		[&](MeshComponent* meshComponent)
+		{
+			return meshComponent->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque;
+		});
+}
+
+// 카메라와의 거리에 따라 정렬.
+void RenderManager::sortTransparencyMeshes()
+{
+	auto camPos = CameraComponent::GetCurrentCamera()->GetTransform()->GetPosition();
+	Vector3 gapA{};
+	Vector3 gapB{};
+	MeshComponent::mEnabledTruePtr.sort(
+		[&camPos, &gapA, &gapB](MeshComponent* a, MeshComponent* b)
+		{
+			if (a->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque)
+			{
+				return false;
+			}
+
+			gapA = camPos - a->GetTransform()->GetPosition();
+			gapB = camPos - b->GetTransform()->GetPosition();
+			return gapA.GetSizeSq() > gapB.GetSizeSq();
+		});
+}
+
+void RenderManager::renderMeshes(std::list<MeshComponent*>::iterator begin, std::list<MeshComponent*>::iterator end)
+{
+	for (auto& it = begin; it != end; ++it)
+	{
+		(*it)->render(mD3DDevice);
+	}
 }
 
 bool RenderManager::initDevice(const HWND hWnd, const bool bWindowed)
