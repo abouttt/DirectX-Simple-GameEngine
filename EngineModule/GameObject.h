@@ -5,6 +5,9 @@
 class GameObject
 {
 public:
+	friend class Scene;
+
+public:
 	GameObject();
 	GameObject(const std::wstring& name);
 	GameObject(const std::wstring& name, const std::wstring& tag);
@@ -41,6 +44,14 @@ public: // ÄÄÆ÷³ÍÆ®
 	bool RemoveComponent();
 
 private:
+	void init();
+	void inAndOutContainer(std::list<GameObject*>& inContaier, std::list<GameObject*>& outContainer);
+
+private:
+	static std::list<GameObject*> mContainerPtr;
+	static std::list<GameObject*> mTrueContainerPtr;
+	static std::list<GameObject*> mFalseContainerPtr;
+
 	bool mbActive;
 	std::wstring mName;
 	std::wstring mTag;

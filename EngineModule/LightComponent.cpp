@@ -7,16 +7,16 @@
 #include "TransformComponent.h"
 #include "Types.h"
 
-std::list<LightComponent*> LightComponent::mContainerPtr;
-std::list<LightComponent*> LightComponent::mEnabledTruePtr;
-std::list<LightComponent*> LightComponent::mEnabledFalsePtr;
+std::list<LightComponent*> LightComponent::mAllContainerPtr;
+std::list<LightComponent*> LightComponent::mTrueContainerPtr;
+std::list<LightComponent*> LightComponent::mFalseContainerPtr;
 DWORD LightComponent::mLightCount = 0;
 
 LightComponent::LightComponent(const eLightType lightType)
 	: BehaviourComponent(
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr))
 	, mNativeLight()
 	, mIndex(mLightCount++)
 {

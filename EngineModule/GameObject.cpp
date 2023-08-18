@@ -1,13 +1,17 @@
 #include "pch.h"
 #include "GameObject.h"
 
+std::list<GameObject*> GameObject::mContainerPtr;
+std::list<GameObject*> GameObject::mTrueContainerPtr;
+std::list<GameObject*> GameObject::mFalseContainerPtr;
+
 GameObject::GameObject()
 	: mbActive(true)
 	, mName(_T("GameObject"))
 	, mTag(_T("UnTagged"))
 	, mComponents()
 {
-	AddComponent<TransformComponent>();
+	init();
 }
 
 GameObject::GameObject(const std::wstring& name)
@@ -16,7 +20,7 @@ GameObject::GameObject(const std::wstring& name)
 	, mTag(_T("UnTagged"))
 	, mComponents()
 {
-	AddComponent<TransformComponent>();
+	init();
 }
 
 GameObject::GameObject(const std::wstring& name, const std::wstring& tag)
@@ -25,11 +29,19 @@ GameObject::GameObject(const std::wstring& name, const std::wstring& tag)
 	, mTag(tag)
 	, mComponents()
 {
-	AddComponent<TransformComponent>();
+	init();
 }
 
 GameObject::~GameObject()
 {
+	for (auto it = mContainerPtr.begin(); it != mContainerPtr.end();)
+	{
+		if (*it == this)
+		{
+			mContainerPtr.erase(it);
+			break;
+		}
+	}
 }
 
 bool GameObject::IsActive() const
@@ -62,6 +74,15 @@ void GameObject::SetActive(const bool bActive)
 
 	mbActive = bActive;
 
+	if (bActive)
+	{
+		inAndOutContainer(mTrueContainerPtr, mFalseContainerPtr);
+	}
+	else
+	{
+		inAndOutContainer(mFalseContainerPtr, mTrueContainerPtr);
+	}
+
 	auto transform = GetTransform();
 	for (std::size_t i = 0; i < transform->GetChildCount(); i++)
 	{
@@ -93,4 +114,24 @@ bool GameObject::RemoveComponent(Component* const component)
 	}
 
 	return false;
+}
+
+void GameObject::init()
+{
+	mContainerPtr.emplace_back(this);
+	AddComponent<TransformComponent>();
+}
+
+void GameObject::inAndOutContainer(std::list<GameObject*>& inContaier, std::list<GameObject*>& outContainer)
+{
+	for (auto it = outContainer.begin(); it != outContainer.end();)
+	{
+		if (*it == this)
+		{
+			outContainer.erase(it);
+			break;
+		}
+	}
+
+	inContaier.emplace_back(this);
 }

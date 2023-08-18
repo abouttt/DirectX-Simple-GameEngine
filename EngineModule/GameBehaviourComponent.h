@@ -21,8 +21,10 @@ protected:	// Game Logic Event.
 	virtual void OnDestroy();
 
 private:
-	static std::list<GameBehaviourComponent*> mContainerPtr;
-	static std::list<GameBehaviourComponent*> mEnabledTruePtr;
-	static std::list<GameBehaviourComponent*> mEnabledFalsePtr;
+	static std::list<GameBehaviourComponent*> mAllContainerPtr;
+	static std::list<GameBehaviourComponent*> mTrueContainerPtr;
+	static std::list<GameBehaviourComponent*> mFalseContainerPtr;
+
+	bool mbStarted;
 };
 

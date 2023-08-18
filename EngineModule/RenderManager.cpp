@@ -92,11 +92,11 @@ void RenderManager::render()
 	{
 		// 불투명 렌더링.
 		mD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
-		renderMeshes(MeshComponent::mEnabledTruePtr.begin(), mAlphaRenderBegin);
+		renderMeshes(MeshComponent::mTrueContainerPtr.begin(), mAlphaRenderBegin);
 
 		// 투명 렌더링.
 		mD3DDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
-		renderMeshes(mAlphaRenderBegin, MeshComponent::mEnabledTruePtr.end());
+		renderMeshes(mAlphaRenderBegin, MeshComponent::mTrueContainerPtr.end());
 	}
 }
 
@@ -127,7 +127,7 @@ void RenderManager::updateCamera()
 void RenderManager::updateLights()
 {
 	// 활성화
-	for (auto it = LightComponent::mEnabledTruePtr.begin(); it != LightComponent::mEnabledTruePtr.end(); ++it)
+	for (auto it = LightComponent::mTrueContainerPtr.begin(); it != LightComponent::mTrueContainerPtr.end(); ++it)
 	{
 		auto light = *it;
 		light->updatePositionAndDirection();
@@ -136,7 +136,7 @@ void RenderManager::updateLights()
 	}
 
 	// 비활성화
-	for (auto it = LightComponent::mEnabledFalsePtr.begin(); it != LightComponent::mEnabledFalsePtr.end(); ++it)
+	for (auto it = LightComponent::mFalseContainerPtr.begin(); it != LightComponent::mFalseContainerPtr.end(); ++it)
 	{
 		mD3DDevice->LightEnable((*it)->mIndex, false);
 	}
@@ -145,7 +145,7 @@ void RenderManager::updateLights()
 void RenderManager::partitionMeshes()
 {
 	// 투명, 불투명 나누기.
-	mAlphaRenderBegin = std::partition(MeshComponent::mEnabledTruePtr.begin(), MeshComponent::mEnabledTruePtr.end(),
+	mAlphaRenderBegin = std::partition(MeshComponent::mTrueContainerPtr.begin(), MeshComponent::mTrueContainerPtr.end(),
 		[&](MeshComponent* meshComponent)
 		{
 			return meshComponent->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque;
@@ -158,7 +158,7 @@ void RenderManager::sortTransparencyMeshes()
 	auto camPos = CameraComponent::GetCurrentCamera()->GetTransform()->GetPosition();
 	Vector3 gapA{};
 	Vector3 gapB{};
-	MeshComponent::mEnabledTruePtr.sort(
+	MeshComponent::mTrueContainerPtr.sort(
 		[&camPos, &gapA, &gapB](MeshComponent* a, MeshComponent* b)
 		{
 			if (a->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque)

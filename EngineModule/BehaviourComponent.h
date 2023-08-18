@@ -6,9 +6,9 @@ class BehaviourComponent : public Component
 {
 public:
 	BehaviourComponent(
-		std::list<BehaviourComponent*>* containerPtr,
-		std::list<BehaviourComponent*>* enabledTruePtr,
-		std::list<BehaviourComponent*>* enabledFalsePtr);
+		std::list<BehaviourComponent*>& allContainerPtrRef,
+		std::list<BehaviourComponent*>& trueContainerPtrRef,
+		std::list<BehaviourComponent*>& falseContainerPtrRef);
 	virtual ~BehaviourComponent();
 
 public:
@@ -17,14 +17,14 @@ public:
 	virtual void SetEnabled(const bool bEnabled);
 
 protected:
-	void EnabledProcess(bool bEnabled);
+	void inAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer);
 	virtual void OnEnable() abstract;
 	virtual void OnDisable() abstract;
 
 protected:
 	bool mbEnabled;
-	std::list<BehaviourComponent*>* mBaseContainerPtr;
-	std::list<BehaviourComponent*>* mBaseEnabledTruePtr;
-	std::list<BehaviourComponent*>* mBaseEnabledFalsePtr;
+	std::list<BehaviourComponent*>& mAllContainerPtrRef;
+	std::list<BehaviourComponent*>& mTrueContainerPtrRef;
+	std::list<BehaviourComponent*>& mFalseContainerPtrRef;
 };
 

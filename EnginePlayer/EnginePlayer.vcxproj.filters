@@ -22,6 +22,9 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{f8eddc8c-9cc7-46b7-a144-ebd97ae27d9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{ada15192-c2ae-4f20-b817-f2384fd390d3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -33,6 +36,9 @@
     <ClCompile Include="Windows\WindowsPlayer.cpp">
       <Filter>Private\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="DevScene.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -43,6 +49,9 @@
     </ClInclude>
     <ClInclude Include="Windows\WindowsUtil.h">
       <Filter>Private\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="DevScene.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

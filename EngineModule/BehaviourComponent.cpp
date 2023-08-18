@@ -2,25 +2,25 @@
 #include "BehaviourComponent.h"
 
 BehaviourComponent::BehaviourComponent(
-	std::list<BehaviourComponent*>* containerPtr,
-	std::list<BehaviourComponent*>* enabledTruePtr,
-	std::list<BehaviourComponent*>* enabledFalsePtr)
+	std::list<BehaviourComponent*>& allContainerPtrRef,
+	std::list<BehaviourComponent*>& trueContainerPtrRef,
+	std::list<BehaviourComponent*>& falseContainerPtrRef)
     : mbEnabled(true)
-	, mBaseContainerPtr(containerPtr)
-	, mBaseEnabledTruePtr(enabledTruePtr)
-	, mBaseEnabledFalsePtr(enabledFalsePtr)
+	, mAllContainerPtrRef(allContainerPtrRef)
+	, mTrueContainerPtrRef(trueContainerPtrRef)
+	, mFalseContainerPtrRef(falseContainerPtrRef)
 {
-	mBaseContainerPtr->emplace_back(this);
-	EnabledProcess(true);
+	mAllContainerPtrRef.emplace_back(this);
+	inAndOutContainer(mTrueContainerPtrRef, mFalseContainerPtrRef);
 }
 
 BehaviourComponent::~BehaviourComponent()
 {
-	for (auto it = mBaseContainerPtr->begin(); it != mBaseContainerPtr->end();)
+	for (auto it = mAllContainerPtrRef.begin(); it != mAllContainerPtrRef.end();)
 	{
 		if (*it == this)
 		{
-			mBaseContainerPtr->erase(it);
+			mAllContainerPtrRef.erase(it);
 			break;
 		}
 	}
@@ -45,12 +45,19 @@ void BehaviourComponent::SetEnabled(const bool bEnabled)
 
     mbEnabled = bEnabled;
 
+	if (bEnabled)
+	{
+		inAndOutContainer(mTrueContainerPtrRef, mFalseContainerPtrRef);
+	}
+	else
+	{
+		inAndOutContainer(mFalseContainerPtrRef, mTrueContainerPtrRef);
+	}
+
     if (!IsActive())
     {
         return;
     }
-
-	EnabledProcess(bEnabled);
 
     if (bEnabled)
     {
@@ -62,32 +69,16 @@ void BehaviourComponent::SetEnabled(const bool bEnabled)
     }
 }
 
-void BehaviourComponent::EnabledProcess(bool bEnabled)
+void BehaviourComponent::inAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer)
 {
-	if (bEnabled)
+	for (auto it = outContainer.begin(); it != outContainer.end();)
 	{
-		for (auto it = mBaseEnabledFalsePtr->begin(); it != mBaseEnabledFalsePtr->end();)
+		if (*it == this)
 		{
-			if (*it == this)
-			{
-				mBaseEnabledFalsePtr->erase(it);
-				break;
-			}
+			outContainer.erase(it);
+			break;
 		}
-
-		mBaseEnabledTruePtr->emplace_back(this);
 	}
-	else
-	{
-		for (auto it = mBaseEnabledTruePtr->begin(); it != mBaseEnabledTruePtr->end();)
-		{
-			if (*it == this)
-			{
-				mBaseEnabledTruePtr->erase(it);
-				break;
-			}
-		}
 
-		mBaseEnabledFalsePtr->emplace_back(this);
-	}
+	inContaier.emplace_back(this);
 }

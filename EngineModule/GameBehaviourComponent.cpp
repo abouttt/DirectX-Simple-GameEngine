@@ -1,15 +1,16 @@
 #include "pch.h"
 #include "GameBehaviourComponent.h"
 
-std::list<GameBehaviourComponent*> GameBehaviourComponent::mContainerPtr;
-std::list<GameBehaviourComponent*> GameBehaviourComponent::mEnabledTruePtr;
-std::list<GameBehaviourComponent*> GameBehaviourComponent::mEnabledFalsePtr;
+std::list<GameBehaviourComponent*> GameBehaviourComponent::mAllContainerPtr;
+std::list<GameBehaviourComponent*> GameBehaviourComponent::mTrueContainerPtr;
+std::list<GameBehaviourComponent*> GameBehaviourComponent::mFalseContainerPtr;
 
 GameBehaviourComponent::GameBehaviourComponent()
 	: BehaviourComponent(
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr))
+	, mbStarted(false)
 {
 }
 
@@ -19,16 +20,16 @@ GameBehaviourComponent::~GameBehaviourComponent()
 
 void GameBehaviourComponent::OnEnable()
 {
-	for (auto it = mEnabledFalsePtr.begin(); it != mEnabledFalsePtr.end();)
+	for (auto it = mFalseContainerPtr.begin(); it != mFalseContainerPtr.end();)
 	{
 		if (*it == this)
 		{
-			mEnabledFalsePtr.erase(it);
+			mFalseContainerPtr.erase(it);
 			break;
 		}
 	}
 
-	mEnabledTruePtr.emplace_back(this);
+	mTrueContainerPtr.emplace_back(this);
 }
 
 void GameBehaviourComponent::Start()
@@ -45,16 +46,16 @@ void GameBehaviourComponent::LateUpdate()
 
 void GameBehaviourComponent::OnDisable()
 {
-	for (auto it = mEnabledTruePtr.begin(); it != mEnabledTruePtr.end();)
+	for (auto it = mTrueContainerPtr.begin(); it != mTrueContainerPtr.end();)
 	{
 		if (*it == this)
 		{
-			mEnabledTruePtr.erase(it);
+			mTrueContainerPtr.erase(it);
 			break;
 		}
 	}
 
-	mEnabledFalsePtr.emplace_back(this);
+	mFalseContainerPtr.emplace_back(this);
 }
 
 void GameBehaviourComponent::OnDestroy()

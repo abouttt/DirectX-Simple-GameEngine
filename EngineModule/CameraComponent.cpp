@@ -7,16 +7,16 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 
-std::list<CameraComponent*> CameraComponent::mContainerPtr;
-std::list<CameraComponent*> CameraComponent::mEnabledTruePtr;
-std::list<CameraComponent*> CameraComponent::mEnabledFalsePtr;
+std::list<CameraComponent*> CameraComponent::mAllContainerPtr;
+std::list<CameraComponent*> CameraComponent::mTrueContainerPtr;
+std::list<CameraComponent*> CameraComponent::mFalseContainerPtr;
 CameraComponent* CameraComponent::mCurrentCameraPtr = nullptr;
 
 CameraComponent::CameraComponent()
 	: BehaviourComponent(
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mContainerPtr),
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledTruePtr),
-		reinterpret_cast<std::list<BehaviourComponent*>*>(&mEnabledFalsePtr))
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr))
 	, mFov(60)
 	, mNear(0.3f)
 	, mFar(1000.f)
@@ -34,17 +34,17 @@ CameraComponent::~CameraComponent()
 
 std::vector<CameraComponent*> CameraComponent::GetAllCameras()
 {
-	return std::vector<CameraComponent*>(mContainerPtr.begin(), mContainerPtr.end());
+	return std::vector<CameraComponent*>(mAllContainerPtr.begin(), mAllContainerPtr.end());
 }
 
 std::size_t CameraComponent::GetAllCamerasCount()
 {
-	return mContainerPtr.size();
+	return mAllContainerPtr.size();
 }
 
 CameraComponent* CameraComponent::GetMainCamera()
 {
-	for (auto camera : mContainerPtr)
+	for (auto camera : mAllContainerPtr)
 	{
 		if (camera->IsActiveAndEnabled())
 		{
@@ -133,9 +133,9 @@ void CameraComponent::OnDisable()
 {
 	if (mCurrentCameraPtr == this)
 	{
-		if (!mEnabledTruePtr.empty())
+		if (!mTrueContainerPtr.empty())
 		{
-			mCurrentCameraPtr = mEnabledTruePtr.front();
+			mCurrentCameraPtr = mTrueContainerPtr.front();
 		}
 	}
 }
