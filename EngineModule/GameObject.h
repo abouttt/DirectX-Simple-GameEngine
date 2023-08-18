@@ -162,6 +162,15 @@ inline T* GameObject::AddComponent(Args && ...args)
 {
 	static_assert(std::is_base_of<Component, T>::value);
 
+	// 트랜스폼 컴포넌트는 1개이상 생성 불가능.
+	if (std::is_same<TransformComponent, T>::value)
+	{
+		if (!mComponents.empty())
+		{
+			return (T*)GetTransform();
+		}
+	}
+
 	auto newComponent = std::make_unique<T>(std::forward<Args>(args)...);
 	newComponent->mOwnerPtr = this;
 

@@ -50,9 +50,7 @@ const std::wstring& GameObject::GetTag() const
 
 TransformComponent* GameObject::GetTransform()
 {
-	auto transformComponent = static_cast<TransformComponent*>(mComponents[0].get());
-	assert(transformComponent);
-	return transformComponent;
+	return static_cast<TransformComponent*>(mComponents[0].get());
 }
 
 void GameObject::SetActive(const bool bActive)
