@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "GameEngine.h"
 #include "Scene.h"
+#include "Texture.h"
 
 #include "CameraComponent.h"
 #include "GameBehaviourComponent.h"
+#include "ImageComponent.h"
 #include "LightComponent.h"
 #include "MeshComponent.h"
 
@@ -84,6 +86,14 @@ GameObject* Scene::CreateLight(const std::wstring& name, const eLightType lightT
 {
 	auto newGameObject = CreateGameObject(name);
 	newGameObject->AddComponent<LightComponent>(lightType);
+	return newGameObject;
+}
+
+GameObject* Scene::CreateImage(const std::wstring& name, Texture* const texture)
+{
+	auto newGameObject = CreateGameObject(name);
+	auto textureComponent = newGameObject->AddComponent<ImageComponent>();
+	textureComponent->SetTexture(texture);
 	return newGameObject;
 }
 

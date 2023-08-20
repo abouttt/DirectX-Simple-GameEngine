@@ -2,7 +2,7 @@
 
 #include <CameraComponent.h>
 #include <GameObject.h>
-//#include <ImageComponent.h>
+#include <ImageComponent.h>
 #include <MeshComponent.h>
 //#include <SoundComponent.h>
 #include <TransformComponent.h>
@@ -65,10 +65,9 @@ void DevScene::Init()
 	doomguy->GetTransform()->SetPosition(Vector3(2, 0, 5));
 	doomguy->GetComponent<MeshComponent>()->SetMaterial(GetResources().GetMaterial(_T("DoomGuy")));
 
-	//auto image = CreateImage(_T("DoomGuy Image"));
-	//image->GetTransform()->SetPosition(Vector3(10, 50, 0));
-	//image->GetTransform()->SetScale(Vector3(0.1f, 0.1f, 0.f));
-	//image->GetComponent<ImageComponent>()->SetTexture(GetResources().GetTexture(_T("DoomGuy")));
+	auto image = CreateImage(_T("DoomGuy Image"), GetResources().GetTexture(_T("DoomGuy")));
+	image->GetTransform()->SetPosition(Vector3(10, 50, 0));
+	image->GetTransform()->SetScale(Vector3(0.1f, 0.1f, 0.f));
 
 	//auto text = CreateText(_T("Text"));
 	//text->GetComponent<TextComponent>()->SetText(_T("Text!!!"));
