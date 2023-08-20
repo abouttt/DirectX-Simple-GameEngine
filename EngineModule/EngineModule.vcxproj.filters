@@ -114,6 +114,9 @@
     <ClInclude Include="SceneManager.h">
       <Filter>Managers\Public</Filter>
     </ClInclude>
+    <ClInclude Include="UIComponent.h">
+      <Filter>Components\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="SceneManager.cpp">
       <Filter>Managers\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="UIComponent.cpp">
+      <Filter>Components\Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

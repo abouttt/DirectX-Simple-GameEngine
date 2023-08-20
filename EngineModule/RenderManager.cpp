@@ -6,9 +6,10 @@
 #include "Material.h"
 
 #include "CameraComponent.h"
-#include "MeshComponent.h"
 #include "LightComponent.h"
+#include "MeshComponent.h"
 #include "TransformComponent.h"
+#include "UIComponent.h"
 
 RenderManager::RenderManager()
 	: mbInit(false)
@@ -102,7 +103,16 @@ void RenderManager::render()
 
 void RenderManager::drawUI()
 {
-	// TODO
+	if (mD3DDevice)
+	{
+		for (auto ui : UIComponent::mTrueContainerPtr)
+		{
+			if (ui->IsActive())
+			{
+				ui->Draw(mD3DDevice);
+			}
+		}
+	}
 }
 
 void RenderManager::postRender()
@@ -174,7 +184,10 @@ void RenderManager::renderMeshes(std::list<MeshComponent*>::iterator begin, std:
 {
 	for (auto& it = begin; it != end; ++it)
 	{
-		(*it)->render(mD3DDevice);
+		if ((*it)->IsActive())
+		{
+			(*it)->render(mD3DDevice);
+		}
 	}
 }
 
