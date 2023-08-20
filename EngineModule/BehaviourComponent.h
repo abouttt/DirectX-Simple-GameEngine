@@ -18,7 +18,7 @@ public:
 
 protected:
 	void InAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer);
-	void RemoveThisInAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer);
+	void RemoveInOrOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer);
 	virtual void OnEnable() abstract;
 	virtual void OnDisable() abstract;
 

@@ -51,7 +51,7 @@ void BehaviourComponent::InAndOutContainer(std::vector<BehaviourComponent*>& inC
     inContaier.emplace_back(this);
 }
 
-void BehaviourComponent::RemoveThisInAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer)
+void BehaviourComponent::RemoveInOrOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer)
 {
     if (IsEnabled())
     {
