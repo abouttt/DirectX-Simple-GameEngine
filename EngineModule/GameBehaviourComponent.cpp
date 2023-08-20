@@ -1,33 +1,29 @@
 #include "pch.h"
 #include "GameBehaviourComponent.h"
 
-std::vector<GameBehaviourComponent*> GameBehaviourComponent::mAllContainerPtr;
-std::vector<GameBehaviourComponent*> GameBehaviourComponent::mTrueContainerPtr;
-std::vector<GameBehaviourComponent*> GameBehaviourComponent::mFalseContainerPtr;
+std::list<GameBehaviourComponent*> GameBehaviourComponent::mAllContainerPtr;
+std::list<GameBehaviourComponent*> GameBehaviourComponent::mTrueContainerPtr;
+std::list<GameBehaviourComponent*> GameBehaviourComponent::mFalseContainerPtr;
 
 GameBehaviourComponent::GameBehaviourComponent()
-	: mbStarted(false)
+	: BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
+	, mbStarted(false)
 {
-	mAllContainerPtr.emplace_back(this);
 	OnEnable();
 }
 
 GameBehaviourComponent::~GameBehaviourComponent()
 {
-	RemoveInOrOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
-
-	auto it = std::find(mAllContainerPtr.begin(), mAllContainerPtr.end(), this);
-	if (it != mAllContainerPtr.end())
-	{
-		mAllContainerPtr.erase(it);
-	}
+	RemoveThisAllContainer(
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 void GameBehaviourComponent::OnEnable()
 {
-	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
+	InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 void GameBehaviourComponent::Start()
@@ -44,8 +40,8 @@ void GameBehaviourComponent::LateUpdate()
 
 void GameBehaviourComponent::OnDisable()
 {
-	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr));
+	InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr));
 }
 
 void GameBehaviourComponent::OnDestroy()

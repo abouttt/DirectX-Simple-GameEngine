@@ -8,17 +8,21 @@ public:
 	friend class GameObject;
 
 public:
-	BehaviourComponent();
+	BehaviourComponent(std::list<BehaviourComponent*>& allContainer);
 	virtual ~BehaviourComponent() = default;
 
 public:
 	bool IsActiveAndEnabled() const;
 	bool IsEnabled() const;
-	virtual void SetEnabled(const bool bEnabled);
+	void SetEnabled(const bool bEnabled);
 
 protected:
-	void InAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer);
-	void RemoveInOrOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer);
+	void InAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer);
+	void RemoveThisAllContainer(
+		std::list<BehaviourComponent*>& allContainer,
+		std::list<BehaviourComponent*>& trueContainer,
+		std::list<BehaviourComponent*>& falseContainer);
+
 	virtual void OnEnable() abstract;
 	virtual void OnDisable() abstract;
 

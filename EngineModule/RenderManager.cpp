@@ -55,17 +55,17 @@ bool RenderManager::init(const HWND hWnd, const int width, const int height, con
 	mWidth = width;
 	mHeight = height;
 
-	if (!initDevice(hWnd, bWindowed))
-	{
-		return false;
-	}
-	else
-	{
-		initPipeline();
-	}
+if (!initDevice(hWnd, bWindowed))
+{
+	return false;
+}
+else
+{
+	initPipeline();
+}
 
-	mbInit = true;
-	return true;
+mbInit = true;
+return true;
 }
 
 void RenderManager::preRender()
@@ -154,16 +154,23 @@ void RenderManager::sortTransparencyMeshes()
 	auto camPos = CameraComponent::GetCurrentCamera()->GetTransform()->GetPosition();
 	Vector3 gapA{};
 	Vector3 gapB{};
-	std::sort(mAlphaRenderBegin, MeshComponent::mTrueContainerPtr.end(),
-		[&camPos, &gapA, &gapB](MeshComponent* a, MeshComponent* b)
+
+	MeshComponent::mTrueContainerPtr.sort([&camPos, &gapA, &gapB](MeshComponent* a, MeshComponent* b)
 		{
+			if (a->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque ||
+				b->GetMaterial()->GetRenderingMode() == eRenderingMode::Opaque)
+			{
+				return false;
+			}
+
 			auto gapA = camPos - a->GetTransform()->GetPosition();
 			auto gapB = camPos - b->GetTransform()->GetPosition();
 			return gapA.GetSizeSq() > gapB.GetSizeSq();
 		});
+
 }
 
-void RenderManager::renderMeshes(std::vector<MeshComponent*>::iterator begin, std::vector<MeshComponent*>::iterator end)
+void RenderManager::renderMeshes(std::list<MeshComponent*>::iterator begin, std::list<MeshComponent*>::iterator end)
 {
 	for (auto& it = begin; it != end; ++it)
 	{

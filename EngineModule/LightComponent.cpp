@@ -7,31 +7,27 @@
 #include "TransformComponent.h"
 #include "Types.h"
 
-std::vector<LightComponent*> LightComponent::mAllContainerPtr;
-std::vector<LightComponent*> LightComponent::mTrueContainerPtr;
-std::vector<LightComponent*> LightComponent::mFalseContainerPtr;
+std::list<LightComponent*> LightComponent::mAllContainerPtr;
+std::list<LightComponent*> LightComponent::mTrueContainerPtr;
+std::list<LightComponent*> LightComponent::mFalseContainerPtr;
 DWORD LightComponent::mLightCount = 0;
 
 LightComponent::LightComponent(const eLightType lightType)
-	:  mNativeLight()
+	: BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
+	, mNativeLight()
 	, mIndex(mLightCount++)
 {
 	SetLightType(lightType);
 	SetColor(Color::White);
-	mAllContainerPtr.emplace_back(this);
 	OnEnable();
 }
 
 LightComponent::~LightComponent()
 {
-	RemoveInOrOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
-
-	auto it = std::find(mAllContainerPtr.begin(), mAllContainerPtr.end(), this);
-	if (it != mAllContainerPtr.end())
-	{
-		mAllContainerPtr.erase(it);
-	}
+	RemoveThisAllContainer(
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 void LightComponent::SetLightType(const eLightType lightType)
@@ -66,14 +62,14 @@ void LightComponent::SetRange(const float range)
 
 void LightComponent::OnEnable()
 {
-	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
+	InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 void LightComponent::OnDisable()
 {
-	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr));
+	InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr));
 }
 
 void LightComponent::initDirectionLight()

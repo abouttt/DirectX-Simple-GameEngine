@@ -6,37 +6,33 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 
-std::vector<CameraComponent*> CameraComponent::mAllContainerPtr;
-std::vector<CameraComponent*> CameraComponent::mTrueContainerPtr;
-std::vector<CameraComponent*> CameraComponent::mFalseContainerPtr;
+std::list<CameraComponent*> CameraComponent::mAllContainerPtr;
+std::list<CameraComponent*> CameraComponent::mTrueContainerPtr;
+std::list<CameraComponent*> CameraComponent::mFalseContainerPtr;
 CameraComponent* CameraComponent::mCurrentCameraPtr = nullptr;
 
 CameraComponent::CameraComponent()
-	: mFov(60)
+	: BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
+	, mFov(60)
 	, mNear(0.3f)
 	, mFar(1000.f)
 	, mViewMat()
 	, mProjMat()
 {
-	mAllContainerPtr.emplace_back(this);
 	OnEnable();
 }
 
 CameraComponent::~CameraComponent()
 {
-	RemoveInOrOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
-
-	auto it = std::find(mAllContainerPtr.begin(), mAllContainerPtr.end(), this);
-	if (it != mAllContainerPtr.end())
-	{
-		mAllContainerPtr.erase(it);
-	}
+	RemoveThisAllContainer(
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 std::vector<CameraComponent*> CameraComponent::GetAllCameras()
 {
-	return mAllContainerPtr;
+	return std::vector<CameraComponent*>(mAllContainerPtr.begin(), mAllContainerPtr.end());
 }
 
 std::size_t CameraComponent::GetAllCamerasCount()
@@ -125,8 +121,8 @@ const Matrix4x4& CameraComponent::GetProjectionMatrix(const int width, const int
 
 void CameraComponent::OnEnable()
 {
-	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
+	InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
 
 	if (!mCurrentCameraPtr)
 	{
@@ -136,8 +132,8 @@ void CameraComponent::OnEnable()
 
 void CameraComponent::OnDisable()
 {
-	InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr),
-		reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr));
+	InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr),
+		reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr));
 
 	if (mCurrentCameraPtr == this)
 	{

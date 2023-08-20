@@ -49,7 +49,7 @@ private:
 	void destroy();
 	void release();
 	void inAndOutContainer(std::list<GameObject*>& inContaier, std::list<GameObject*>& outContainer);
-	void removeThisInAndOutContainer();
+	void removeThisAllContainer();
 	void cleanupComponents();
 
 private:
@@ -59,6 +59,7 @@ private:
 
 	bool mbActive;
 	bool mbDestroyed;
+	bool mbRemovedComponent;
 	std::wstring mName;
 	std::wstring mTag;
 	std::vector<std::unique_ptr<Component>> mComponents;

@@ -10,6 +10,7 @@ std::list<GameObject*> GameObject::mFalseContainerPtr;
 GameObject::GameObject()
 	: mbActive(true)
 	, mbDestroyed(false)
+	, mbRemovedComponent(false)
 	, mName(_T("GameObject"))
 	, mTag(_T("UnTagged"))
 	, mComponents()
@@ -64,7 +65,11 @@ TransformComponent* GameObject::GetTransform()
 
 void GameObject::SetActive(const bool bActive)
 {
-	// 현재 상태와 매개변수 상태가 같다면 진행하지 않는다.
+	if (mbDestroyed)
+	{
+		return;
+	}
+
 	if (IsActive() == bActive)
 	{
 		return;
@@ -117,6 +122,8 @@ void GameObject::SetTag(const std::wstring& tag)
 
 void GameObject::RemoveComponent(Component* const component)
 {
+	assert(component);
+
 	if (component->mbDestroyed)
 	{
 		return;
@@ -132,6 +139,7 @@ void GameObject::RemoveComponent(Component* const component)
 			}
 
 			c->mbDestroyed = true;
+			mbRemovedComponent = true;
 			break;
 		}
 	}
@@ -150,6 +158,7 @@ void GameObject::destroy()
 	{
 		behaviour->SetEnabled(false);
 	}
+
 	mbDestroyed = true;
 
 	auto transform = GetTransform();
@@ -169,18 +178,12 @@ void GameObject::release()
 		}
 	}
 
-	removeThisInAndOutContainer();
-
-	auto it = std::find(mAllContainerPtr.begin(), mAllContainerPtr.end(), this);
-	if (it != mAllContainerPtr.end())
-	{
-		mAllContainerPtr.erase(it);
-	}
+	removeThisAllContainer();
 }
 
 void GameObject::inAndOutContainer(std::list<GameObject*>& inContaier, std::list<GameObject*>& outContainer)
 {
-	for (auto it = outContainer.begin(); it != outContainer.end();)
+	for (auto it = outContainer.begin(); it != outContainer.end(); ++it)
 	{
 		if (*it == this)
 		{
@@ -192,24 +195,18 @@ void GameObject::inAndOutContainer(std::list<GameObject*>& inContaier, std::list
 	inContaier.emplace_back(this);
 }
 
-void GameObject::removeThisInAndOutContainer()
+void GameObject::removeThisAllContainer()
 {
 	if (mbActive)
 	{
-		auto it = std::find(mTrueContainerPtr.begin(), mTrueContainerPtr.end(), this);
-		if (it != mTrueContainerPtr.end())
-		{
-			mTrueContainerPtr.erase(it);
-		}
+		mTrueContainerPtr.erase(std::find(mTrueContainerPtr.begin(), mTrueContainerPtr.end(), this));
 	}
 	else
 	{
-		auto it = std::find(mFalseContainerPtr.begin(), mFalseContainerPtr.end(), this);
-		if (it != mFalseContainerPtr.end())
-		{
-			mFalseContainerPtr.erase(it);
-		}
+		mFalseContainerPtr.erase(std::find(mFalseContainerPtr.begin(), mFalseContainerPtr.end(), this));
 	}
+
+	mAllContainerPtr.erase(std::find(mAllContainerPtr.begin(), mAllContainerPtr.end(), this));
 }
 
 void GameObject::cleanupComponents()
@@ -229,4 +226,6 @@ void GameObject::cleanupComponents()
 			mComponents.erase(it--);
 		}
 	}
+
+	mbRemovedComponent = false;
 }

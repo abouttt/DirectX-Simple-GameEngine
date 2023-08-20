@@ -43,6 +43,7 @@ std::vector<GameObject*> Scene::GetRootGameObject() const
 	{
 		result.emplace_back(gameObject.get());
 	}
+
 	return result;
 }
 
@@ -114,6 +115,8 @@ GameObject* Scene::FindGameObjectWithTag(const std::wstring& tag)
 
 void Scene::RemoveGameObject(GameObject* const gameObject)
 {
+	assert(gameObject);
+
 	if (gameObject->mbDestroyed)
 	{
 		return;
@@ -185,7 +188,7 @@ void Scene::cleanupGameObjects()
 		{
 			mGameObjects.erase(it--);
 		}
-		else
+		else if ((*it)->mbRemovedComponent)
 		{
 			(*it)->cleanupComponents();
 		}

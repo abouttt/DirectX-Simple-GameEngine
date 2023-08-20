@@ -27,10 +27,13 @@ public:
 	GameObject* GetGameObject();
 	TransformComponent* GetTransform();
 
+	void SetActive(const bool bActive);
 	void SetName(const std::wstring& name);
 	void SetTag(const std::wstring& tag);
 
 protected:
+	bool IsDestroyed() const;
+
 	Scene& GetScene();
 	InputManager& GetInput();
 	RenderManager& GetRenderer();
@@ -40,6 +43,7 @@ protected:
 
 private:
 	static GameEngine* mEnginePtr;
+
 	bool mbDestroyed;
 	GameObject* mOwnerPtr;
 };

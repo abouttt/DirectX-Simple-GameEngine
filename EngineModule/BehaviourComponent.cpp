@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "BehaviourComponent.h"
 
-BehaviourComponent::BehaviourComponent()
+BehaviourComponent::BehaviourComponent(std::list<BehaviourComponent*>& allContainer)
     : mbEnabled(true)
 {
+    allContainer.emplace_back(this);
 }
 
 bool BehaviourComponent::IsActiveAndEnabled() const
@@ -18,6 +19,11 @@ bool BehaviourComponent::IsEnabled() const
 
 void BehaviourComponent::SetEnabled(const bool bEnabled)
 {
+    if (IsDestroyed())
+    {
+        return;
+    }
+
     if (mbEnabled == bEnabled)
     {
         return;
@@ -40,7 +46,7 @@ void BehaviourComponent::SetEnabled(const bool bEnabled)
     }
 }
 
-void BehaviourComponent::InAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer)
+void BehaviourComponent::InAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer)
 {
     auto it = std::find(outContainer.begin(), outContainer.end(), this);
     if (it != outContainer.end())
@@ -51,22 +57,19 @@ void BehaviourComponent::InAndOutContainer(std::vector<BehaviourComponent*>& inC
     inContaier.emplace_back(this);
 }
 
-void BehaviourComponent::RemoveInOrOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer)
+void BehaviourComponent::RemoveThisAllContainer(
+    std::list<BehaviourComponent*>& allContainer,
+    std::list<BehaviourComponent*>& trueContainer,
+    std::list<BehaviourComponent*>& falseContainer)
 {
     if (IsEnabled())
     {
-        auto it = std::find(inContaier.begin(), inContaier.end(), this);
-        if (it != inContaier.end())
-        {
-            inContaier.erase(it);
-        }
+        trueContainer.erase(std::find(trueContainer.begin(), trueContainer.end(), this));
     }
     else
     {
-        auto it = std::find(outContainer.begin(), outContainer.end(), this);
-        if (it != outContainer.end())
-        {
-            outContainer.erase(it);
-        }
+        falseContainer.erase(std::find(falseContainer.begin(), falseContainer.end(), this));
     }
+
+    allContainer.erase(std::find(allContainer.begin(), allContainer.end(), this));
 }

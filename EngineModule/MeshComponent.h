@@ -31,9 +31,9 @@ private:
 	void render(IDirect3DDevice9* const device);
 
 private:
-	static std::vector<MeshComponent*> mAllContainerPtr;
-	static std::vector<MeshComponent*> mTrueContainerPtr;
-	static std::vector<MeshComponent*> mFalseContainerPtr;
+	static std::list<MeshComponent*> mAllContainerPtr;
+	static std::list<MeshComponent*> mTrueContainerPtr;
+	static std::list<MeshComponent*> mFalseContainerPtr;
 
 	Mesh* mMeshPtr;
 	Material* mMaterialPtr;

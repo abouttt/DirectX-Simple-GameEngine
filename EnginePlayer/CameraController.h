@@ -16,9 +16,10 @@ class CameraController : public GameBehaviourComponent
 	{
 		if (GetInput().GetKeyDown(KeyCode::Space))
 		{
+			//cube->SetActive(!cube->IsActive());
 			//cube->SetEnabled(!cube->IsEnabled());
 			//GetScene()->RemoveGameObject(cube->GetGameObject());
-			cube->GetGameObject()->RemoveComponent(cube);
+			//cube->GetGameObject()->RemoveComponent(cube);
 			//GetScene().RemoveGameObject(cube->GetGameObject());
 		}
 		

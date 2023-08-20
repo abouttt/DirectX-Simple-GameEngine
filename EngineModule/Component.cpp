@@ -44,6 +44,11 @@ TransformComponent* Component::GetTransform()
 	return mOwnerPtr->GetTransform();
 }
 
+void Component::SetActive(const bool bActive)
+{
+	mOwnerPtr->SetActive(bActive);
+}
+
 void Component::SetName(const std::wstring& name)
 {
 	mOwnerPtr->SetName(name);
@@ -52,6 +57,11 @@ void Component::SetName(const std::wstring& name)
 void Component::SetTag(const std::wstring& tag)
 {
 	mOwnerPtr->SetTag(tag);
+}
+
+bool Component::IsDestroyed() const
+{
+	return mbDestroyed;
 }
 
 Scene& Component::GetScene()
