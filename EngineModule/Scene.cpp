@@ -8,6 +8,7 @@
 #include "ImageComponent.h"
 #include "LightComponent.h"
 #include "MeshComponent.h"
+#include "TextComponent.h"
 
 GameEngine* Scene::mEnginePtr = nullptr;
 
@@ -94,6 +95,13 @@ GameObject* Scene::CreateImage(const std::wstring& name, Texture* const texture)
 	auto newGameObject = CreateGameObject(name);
 	auto textureComponent = newGameObject->AddComponent<ImageComponent>();
 	textureComponent->SetTexture(texture);
+	return newGameObject;
+}
+
+GameObject* Scene::CreateText(const std::wstring& name)
+{
+	auto newGameObject = CreateGameObject(name);
+	newGameObject->AddComponent<TextComponent>();
 	return newGameObject;
 }
 

@@ -120,6 +120,9 @@
     <ClInclude Include="ImageComponent.h">
       <Filter>Components\Public</Filter>
     </ClInclude>
+    <ClInclude Include="TextComponent.h">
+      <Filter>Components\Public</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -189,6 +192,9 @@
       <Filter>Components\Private</Filter>
     </ClCompile>
     <ClCompile Include="ImageComponent.cpp">
+      <Filter>Components\Private</Filter>
+    </ClCompile>
+    <ClCompile Include="TextComponent.cpp">
       <Filter>Components\Private</Filter>
     </ClCompile>
   </ItemGroup>

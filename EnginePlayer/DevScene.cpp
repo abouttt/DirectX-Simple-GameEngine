@@ -6,7 +6,7 @@
 #include <MeshComponent.h>
 //#include <SoundComponent.h>
 #include <TransformComponent.h>
-//#include <TextComponent.h>
+#include <TextComponent.h>
 
 #include "DevScene.h"
 #include "CameraController.h"
@@ -69,7 +69,7 @@ void DevScene::Init()
 	image->GetTransform()->SetPosition(Vector3(10, 50, 0));
 	image->GetTransform()->SetScale(Vector3(0.1f, 0.1f, 0.f));
 
-	//auto text = CreateText(_T("Text"));
-	//text->GetComponent<TextComponent>()->SetText(_T("Text!!!"));
-	//text->GetTransform()->SetPosition(Vector3(10, 10, 0));
+	auto text = CreateText(_T("Text"));
+	text->GetComponent<TextComponent>()->SetText(_T("Text!!!"));
+	text->GetTransform()->SetPosition(Vector3(10, 10, 0));
 }
