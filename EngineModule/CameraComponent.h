@@ -1,8 +1,8 @@
 #pragma once
 
-#include "BehaviourComponent.h"
+#include <Matrix4x4.h>
 
-struct Matrix4x4;
+#include "BehaviourComponent.h"
 
 class CameraComponent : public BehaviourComponent
 {
@@ -25,8 +25,8 @@ public:
 	void SetNear(const float value);
 	void SetFar(const float value);
 
-	const Matrix4x4 GetViewMatrix();
-	const Matrix4x4 GetProjectionMatrix(const int width, const int height);
+	const Matrix4x4& GetViewMatrix();
+	const Matrix4x4& GetProjectionMatrix(const int width, const int height);
 
 protected:
 	void OnEnable() override;
@@ -41,5 +41,7 @@ private:
 	int mFov;
 	float mNear;
 	float mFar;
+	Matrix4x4 mViewMat;
+	Matrix4x4 mProjMat;
 };
 

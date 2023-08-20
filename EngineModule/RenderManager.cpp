@@ -118,10 +118,8 @@ void RenderManager::postRender()
 void RenderManager::updateCamera()
 {
 	auto currentCamera = CameraComponent::GetCurrentCamera();
-	auto viewMat = currentCamera->GetViewMatrix().NativeMatrix;
-	auto projMat = currentCamera->GetProjectionMatrix(mWidth, mHeight).NativeMatrix;
-	mD3DDevice->SetTransform(D3DTS_VIEW, &viewMat);
-	mD3DDevice->SetTransform(D3DTS_PROJECTION, &projMat);
+	mD3DDevice->SetTransform(D3DTS_VIEW, &currentCamera->GetViewMatrix().NativeMatrix);
+	mD3DDevice->SetTransform(D3DTS_PROJECTION, &currentCamera->GetProjectionMatrix(mWidth, mHeight).NativeMatrix);
 }
 
 void RenderManager::updateLights()
