@@ -1,6 +1,11 @@
 #include "pch.h"
 #include "BehaviourComponent.h"
 
+BehaviourComponent::BehaviourComponent()
+    : mbEnabled(true)
+{
+}
+
 BehaviourComponent::BehaviourComponent(std::list<BehaviourComponent*>& allContainer)
     : mbEnabled(true)
 {

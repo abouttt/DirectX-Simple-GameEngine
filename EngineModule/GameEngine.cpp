@@ -3,6 +3,7 @@
 #include "GameEngine.h"
 #include "Types.h"
 #include "Scene.h"
+#include "SoundComponent.h"
 
 GameEngine::GameEngine()
 	: mbInit(false)
@@ -27,7 +28,8 @@ bool GameEngine::Init(const HINSTANCE hInstance, const HWND hWnd, const int widt
 
 	if (!mInput.init(hInstance, hWnd) ||
 		!mRenderer.init(hWnd, width, height, bWindowed) ||
-		!mResources.init(mRenderer.mD3DDevice))
+		!mResources.init(mRenderer.mD3DDevice) ||
+		!SoundComponent::init())
 	{
 		return false;
 	}
@@ -67,6 +69,7 @@ void GameEngine::OnTick()
 	auto scene = mScenes.GetActiveScene();
 	scene->update();
 	scene->lateUpdate();
+	SoundComponent::update();
 	
 	// Scene Rendering
 	mRenderer.preRender();

@@ -14,7 +14,7 @@ enum class eLightType
 	Directional = 3,
 };
 
-enum class KeyCode
+enum class eKeyCode
 {
 	Esc = 0x01,
 	Alpha1 = 0x02,

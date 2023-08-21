@@ -4,7 +4,7 @@
 #include <GameObject.h>
 #include <ImageComponent.h>
 #include <MeshComponent.h>
-//#include <SoundComponent.h>
+#include <SoundComponent.h>
 #include <TransformComponent.h>
 #include <TextComponent.h>
 
@@ -34,9 +34,14 @@ void DevScene::Init()
 	cacodoom->GetTransform()->SetPosition(Vector3(2, 0, 0));
 	cacodoom->GetComponent<MeshComponent>()->SetMaterial(GetResources().GetMaterial(_T("Cacodoom")));
 
+	auto floor = CreateQuad(_T("Floor"));
+	floor->GetTransform()->SetPosition(Vector3(0, -1, 0));
+	floor->GetTransform()->SetRotation(Vector3(90, 0, 0));
+	floor->GetTransform()->SetScale(Vector3(10, 10, 10));
+
 	auto sound = CreateGameObject(_T("Sound"));
-	//sound->AddComponent<SoundComponent>();
-	//sound->GetComponent<SoundComponent>()->LoadSoundFile(_T("pop.wav"));
+	sound->AddComponent<SoundComponent>();
+	sound->GetComponent<SoundComponent>()->LoadSoundFile(_T("pop.wav"));
 
 	auto cube = CreateCube(_T("Cube"));
 	cube->GetTransform()->SetPosition(Vector3(0, 0, 0));

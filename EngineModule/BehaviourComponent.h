@@ -8,6 +8,7 @@ public:
 	friend class GameObject;
 
 public:
+	BehaviourComponent();
 	BehaviourComponent(std::list<BehaviourComponent*>& allContainer);
 	virtual ~BehaviourComponent() = default;
 

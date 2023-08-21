@@ -13,6 +13,7 @@
 #include <memory>
 #include <string>
 #include <tchar.h>
+#include <type_traits>
 #include <unordered_map>
 #include <vector>
 #include <windows.h>

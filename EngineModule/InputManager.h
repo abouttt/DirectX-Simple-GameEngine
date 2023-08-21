@@ -1,6 +1,6 @@
 #pragma once
 
-enum class KeyCode;
+enum class eKeyCode;
 
 class InputManager
 {
@@ -21,9 +21,9 @@ public:
 
 public:
 	// 키보드.
-	bool GetKey(const KeyCode keyCode) const;
-	bool GetKeyDown(const KeyCode keyCode) const;
-	bool GetKeyUp(const KeyCode keyCode) const;
+	bool GetKey(const eKeyCode keyCode) const;
+	bool GetKeyDown(const eKeyCode keyCode) const;
+	bool GetKeyUp(const eKeyCode keyCode) const;
 
 	// 마우스.
 	bool GetMouseButton(const int button) const;

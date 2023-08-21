@@ -18,17 +18,17 @@ InputManager::~InputManager()
 	release();
 }
 
-bool InputManager::GetKey(const KeyCode keyCode) const
+bool InputManager::GetKey(const eKeyCode keyCode) const
 {
 	return mKeyboardState[static_cast<int>(keyCode)].bPressing;
 }
 
-bool InputManager::GetKeyDown(const KeyCode keyCode) const
+bool InputManager::GetKeyDown(const eKeyCode keyCode) const
 {
 	return mKeyboardState[static_cast<int>(keyCode)].bPressed;
 }
 
-bool InputManager::GetKeyUp(const KeyCode keyCode) const
+bool InputManager::GetKeyUp(const eKeyCode keyCode) const
 {
 	return mKeyboardState[static_cast<int>(keyCode)].bUp;
 }
