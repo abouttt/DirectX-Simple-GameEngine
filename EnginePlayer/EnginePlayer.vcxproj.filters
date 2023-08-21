@@ -25,6 +25,9 @@
     <Filter Include="Game">
       <UniqueIdentifier>{ada15192-c2ae-4f20-b817-f2384fd390d3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Debug">
+      <UniqueIdentifier>{89a616fa-4966-40af-b6fc-b86a09631ac1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -45,6 +48,9 @@
     <ClCompile Include="Rotator.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="Debug.cpp">
+      <Filter>Debug</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -64,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="Rotator.h">
       <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Debug.h">
+      <Filter>Debug</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

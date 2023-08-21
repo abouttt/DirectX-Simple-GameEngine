@@ -2,6 +2,8 @@
 
 #include "GameBehaviourComponent.h"
 
+#include "Debug.h"
+
 class Rotator : public GameBehaviourComponent
 {
 public:
@@ -13,24 +15,24 @@ public:
 
 	void Start() override
 	{
-		//Debug::Log(_T("Start"));
+		Debug::Log(_T("Start"));
 	}
 
 	void OnEnable() override
 	{
 		GameBehaviourComponent::OnEnable();
-		//Debug::Log(_T("OnEnable"));
+		Debug::Log(_T("OnEnable"));
 	}
 
 	void OnDisable() override
 	{
 		GameBehaviourComponent::OnDisable();
-		//Debug::Log(_T("OnDisable"));
+		Debug::Log(_T("OnDisable"));
 	}
 
 	void OnDestroy() override
 	{
-		//Debug::Log(_T("OnDestroy"));
+		Debug::Log(_T("OnDestroy"));
 	}
 };
 
