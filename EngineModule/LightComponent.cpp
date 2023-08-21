@@ -19,7 +19,6 @@ LightComponent::LightComponent(const eLightType lightType)
 {
 	SetLightType(lightType);
 	SetColor(Color::White);
-	OnEnable();
 }
 
 LightComponent::~LightComponent()

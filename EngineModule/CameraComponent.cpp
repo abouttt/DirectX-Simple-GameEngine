@@ -19,7 +19,6 @@ CameraComponent::CameraComponent()
 	, mViewMat()
 	, mProjMat()
 {
-	OnEnable();
 }
 
 CameraComponent::~CameraComponent()

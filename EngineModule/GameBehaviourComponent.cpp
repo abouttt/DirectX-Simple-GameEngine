@@ -9,7 +9,6 @@ GameBehaviourComponent::GameBehaviourComponent()
 	: BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
 	, mbStarted(false)
 {
-	OnEnable();
 }
 
 GameBehaviourComponent::~GameBehaviourComponent()

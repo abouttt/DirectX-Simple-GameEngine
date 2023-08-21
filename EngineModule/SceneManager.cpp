@@ -56,7 +56,7 @@ void SceneManager::LoadScene(const std::wstring& name)
 
 void SceneManager::loadScene()
 {
-	mScenes[mCurrentSceneIndex]->mGameObjects.clear();
+	mScenes[mCurrentSceneIndex]->release();
 	mScenes[mNextSceneIndex]->Init();
 	mCurrentSceneIndex = mNextSceneIndex;
 	mNextSceneIndex = -1;

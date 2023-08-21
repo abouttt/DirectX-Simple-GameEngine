@@ -20,6 +20,7 @@ Scene::Scene(const std::wstring& name)
 
 Scene::~Scene()
 {
+	release();
 }
 
 const std::wstring& Scene::GetName() const
@@ -218,4 +219,15 @@ GameObject* Scene::createGameObjectWithMesh(const std::wstring& name, const std:
 	auto newGameObject = CreateGameObject(name);
 	newGameObject->AddComponent<MeshComponent>(mEnginePtr->GetResources().GetMesh(meshName));
 	return newGameObject;
+}
+
+void Scene::release()
+{
+	for (auto& go : mGameObjects)
+	{
+		if (!go->mbDestroyed)
+		{
+			go->destroy();
+		}
+	}
 }

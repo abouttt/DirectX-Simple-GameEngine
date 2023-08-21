@@ -8,7 +8,6 @@ std::list<UIComponent*> UIComponent::mFalseContainerPtr;
 UIComponent::UIComponent()
 	: BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
 {
-	OnEnable();
 }
 
 UIComponent::~UIComponent()
