@@ -14,6 +14,8 @@
 #include "GameObject.h"
 #include "Types.h"
 
+#include "BehaviourComponent.h"
+
 enum class eLightType;
 
 class Scene
@@ -43,6 +45,8 @@ public:
 
 	GameObject* FindGameObject(const std::wstring& name);
 	GameObject* FindGameObjectWithTag(const std::wstring& tag);
+	template<typename T>
+	T* FindComponent();
 
 	void RemoveGameObject(GameObject* const gameObject);
 
@@ -67,3 +71,20 @@ private:
 	std::wstring mName;
 	std::vector<std::unique_ptr<GameObject>> mGameObjects;
 };
+
+template<typename T>
+inline T* Scene::FindComponent()
+{
+	for (auto& gameObject : GameObject::mTrueContainerPtr)
+	{
+		if (auto component = gameObject->GetComponent<T>())
+		{
+			if (component->IsEnabled())
+			{
+				return component;
+			}
+		}
+	}
+
+	return nullptr;
+}

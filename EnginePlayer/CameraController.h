@@ -10,16 +10,16 @@ class CameraController : public GameBehaviourComponent
 	void Start() override
 	{
 		mCameraPtr = CameraComponent::GetCurrentCamera();
-		mCube = GetScene().FindGameObject(_T("Cube"))->GetComponent<Rotator>();
-		mSound = GetScene().FindGameObject(_T("Sound"))->GetComponent<SoundComponent>();
+		mCube = GetScene().FindComponent<Rotator>();
+		mSound = GetScene().FindComponent<SoundComponent>();
 	}
 
 	void Update() override
 	{
 		if (GetInput().GetKeyDown(eKeyCode::Space))
 		{
-			//cube->SetActive(!cube->IsActive());
-			//cube->SetEnabled(!cube->IsEnabled());
+			mCube->SetActive(!mCube->IsActive());
+			//mCube->SetEnabled(!mCube->IsEnabled());
 			//GetScene()->RemoveGameObject(cube->GetGameObject());
 			//cube->GetGameObject()->RemoveComponent(cube);
 			//GetScene().RemoveGameObject(cube->GetGameObject());
