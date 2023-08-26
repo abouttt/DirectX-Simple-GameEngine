@@ -15,6 +15,51 @@ void Debug::Log(const std::wstring& log)
 	WriteConsole(handle, _T("\n"), 1, &dwBytesWriten, 0);
 }
 
+void Debug::Log(const int num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(const long num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(const long long num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(unsigned num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(unsigned long num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(unsigned long long num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(const float num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(const double num)
+{
+	Log(std::to_wstring(num));
+}
+
+void Debug::Log(long double num)
+{
+	Log(std::to_wstring(num));
+}
+
 void Debug::Log(const Vector3& v)
 {
 	char str[64];
