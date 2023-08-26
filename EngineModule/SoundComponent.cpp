@@ -16,12 +16,35 @@ SoundComponent::SoundComponent()
 {
 }
 
+SoundComponent::SoundComponent(const std::wstring& fileName)
+	: mbMute(false)
+	, mbLoop(false)
+	, mSound(nullptr)
+	, mChannel(nullptr)
+	, mPriority(128)
+	, mVolume(1.f)
+	, mPitch(1.f)
+	, mStereoPan(0.f)
+{
+	LoadSoundFile(fileName);
+}
+
 SoundComponent::~SoundComponent()
 {
 	if (mSound)
 	{
 		mSound->release();
 	}
+}
+
+void SoundComponent::OnEnable()
+{
+	Play();
+}
+
+void SoundComponent::OnDisable()
+{
+	Stop();
 }
 
 bool SoundComponent::LoadSoundFile(const std::wstring& fileName)
@@ -174,16 +197,6 @@ void SoundComponent::SetMute(const bool bMute)
 	{
 		mChannel->setMute(mbMute);
 	}
-}
-
-void SoundComponent::OnEnable()
-{
-	Play();
-}
-
-void SoundComponent::OnDisable()
-{
-	Stop();
 }
 
 void SoundComponent::setupChannel(bool bOneShot)

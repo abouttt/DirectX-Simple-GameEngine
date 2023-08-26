@@ -18,5 +18,3 @@ public:
 	static void Log(const Quaternion& q);
 	static void Log(const GameObject& go);
 };
-
-

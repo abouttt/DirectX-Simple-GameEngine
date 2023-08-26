@@ -48,10 +48,9 @@ void LightComponent::SetLightType(const eLightType lightType)
 
 void LightComponent::SetColor(const Color& color)
 {
-	D3DXCOLOR adjustColor = color.NativeColor * 0.6f;
-	mNativeLight.Ambient = adjustColor;
+	mNativeLight.Ambient = color.NativeColor * 0.4f;
 	mNativeLight.Diffuse = color.NativeColor;
-	mNativeLight.Specular = adjustColor;
+	mNativeLight.Specular = color.NativeColor * 0.6f;;
 }
 
 void LightComponent::SetRange(const float range)

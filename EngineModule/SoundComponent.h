@@ -11,6 +11,7 @@ public:
 
 public:
 	SoundComponent();
+	SoundComponent(const std::wstring& fileName);
 	~SoundComponent();
 
 public:

@@ -124,10 +124,10 @@ void GameEngine::loadResources()
 	mResources.LoadTexture(_T("Ice"), _T("Textures/ice.jpg"));
 
 	// Material
-	mResources.CreateAndAddMaterial(_T("Default-Material"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, nullptr);
-	mResources.CreateAndAddMaterial(_T("Crate"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Crate")));
-	mResources.CreateAndAddMaterial(_T("DoomGuy"), eRenderingMode::Cutout, engineutil::WHITE_MTRL, mResources.GetTexture(_T("DoomGuy")));
-	mResources.CreateAndAddMaterial(_T("Cacodoom"), eRenderingMode::Cutout, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Cacodoom")));
-	mResources.CreateAndAddMaterial(_T("Fire"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Fire")));
-	mResources.CreateAndAddMaterial(_T("Ice"), eRenderingMode::Opaque, engineutil::WHITE_MTRL, mResources.GetTexture(_T("Ice")));
+	mResources.CreateAndAddMaterial(_T("Default-Material"), eRenderingMode::Opaque, engineutil::MTRL_WHITE, nullptr);
+	mResources.CreateAndAddMaterial(_T("Crate"), eRenderingMode::Opaque, engineutil::MTRL_WHITE, mResources.GetTexture(_T("Crate")));
+	mResources.CreateAndAddMaterial(_T("DoomGuy"), eRenderingMode::Cutout, engineutil::MTRL_WHITE, mResources.GetTexture(_T("DoomGuy")));
+	mResources.CreateAndAddMaterial(_T("Cacodoom"), eRenderingMode::Cutout, engineutil::MTRL_WHITE, mResources.GetTexture(_T("Cacodoom")));
+	mResources.CreateAndAddMaterial(_T("Fire"), eRenderingMode::Opaque, engineutil::MTRL_WHITE, mResources.GetTexture(_T("Fire")));
+	mResources.CreateAndAddMaterial(_T("Ice"), eRenderingMode::Opaque, engineutil::MTRL_WHITE, mResources.GetTexture(_T("Ice")));
 }

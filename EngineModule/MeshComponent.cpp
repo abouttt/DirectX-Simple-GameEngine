@@ -1,11 +1,14 @@
 #include "pch.h"
 
 #include <Matrix4x4.h>
+#include <Quaternion.h>
 
+#include "EngineUtil.h"
 #include "Material.h"
 #include "Mesh.h"
 #include "Texture.h"
 
+#include "LightComponent.h"
 #include "MeshComponent.h"
 #include "ResourceManager.h"
 #include "TransformComponent.h"

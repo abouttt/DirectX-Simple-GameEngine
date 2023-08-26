@@ -82,7 +82,7 @@ void RenderManager::preRender()
 	// 배경 지우기 / 렌더 시작.
 	if (mD3DDevice)
 	{
-		mD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, mBackgroundColor, 1.f, 0);
+		mD3DDevice->Clear(0, 0, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, mBackgroundColor, 1.f, 0L);
 		mD3DDevice->BeginScene();
 	}
 }
@@ -193,7 +193,7 @@ void RenderManager::renderMeshes(std::list<MeshComponent*>::iterator begin, std:
 
 bool RenderManager::initDevice(const HWND hWnd, const bool bWindowed)
 {
-	IDirect3D9* d3d9;
+	IDirect3D9* d3d9 = nullptr;
 	d3d9 = Direct3DCreate9(D3D_SDK_VERSION);
 	if (!d3d9)
 	{
@@ -253,7 +253,7 @@ void RenderManager::initPipeline()
 
 		// 라이트.
 		mD3DDevice->SetRenderState(D3DRS_LIGHTING, true);
-		mD3DDevice->SetRenderState(D3DRS_SPECULARENABLE, false);	// 정반사광.	
+		mD3DDevice->SetRenderState(D3DRS_SPECULARENABLE, true);	// 정반사광.	
 		mD3DDevice->SetRenderState(D3DRS_NORMALIZENORMALS, true);	// 법선 정리.
 
 		// 텍스처.
@@ -264,7 +264,7 @@ void RenderManager::initPipeline()
 		mD3DDevice->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
 
 		// 밉맵.
-		mD3DDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_POINT);
+		mD3DDevice->SetSamplerState(0, D3DSAMP_MIPFILTER, D3DTEXF_LINEAR);
 
 		mD3DDevice->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
 		mD3DDevice->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);

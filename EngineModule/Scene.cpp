@@ -108,11 +108,11 @@ GameObject* Scene::CreateText(const std::wstring& name)
 
 GameObject* Scene::FindGameObject(const std::wstring& name)
 {
-	for (auto it = GameObject::mTrueContainerPtr.begin(); it != GameObject::mTrueContainerPtr.end(); ++it)
+	for (auto go : GameObject::mTrueContainerPtr)
 	{
-		if ((*it)->GetName() == name)
+		if (go->GetName() == name)
 		{
-			return *it;
+			return go;
 		}
 	}
 
@@ -121,11 +121,11 @@ GameObject* Scene::FindGameObject(const std::wstring& name)
 
 GameObject* Scene::FindGameObjectWithTag(const std::wstring& tag)
 {
-	for (auto it = GameObject::mTrueContainerPtr.begin(); it != GameObject::mTrueContainerPtr.end(); ++it)
+	for (auto go : GameObject::mTrueContainerPtr)
 	{
-		if ((*it)->GetTag() == tag)
+		if (go->GetTag() == tag)
 		{
-			return *it;
+			return go;
 		}
 	}
 

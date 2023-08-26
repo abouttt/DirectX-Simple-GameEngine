@@ -7,7 +7,7 @@ Material::Material(const std::wstring& name)
 	: mName(name)
 	, mRenderingMode(eRenderingMode::Opaque)
 	, mTexturePtr(nullptr)
-	, mNativeMaterial(engineutil::WHITE_MTRL)
+	, mNativeMaterial(engineutil::MTRL_WHITE)
 {
 }
 
