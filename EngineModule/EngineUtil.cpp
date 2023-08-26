@@ -119,17 +119,21 @@ namespace engineutil
 
 		Vertex* vertices = nullptr;
 		mesh->LockVertexBuffer(0, (void**)&vertices);
-		vertices[0] = Vertex(-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
-		vertices[1] = Vertex(0.5f, 0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f);
-		vertices[2] = Vertex(0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f);
-		vertices[3] = Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f);
+		vertices[0] = Vertex(-0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 1.0f);
+		vertices[1] = Vertex(-0.5f, 0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f);
+		vertices[2] = Vertex(0.5f, 0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 0.0f);
+		vertices[3] = Vertex(0.5f, -0.5f, 0.0f, 0.0f, 0.0f, -1.0f, 1.0f, 1.0f);
 		mesh->UnlockVertexBuffer();
 
 		// 인덱스 버퍼 채우기.
 		WORD* i = nullptr;
 		mesh->LockIndexBuffer(0, (void**)&i);
-		i[0] = 0; i[1] = 1;  i[2] = 2;
-		i[3] = 0; i[4] = 2;  i[5] = 3;
+		i[0] = 0;
+		i[1] = 1;
+		i[2] = 2;
+		i[3] = 3;
+		i[4] = 0;
+		i[5] = 2;
 		mesh->UnlockIndexBuffer();
 
 		return mesh;
