@@ -128,6 +128,12 @@ void TransformComponent::Translate(const Vector3& translation)
 	updateWorld();
 }
 
+void TransformComponent::LookAt(const TransformComponent* const target)
+{
+	mWorldTransform.LookAt(target->mWorldTransform);
+	updateLocal();
+}
+
 Vector3 TransformComponent::GetPosition() const
 {
 	return mWorldTransform.GetPosition();

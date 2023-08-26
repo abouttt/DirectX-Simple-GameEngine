@@ -33,6 +33,7 @@ public: // 로컬 트랜스폼
 	void AddLocalRotationZ(const float degree);
 
 	void Translate(const Vector3& translation);
+	void LookAt(const TransformComponent* const target);
 
 public: // 월드 트랜스폼
 	Vector3 GetPosition() const;

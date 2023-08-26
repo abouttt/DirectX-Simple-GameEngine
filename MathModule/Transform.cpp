@@ -160,6 +160,15 @@ void Transform::Translate(const Vector3& translation)
 	mPosition += posX + posY + posZ;
 }
 
+void Transform::LookAt(const Transform& target)
+{
+	D3DXMATRIX mat;
+	D3DXMatrixLookAtRH(&mat, &mPosition.NativeVector3, &target.mPosition.NativeVector3, &Vector3::Up.NativeVector3);
+	Quaternion q;
+	D3DXQuaternionRotationMatrix(&q.NativeQuaternion, &mat);
+	mEulerAngles = -q.ToEuler();
+}
+
 Transform Transform::GetInverse() const
 {
 	// 로컬 정보만 남기기 위한 트랜스폼 ( 역행렬 )

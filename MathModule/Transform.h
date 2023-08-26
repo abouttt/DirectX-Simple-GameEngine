@@ -38,6 +38,7 @@ public:
 	void AddRotationZ(const float degree);
 
 	void Translate(const Vector3& translation);
+	void LookAt(const Transform& target);
 
 	Transform GetInverse() const;
 	Transform GetLocalToWorld(const Transform& parentWorldTransform) const;
