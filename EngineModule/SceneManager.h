@@ -34,5 +34,5 @@ template<typename T>
 inline void SceneManager::CreateScene(const std::wstring& name)
 {
 	auto newScene = std::make_unique<T>(name);
-	mScenes.emplace_back(std::move(newScene));
+	mScenes.push_back(std::move(newScene));
 }

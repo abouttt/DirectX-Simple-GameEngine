@@ -9,7 +9,7 @@ BehaviourComponent::BehaviourComponent()
 BehaviourComponent::BehaviourComponent(std::vector<BehaviourComponent*>& allContainer)
     : mbEnabled(true)
 {
-    allContainer.emplace_back(this);
+    allContainer.push_back(this);
 }
 
 bool BehaviourComponent::IsActiveAndEnabled() const
@@ -59,7 +59,7 @@ void BehaviourComponent::InAndOutContainer(std::vector<BehaviourComponent*>& inC
         outContainer.erase(it);
     }
 
-    inContaier.emplace_back(this);
+    inContaier.push_back(this);
 }
 
 void BehaviourComponent::RemoveThisAllContainer(

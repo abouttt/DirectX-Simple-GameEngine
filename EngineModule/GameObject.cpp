@@ -1,5 +1,4 @@
 #include "pch.h"
-#include "BehaviourComponent.h"
 #include "GameBehaviourComponent.h"
 #include "GameObject.h"
 
@@ -147,8 +146,8 @@ void GameObject::RemoveComponent(Component* const component)
 
 void GameObject::init()
 {
-	mAllContainerPtr.emplace_back(this);
-	mTrueContainerPtr.emplace_back(this);
+	mAllContainerPtr.push_back(this);
+	mTrueContainerPtr.push_back(this);
 	AddComponent<TransformComponent>();
 }
 
@@ -192,7 +191,7 @@ void GameObject::inAndOutContainer(std::vector<GameObject*>& inContaier, std::ve
 		}
 	}
 
-	inContaier.emplace_back(this);
+	inContaier.push_back(this);
 }
 
 void GameObject::removeThisAllContainer()
@@ -222,7 +221,7 @@ void GameObject::cleanupComponents()
 					gb->OnDestroy();
 				}
 			}
-
+	
 			mComponents.erase(it--);
 		}
 	}

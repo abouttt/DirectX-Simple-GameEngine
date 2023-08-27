@@ -45,7 +45,7 @@ std::vector<GameObject*> Scene::GetRootGameObject() const
 	result.reserve(mGameObjects.size());
 	for (auto& gameObject : mGameObjects)
 	{
-		result.emplace_back(gameObject.get());
+		result.push_back(gameObject.get());
 	}
 
 	return result;
@@ -54,7 +54,7 @@ std::vector<GameObject*> Scene::GetRootGameObject() const
 GameObject* Scene::CreateGameObject(const std::wstring& name, const std::wstring& tag)
 {
 	auto newGameObject = std::make_unique<GameObject>(name, tag);
-	mGameObjects.emplace_back(std::move(newGameObject));
+	mGameObjects.push_back(std::move(newGameObject));
 	return mGameObjects.back().get();
 }
 

@@ -308,7 +308,7 @@ void TransformComponent::SetParent(TransformComponent* const parent)
 
 		// 새로운 트랜스폼 노드로 부모 재설정.
 		removeFromParent();
-		parent->mChildrenPtr.emplace_back(this);
+		parent->mChildrenPtr.push_back(this);
 		mParentPtr = parent;
 
 		// 새로운 부모에 맞춰 자신의 로컬 정보를 업데이트한다.

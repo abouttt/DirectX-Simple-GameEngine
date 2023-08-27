@@ -167,8 +167,8 @@ void RenderManager::sortTransparencyMeshes()
 	std::sort(mAlphaRenderBegin, MeshComponent::mTrueContainerPtr.end(),
 		[&camPos, &gapA, &gapB](MeshComponent* a, MeshComponent* b)
 		{
-			auto gapA = camPos - a->GetTransform()->GetPosition();
-			auto gapB = camPos - b->GetTransform()->GetPosition();
+			gapA = camPos - a->GetTransform()->GetPosition();
+			gapB = camPos - b->GetTransform()->GetPosition();
 			return gapA.GetSizeSq() > gapB.GetSizeSq();
 		});
 }

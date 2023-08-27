@@ -132,7 +132,7 @@ inline std::vector<T*> GameObject::GetComponents()
 	{
 		if (auto t = dynamic_cast<T*>(component.get()))
 		{
-			result.emplace_back(t);
+			result.push_back(t);
 		}
 	}
 
@@ -198,7 +198,7 @@ inline T* GameObject::AddComponent(Args && ...args)
 		behaviour->OnEnable();
 	}
 
-	mComponents.emplace_back(std::move(newComponent));
+	mComponents.push_back(std::move(newComponent));
 
 	return static_cast<T*>(mComponents.back().get());
 }
