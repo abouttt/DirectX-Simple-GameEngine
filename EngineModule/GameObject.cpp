@@ -210,21 +210,28 @@ void GameObject::removeThisAllContainer()
 
 void GameObject::cleanupComponents()
 {
-	for (auto it = mComponents.begin(); it != mComponents.end(); ++it)
+	if (!mbRemovedComponent)
 	{
-		if ((*it)->mbDestroyed)
+		return;
+	}
+
+	auto destroyBegin = std::partition(mComponents.begin(), mComponents.end(),
+		[](std::unique_ptr<Component>& gameObject)
 		{
-			if (auto gb = dynamic_cast<GameBehaviourComponent*>(it->get()))
+			return !gameObject->mbDestroyed;
+		});
+
+	for (auto it = destroyBegin; it != mComponents.end(); ++it)
+	{
+		if (auto gb = dynamic_cast<GameBehaviourComponent*>(it->get()))
+		{
+			if (gb->IsActive())
 			{
-				if (gb->IsActive())
-				{
-					gb->OnDestroy();
-				}
+				gb->OnDestroy();
 			}
-	
-			mComponents.erase(it--);
 		}
 	}
 
+	mComponents.erase(destroyBegin, mComponents.end());
 	mbRemovedComponent = false;
 }

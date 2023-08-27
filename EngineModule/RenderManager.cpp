@@ -175,7 +175,7 @@ void RenderManager::sortTransparencyMeshes()
 
 void RenderManager::renderMeshes(std::vector<MeshComponent*>::iterator begin, std::vector<MeshComponent*>::iterator end)
 {
-	for (auto& it = begin; it != end; ++it)
+	for (auto it = begin; it != end; ++it)
 	{
 		if ((*it)->IsActive())
 		{

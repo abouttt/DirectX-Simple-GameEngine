@@ -26,7 +26,7 @@ public:
 
 public:
 	Scene(const std::wstring& name);
-	virtual ~Scene();
+	virtual ~Scene() = default;
 
 public:
 	const std::wstring& GetName() const;

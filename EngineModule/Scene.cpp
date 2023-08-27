@@ -18,11 +18,6 @@ Scene::Scene(const std::wstring& name)
 {
 }
 
-Scene::~Scene()
-{
-	release();
-}
-
 const std::wstring& Scene::GetName() const
 {
 	return mName;
@@ -173,45 +168,46 @@ TimeManager& Scene::GetTime()
 
 void Scene::update()
 {
-	for (auto gb : GameBehaviourComponent::mTrueContainerPtr)
+	for (auto it = GameBehaviourComponent::mTrueContainerPtr.begin(); it != GameBehaviourComponent::mTrueContainerPtr.end(); ++it)
 	{
-		if (gb->IsActive())
+		if ((*it)->IsActive())
 		{
-			if (!gb->mbStarted)
+			if (!(*it)->mbStarted)
 			{
-				gb->Start();
-				gb->mbStarted = true;
+				(*it)->Start();
+				(*it)->mbStarted = true;
 			}
-
-			gb->Update();
+	
+			(*it)->Update();
 		}
 	}
 }
 
 void Scene::lateUpdate()
 {
-	for (auto gb : GameBehaviourComponent::mTrueContainerPtr)
+	for (auto it = GameBehaviourComponent::mTrueContainerPtr.begin(); it != GameBehaviourComponent::mTrueContainerPtr.end(); ++it)
 	{
-		if (gb->IsActive())
+		if ((*it)->IsActive())
 		{
-			gb->LateUpdate();
+			(*it)->LateUpdate();
 		}
 	}
 }
 
 void Scene::cleanupGameObjects()
  {
-	for (auto it = mGameObjects.begin(); it != mGameObjects.end(); ++it)
+	auto destroyBegin = std::partition(mGameObjects.begin(), mGameObjects.end(),
+		[](std::unique_ptr<GameObject>& gameObject)
+		{
+			return !gameObject->mbDestroyed;
+		});
+
+	for (auto it = mGameObjects.begin(); it != destroyBegin; ++it)
 	{
-		if ((*it)->mbDestroyed)
-		{
-			mGameObjects.erase(it--);
-		}
-		else if ((*it)->mbRemovedComponent)
-		{
-			(*it)->cleanupComponents();
-		}
+		(*it)->cleanupComponents();
 	}
+
+	mGameObjects.erase(destroyBegin, mGameObjects.end());
 }
 
 GameObject* Scene::createGameObjectWithMesh(const std::wstring& name, const std::wstring& meshName)
@@ -230,4 +226,6 @@ void Scene::release()
 			go->destroy();
 		}
 	}
+
+	mGameObjects.clear();
 }

@@ -208,17 +208,14 @@ inline void GameObject::RemoveComponent()
 {
 	static_assert(std::is_base_of<Component, T>::value);
 
-	for (auto it = mComponents.begin(); it != mComponents.end(); ++it)
+	if (auto component = GetComponent<T>())
 	{
-		if (dynamic_cast<T*>(it->get()))
+		if (auto behaviour = dynamic_cast<BehaviourComponent*>(component))
 		{
-			if (auto behaviour = dynamic_cast<BehaviourComponent*>(*it))
-			{
-				behaviour->SetEnabled(false);
-			}
-
-			(*it)->mbDestroyed = true;
-			break;
+			behaviour->SetEnabled(false);
 		}
+
+		component->mbDestroyed = true;
+		mbRemovedComponent = true;
 	}
 }
