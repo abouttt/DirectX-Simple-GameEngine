@@ -22,7 +22,6 @@ MeshComponent::MeshComponent()
     , mMeshPtr(nullptr)
     , mMaterialPtr(GetResources().GetMaterial(_T("Default-Material")))
 {
-    OnEnable();
 }
 
 MeshComponent::MeshComponent(Mesh* const mesh)
@@ -30,7 +29,6 @@ MeshComponent::MeshComponent(Mesh* const mesh)
     , mMeshPtr(mesh)
     , mMaterialPtr(GetResources().GetMaterial(_T("Default-Material")))
 {
-    OnEnable();
 }
 
 MeshComponent::MeshComponent(Mesh* const mesh, Material* const material)
@@ -38,7 +36,6 @@ MeshComponent::MeshComponent(Mesh* const mesh, Material* const material)
     , mMeshPtr(mesh)
     , mMaterialPtr(material)
 {
-    OnEnable();
 }
 
 MeshComponent::~MeshComponent()
