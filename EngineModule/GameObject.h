@@ -48,14 +48,14 @@ private:
 	void init();
 	void destroy();
 	void release();
-	void inAndOutContainer(std::list<GameObject*>& inContaier, std::list<GameObject*>& outContainer);
+	void inAndOutContainer(std::vector<GameObject*>& inContaier, std::vector<GameObject*>& outContainer);
 	void removeThisAllContainer();
 	void cleanupComponents();
 
 private:
-	static std::list<GameObject*> mAllContainerPtr;
-	static std::list<GameObject*> mTrueContainerPtr;
-	static std::list<GameObject*> mFalseContainerPtr;
+	static std::vector<GameObject*> mAllContainerPtr;
+	static std::vector<GameObject*> mTrueContainerPtr;
+	static std::vector<GameObject*> mFalseContainerPtr;
 
 	bool mbActive;
 	bool mbDestroyed;

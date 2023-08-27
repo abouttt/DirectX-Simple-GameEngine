@@ -31,11 +31,6 @@ void DevScene::Init()
 	auto light = CreateLight(_T("Directional Light"), eLightType::Directional);
 	light->GetTransform()->SetRotation(Vector3(10, -10, 10));
 
-	auto cacodoom = CreateQuad(_T("Caco Doom"));
-	cacodoom->GetTransform()->SetPosition(Vector3(0, 0, 0));
-	cacodoom->GetComponent<MeshComponent>()->SetMaterial(GetResources().GetMaterial(_T("Cacodoom")));
-	cacodoom->AddComponent<Rotator>();
-
 	auto floor = CreateQuad(_T("Floor"));
 	floor->GetTransform()->SetPosition(Vector3(0, -1.5f, 0));
 	floor->GetTransform()->SetRotation(Vector3(90, 0, 0));
@@ -44,20 +39,20 @@ void DevScene::Init()
 	auto sound = CreateGameObject(_T("Sound"));
 	sound->AddComponent<SoundComponent>(_T("pop.wav"));
 
-	//auto cube = CreateCube(_T("Cube"));
-	//cube->GetTransform()->SetPosition(Vector3(0, 0, 0));
-	//cube->GetComponent<MeshComponent>()->SetMaterial(GetResources().GetMaterial(_T("Crate")));
-	//cube->AddComponent<Rotator>();
+	auto cube = CreateCube(_T("Cube"));
+	cube->GetTransform()->SetPosition(Vector3(0, 0, 0));
+	cube->GetComponent<MeshComponent>()->SetMaterial(GetResources().GetMaterial(_T("Crate")));
+	cube->AddComponent<Rotator>();
 
-	//auto cube2 = CreateCube(_T("Cube2"));
-	//cube2->GetTransform()->SetPosition(Vector3(3, 0, 0));
-	//cube2->GetTransform()->SetParent(cube->GetTransform());
-	//cube2->AddComponent<Rotator>();
+	auto cube2 = CreateCube(_T("Cube2"));
+	cube2->GetTransform()->SetPosition(Vector3(3, 0, 0));
+	cube2->GetTransform()->SetParent(cube->GetTransform());
+	cube2->AddComponent<Rotator>();
 
-	//auto cube3 = CreateCube(_T("Cube3"));
-	//cube3->GetTransform()->SetPosition(Vector3(6, 0, 0));
-	//cube3->GetTransform()->SetParent(cube2->GetTransform());
-	//cube3->AddComponent<Rotator>();
+	auto cube3 = CreateCube(_T("Cube3"));
+	cube3->GetTransform()->SetPosition(Vector3(6, 0, 0));
+	cube3->GetTransform()->SetParent(cube2->GetTransform());
+	cube3->AddComponent<Rotator>();
 
 	auto fire = CreateSphere(_T("Fire"));
 	fire->GetTransform()->SetPosition(Vector3(-2, 0, 0));
@@ -66,6 +61,10 @@ void DevScene::Init()
 	auto ice = CreateSphere(_T("Ice"));
 	ice->GetTransform()->SetPosition(Vector3(-4, 0, 0));
 	ice->GetComponent<MeshComponent>()->SetMaterial(GetResources().GetMaterial(_T("Ice")));
+
+	auto cacodoom = CreateQuad(_T("Caco Doom"));
+	cacodoom->GetTransform()->SetPosition(Vector3(2, 0, 0));
+	cacodoom->GetComponent<MeshComponent>()->SetMaterial(GetResources().GetMaterial(_T("Cacodoom")));
 
 	auto doomguy = CreateQuad(_T("Doom Guy"));
 	doomguy->GetTransform()->SetPosition(Vector3(2, 0, 5));

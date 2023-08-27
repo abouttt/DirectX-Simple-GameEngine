@@ -6,7 +6,7 @@ BehaviourComponent::BehaviourComponent()
 {
 }
 
-BehaviourComponent::BehaviourComponent(std::list<BehaviourComponent*>& allContainer)
+BehaviourComponent::BehaviourComponent(std::vector<BehaviourComponent*>& allContainer)
     : mbEnabled(true)
 {
     allContainer.emplace_back(this);
@@ -51,7 +51,7 @@ void BehaviourComponent::SetEnabled(const bool bEnabled)
     }
 }
 
-void BehaviourComponent::InAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer)
+void BehaviourComponent::InAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer)
 {
     auto it = std::find(outContainer.begin(), outContainer.end(), this);
     if (it != outContainer.end())
@@ -63,9 +63,9 @@ void BehaviourComponent::InAndOutContainer(std::list<BehaviourComponent*>& inCon
 }
 
 void BehaviourComponent::RemoveThisAllContainer(
-    std::list<BehaviourComponent*>& allContainer,
-    std::list<BehaviourComponent*>& trueContainer,
-    std::list<BehaviourComponent*>& falseContainer)
+    std::vector<BehaviourComponent*>& allContainer,
+    std::vector<BehaviourComponent*>& trueContainer,
+    std::vector<BehaviourComponent*>& falseContainer)
 {
     if (IsEnabled())
     {

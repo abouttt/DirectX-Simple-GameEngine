@@ -13,12 +13,12 @@
 #include "ResourceManager.h"
 #include "TransformComponent.h"
 
-std::list<MeshComponent*> MeshComponent::mAllContainerPtr;
-std::list<MeshComponent*> MeshComponent::mTrueContainerPtr;
-std::list<MeshComponent*> MeshComponent::mFalseContainerPtr;
+std::vector<MeshComponent*> MeshComponent::mAllContainerPtr;
+std::vector<MeshComponent*> MeshComponent::mTrueContainerPtr;
+std::vector<MeshComponent*> MeshComponent::mFalseContainerPtr;
 
 MeshComponent::MeshComponent()
-    : BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
+    : BehaviourComponent(reinterpret_cast<std::vector<BehaviourComponent*>&>(mAllContainerPtr))
     , mMeshPtr(nullptr)
     , mMaterialPtr(GetResources().GetMaterial(_T("Default-Material")))
 {
@@ -26,7 +26,7 @@ MeshComponent::MeshComponent()
 }
 
 MeshComponent::MeshComponent(Mesh* const mesh)
-    : BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
+    : BehaviourComponent(reinterpret_cast<std::vector<BehaviourComponent*>&>(mAllContainerPtr))
     , mMeshPtr(mesh)
     , mMaterialPtr(GetResources().GetMaterial(_T("Default-Material")))
 {
@@ -34,7 +34,7 @@ MeshComponent::MeshComponent(Mesh* const mesh)
 }
 
 MeshComponent::MeshComponent(Mesh* const mesh, Material* const material)
-    : BehaviourComponent(reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr))
+    : BehaviourComponent(reinterpret_cast<std::vector<BehaviourComponent*>&>(mAllContainerPtr))
     , mMeshPtr(mesh)
     , mMaterialPtr(material)
 {
@@ -47,9 +47,9 @@ MeshComponent::~MeshComponent()
     mMaterialPtr = nullptr;
 
     RemoveThisAllContainer(
-        reinterpret_cast<std::list<BehaviourComponent*>&>(mAllContainerPtr),
-        reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
-        reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
+        reinterpret_cast<std::vector<BehaviourComponent*>&>(mAllContainerPtr),
+        reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
+        reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 Mesh* MeshComponent::GetMesh()
@@ -74,14 +74,14 @@ void MeshComponent::SetMaterial(Material* const material)
 
 void MeshComponent::OnEnable()
 {
-    InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr),
-        reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr));
+    InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr),
+        reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr));
 }
 
 void MeshComponent::OnDisable()
 {
-    InAndOutContainer(reinterpret_cast<std::list<BehaviourComponent*>&>(mFalseContainerPtr),
-        reinterpret_cast<std::list<BehaviourComponent*>&>(mTrueContainerPtr));
+    InAndOutContainer(reinterpret_cast<std::vector<BehaviourComponent*>&>(mFalseContainerPtr),
+        reinterpret_cast<std::vector<BehaviourComponent*>&>(mTrueContainerPtr));
 }
 
 void MeshComponent::render(IDirect3DDevice9* const device)

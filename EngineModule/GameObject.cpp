@@ -3,9 +3,9 @@
 #include "GameBehaviourComponent.h"
 #include "GameObject.h"
 
-std::list<GameObject*> GameObject::mAllContainerPtr;
-std::list<GameObject*> GameObject::mTrueContainerPtr;
-std::list<GameObject*> GameObject::mFalseContainerPtr;
+std::vector<GameObject*> GameObject::mAllContainerPtr;
+std::vector<GameObject*> GameObject::mTrueContainerPtr;
+std::vector<GameObject*> GameObject::mFalseContainerPtr;
 
 GameObject::GameObject()
 	: mbActive(true)
@@ -181,7 +181,7 @@ void GameObject::release()
 	removeThisAllContainer();
 }
 
-void GameObject::inAndOutContainer(std::list<GameObject*>& inContaier, std::list<GameObject*>& outContainer)
+void GameObject::inAndOutContainer(std::vector<GameObject*>& inContaier, std::vector<GameObject*>& outContainer)
 {
 	for (auto it = outContainer.begin(); it != outContainer.end(); ++it)
 	{

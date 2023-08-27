@@ -19,8 +19,8 @@ public:
 	virtual void Draw(IDirect3DDevice9* const device) abstract;
 
 private:
-	static std::list<UIComponent*> mAllContainerPtr;
-	static std::list<UIComponent*> mTrueContainerPtr;
-	static std::list<UIComponent*> mFalseContainerPtr;
+	static std::vector<UIComponent*> mAllContainerPtr;
+	static std::vector<UIComponent*> mTrueContainerPtr;
+	static std::vector<UIComponent*> mFalseContainerPtr;
 };
 

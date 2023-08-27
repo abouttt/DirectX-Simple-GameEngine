@@ -10,10 +10,8 @@ class Rotator : public GameBehaviourComponent
 public:
 	void Update() override
 	{
-		//float speed = 50 * GetTime().GetDeltaTime();
-		//GetTransform().AddLocalRotation(Vector3(speed, speed, speed));
-		GetTransform()->LookAt(CameraComponent::GetMainCamera()->GetTransform());
-		Debug::Log(GetTransform()->GetEulerAngles());
+		float speed = 50 * GetTime().GetDeltaTime();
+		GetTransform()->AddLocalRotation(Vector3(speed, speed, speed));
 	}
 
 	void Start() override

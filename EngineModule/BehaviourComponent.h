@@ -9,7 +9,7 @@ public:
 
 public:
 	BehaviourComponent();
-	BehaviourComponent(std::list<BehaviourComponent*>& allContainer);
+	BehaviourComponent(std::vector<BehaviourComponent*>& allContainer);
 	virtual ~BehaviourComponent() = default;
 
 public:
@@ -18,11 +18,11 @@ public:
 	void SetEnabled(const bool bEnabled);
 
 protected:
-	void InAndOutContainer(std::list<BehaviourComponent*>& inContaier, std::list<BehaviourComponent*>& outContainer);
+	void InAndOutContainer(std::vector<BehaviourComponent*>& inContaier, std::vector<BehaviourComponent*>& outContainer);
 	void RemoveThisAllContainer(
-		std::list<BehaviourComponent*>& allContainer,
-		std::list<BehaviourComponent*>& trueContainer,
-		std::list<BehaviourComponent*>& falseContainer);
+		std::vector<BehaviourComponent*>& allContainer,
+		std::vector<BehaviourComponent*>& trueContainer,
+		std::vector<BehaviourComponent*>& falseContainer);
 
 	virtual void OnEnable() abstract;
 	virtual void OnDisable() abstract;
